@@ -52,9 +52,7 @@ public class Main {
         AttackCalculator attackCalculator = new AttackCalculator();
 
         for (int i = 0; i < 3; i++) {
-
             attackCalculator.printResult(attackCalculator, layer);
-
         }
         // logLogger.info(layer.toString());
         SimpleLogger.log.info(layer.toString());
