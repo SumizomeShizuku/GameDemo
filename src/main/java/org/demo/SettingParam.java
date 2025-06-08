@@ -12,8 +12,6 @@ public class SettingParam {
         if (ethnicityNum > 0 && ethnicityNum <= Constants.TOTAL_ETHNICITY_NUM) {
             ethnicity = EthnicityList.getEthnicity(ethnicityNum);
         }
-
-
         player.setHealthPoint(ethnicity.getHealthPoint());
         player.setManaPoint(ethnicity.getManaPoint());
         player.setStrength(ethnicity.getStrength());
@@ -23,13 +21,11 @@ public class SettingParam {
         return player;
     }
 
-    public static ParameterDto setPlayerJob(int jobNum, ParameterDto player){
+    public static ParameterDto setPlayerJob(int jobNum, ParameterDto player) {
         JobList job = Constants.DEFAULT_JOB;
         if (jobNum > 0 && jobNum <= Constants.TOTAL_ETHNICITY_NUM) {
             job = JobList.getJob(jobNum);
         }
-
-
         player.setExp(job.getExp());
         player.setHealthPoint(player.getHealthPoint() + job.getHealthPoint());
         player.setManaPoint(player.getManaPoint() + job.getManaPoint());
