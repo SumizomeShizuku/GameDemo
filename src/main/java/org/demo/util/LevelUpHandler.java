@@ -2,8 +2,8 @@ package org.demo.util;
 
 import java.util.Random;
 
-import org.demo.List.ExpList;
-import org.demo.dto.ParameterDto;
+import org.demo.dto.PlayerModelDto;
+import org.demo.list.ExpList;
 
 public class LevelUpHandler {
 
@@ -20,7 +20,7 @@ public class LevelUpHandler {
     /**
      * 在经验更新之后调用，自动处理升级与属性成长
      */
-    public void handleExpGain(ParameterDto player, int gainedExp) {
+    public void handleExpGain(PlayerModelDto player, int gainedExp) {
         int oldLevel = ExpList.getLevelByExp(player.getExp()).getLevel();
         player.setExp(player.getExp() + gainedExp);
         int newLevel = ExpList.getLevelByExp(player.getExp()).getLevel();
@@ -35,7 +35,7 @@ public class LevelUpHandler {
     /**
      * 应用属性成长逻辑
      */
-    private void applyGrowth(ParameterDto player, int levelGained) {
+    private void applyGrowth(PlayerModelDto player, int levelGained) {
         Random random = new Random();
         double[] weights = player.getJob().getGrowthWeights();
         // int strength = player.getStrength();

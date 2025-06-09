@@ -1,9 +1,10 @@
 package org.demo.data;
 
-import org.demo.List.EthnicityList;
-import org.demo.List.JobList;
+import org.demo.list.EthnicityList;
+import org.demo.list.JobList;
 
 public class Constants {
+
     // 默认等级
     public static final int DEFAULT_EXP = 0;
     // 基础冷却

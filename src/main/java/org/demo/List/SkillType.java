@@ -1,8 +1,8 @@
-package org.demo.List;
+package org.demo.list;
 
 public enum SkillType {
-    Physics,
-    Magic,
+    PhysicsAtt,
+    MagicAtt,
     Buff,
     Debuff,
 }

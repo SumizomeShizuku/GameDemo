@@ -1,13 +1,13 @@
 package org.demo;
 
-import org.demo.List.EthnicityList;
-import org.demo.List.JobList;
 import org.demo.data.Constants;
-import org.demo.dto.ParameterDto;
+import org.demo.dto.PlayerModelDto;
+import org.demo.list.EthnicityList;
+import org.demo.list.JobList;
 
 public class SettingParam {
 
-    public static ParameterDto setPlayerEthnicity(int ethnicityNum, ParameterDto player) {
+    public static PlayerModelDto setPlayerEthnicity(int ethnicityNum, PlayerModelDto player) {
         EthnicityList ethnicity = Constants.DEFAULT_ETHNICITY;
         if (ethnicityNum > 0 && ethnicityNum <= Constants.TOTAL_ETHNICITY_NUM) {
             ethnicity = EthnicityList.getEthnicity(ethnicityNum);
@@ -21,7 +21,7 @@ public class SettingParam {
         return player;
     }
 
-    public static ParameterDto setPlayerJob(int jobNum, ParameterDto player) {
+    public static PlayerModelDto setPlayerJob(int jobNum, PlayerModelDto player) {
         JobList job = Constants.DEFAULT_JOB;
         if (jobNum > 0 && jobNum <= Constants.TOTAL_ETHNICITY_NUM) {
             job = JobList.getJob(jobNum);

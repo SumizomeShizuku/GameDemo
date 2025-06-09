@@ -1,4 +1,4 @@
-package org.demo.List;
+package org.demo.list;
 
 public enum JobList {
     WARRIOR(0, 45, 12, 1, 7, 3, 1, new double[]{0.6, 0.2, 0.2}, "战士"),

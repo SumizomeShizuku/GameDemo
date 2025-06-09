@@ -1,6 +1,6 @@
 package org.demo.util;
 
-import org.demo.dto.ParameterDto;
+import org.demo.dto.PlayerModelDto;
 
 public class AttackCalculator {
 
@@ -20,7 +20,7 @@ public class AttackCalculator {
      * @param player 玩家属性
      * @return 伤害
      */
-    public DamageResult calculatePhyDamage(ParameterDto player) {
+    public DamageResult calculatePhyDamage(PlayerModelDto player) {
         int str = player.getStrength();
         double rawDamage = str * Math.pow(str, 0.08) / 2;
         player.setBaseAttribute(Math.round(rawDamage * 100.0) / 100.0);
@@ -37,7 +37,7 @@ public class AttackCalculator {
         return new DamageResult(result, isCritical);
     }
 
-    public void printResult(AttackCalculator attackCalculator, ParameterDto player) {
+    public int printResult(AttackCalculator attackCalculator, PlayerModelDto player) {
         AttackCalculator.DamageResult damageResult = attackCalculator.calculatePhyDamage(player);
         int damage = damageResult.getDamage();
         if (damageResult.isCritical()) {
@@ -51,6 +51,24 @@ public class AttackCalculator {
             // log.info(sb.toString());
             SimpleLogger.log.info(sb.toString());
         }
+        return damage;
+    }
+
+    public int result(AttackCalculator attackCalculator, PlayerModelDto player, Enemy enemy) {
+        AttackCalculator.DamageResult damageResult = attackCalculator.calculatePhyDamage(player);
+        int damage = damageResult.getDamage();
+        if (damageResult.isCritical()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了[暴击] ").append(damage).append("! 点伤害");
+            // log.info(sb.toString());
+            SimpleLogger.log.info(sb.toString());
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了 ").append(damage).append(" 点伤害");
+            // log.info(sb.toString());
+            SimpleLogger.log.info(sb.toString());
+        }
+        return damage;
     }
 
     public static class DamageResult {

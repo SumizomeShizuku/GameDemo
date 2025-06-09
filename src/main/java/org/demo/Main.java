@@ -1,7 +1,10 @@
 package org.demo;
 
-import org.demo.dto.ParameterDto;
+import org.demo.dto.PlayerModelDto;
+import org.demo.list.EnemyType;
 import org.demo.util.AttackCalculator;
+import org.demo.util.Enemy;
+import org.demo.util.EnemyFactory;
 import org.demo.util.LevelUpHandler;
 import org.demo.util.SimpleLogger;
 
@@ -27,7 +30,7 @@ public class Main {
         // }
         // });
         // orgpletableFuture.allOf(task1, task2).join();
-        ParameterDto layer = new ParameterDto();
+        PlayerModelDto layer = new PlayerModelDto();
 
         // 1:战士, 2:法师, 3:游侠, 4:圣职者
         int jobNum = 1;
@@ -51,11 +54,16 @@ public class Main {
         // System.out.println("等级: " + level);
         AttackCalculator attackCalculator = new AttackCalculator();
 
-        for (int i = 0; i < 3; i++) {
-            attackCalculator.printResult(attackCalculator, layer);
-        }
+        // for (int i = 0; i < 3; i++) {
+        //     attackCalculator.printResult(attackCalculator, layer);
+        // }
         // logLogger.info(layer.toString());
         SimpleLogger.log.info(layer.toString());
+
+        Enemy enemy = EnemyFactory.createEnemy(EnemyType.ORC);
+        SimpleLogger.log.info("你遇到了一只敌人：" + enemy);
+        enemy.takeDamage(attackCalculator.result(attackCalculator, layer, enemy));
+        SimpleLogger.log.info("你对它造成了伤害，现在它的状态是：" + enemy);
 
         // ExpList exp = ExpList.getLevelByExp(layer.getExp());
         // System.out.println("当前等级" + exp.getLevel());

@@ -1,4 +1,4 @@
-package org.demo.List;
+package org.demo.list;
 
 public enum ExpList {
     LEVEL_1(1, 0),
@@ -105,19 +105,41 @@ public enum ExpList {
     private final int level;
     private final int minExp;
 
+    /**
+     * 构造一个经验等级列表。
+     *
+     * @param level 等级
+     * @param minExp 当前等级所需的最小经验值
+     */
     ExpList(int level, int minExp) {
         this.level = level;
         this.minExp = minExp;
     }
 
+    /**
+     * 获取当前等级。
+     *
+     * @return 等级
+     */
     public int getLevel() {
         return level;
     }
 
+    /**
+     * 获取当前等级所需的最小经验值。
+     *
+     * @return 最小经验值
+     */
     public int getMinExp() {
         return minExp;
     }
 
+    /**
+     * 根据总经验值获取对应的等级。
+     *
+     * @param totalExp 总经验值
+     * @return 对应的等级
+     */
     public static ExpList getLevelByExp(int totalExp) {
         for (int i = values().length - 1; i >= 0; i--) {
             ExpList lv = values()[i];

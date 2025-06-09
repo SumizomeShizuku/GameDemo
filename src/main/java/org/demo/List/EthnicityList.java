@@ -1,4 +1,4 @@
-package org.demo.List;
+package org.demo.list;
 
 public enum EthnicityList {
     // 兽人  Kitsu-（日式狐狸灵）+ -ariel（精灵般高雅）空尾

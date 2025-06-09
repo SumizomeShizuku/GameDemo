@@ -1,10 +1,10 @@
 package org.demo.dto;
 
-import org.demo.List.EthnicityList;
-import org.demo.List.JobList;
 import org.demo.data.Constants;
+import org.demo.list.EthnicityList;
+import org.demo.list.JobList;
 
-public class ParameterDto {
+public class PlayerModelDto {
 
     // 姓
     private String firstName;
