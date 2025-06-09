@@ -61,6 +61,7 @@ public class Main {
         SimpleLogger.log.info(layer.toString());
 
         Enemy enemy = EnemyFactory.createEnemy(EnemyType.ORC);
+
         SimpleLogger.log.info("你遇到了一只敌人：" + enemy);
         enemy.takeDamage(attackCalculator.result(attackCalculator, layer, enemy));
         SimpleLogger.log.info("你对它造成了伤害，现在它的状态是：" + enemy);
