@@ -9,30 +9,29 @@ import org.demo.list.SkillType;
 import org.demo.util.AttackCalculator;
 import org.demo.util.Enemy;
 import org.demo.util.EnemyFactory;
-import org.demo.util.LevelUpHandler;
 import org.demo.util.SettingParam;
 import org.demo.util.SimpleLogger;
 
 public class Player {
 
     public static void playerInit() {
-        PlayerModelDto layer = new PlayerModelDto();
+        PlayerModelDto player = new PlayerModelDto();
 
         // 1:战士, 2:法师, 3:游侠, 4:圣职者
         int jobNum = 1;
         // 1:空尾族, 2:人族 3:林语族, 4:亡影族
         int ethnicityNum = 1;
-        layer = SettingParam.setPlayerEthnicity(ethnicityNum, layer);
-        layer = SettingParam.setPlayerJob(jobNum, layer);
-        // layer.setExp(240000);
-        layer.setFirstName("Anneliese");
-        layer.setLastName("Wallis");
-        LevelUpHandler levelUpHandler = new LevelUpHandler();
-        // levelUpHandler.handleExpGain(layer, 120000);
+        player = SettingParam.setPlayerEthnicity(ethnicityNum, player);
+        player = SettingParam.setPlayerJob(jobNum, player);
+        // player.setExp(240000);
+        player.setFirstName("Anneliese");
+        player.setLastName("Wallis");
+        // LevelUpHandler levelUpHandler = new LevelUpHandler();
+        // levelUpHandler.handleExpGain(player, 120000);
 
-        layer.setStrength(70);
+        player.setStrength(70);
 
-        SimpleLogger.log.info(layer.toString());
+        SimpleLogger.log.info(player.toString());
         // List<Enemy> enemyList = new List<Enemy>;
 
         Enemy enemy = EnemyFactory.createEnemy(EnemyType.ORC);
@@ -46,20 +45,20 @@ public class Player {
 
         for (; true;) {
             if (enemy.getCurrentHp() <= 0) {
-                SimpleLogger.log.info(layer.getFirstName() + " 击败了 " + enemy.getName() + "!");
+                SimpleLogger.log.info(player.getFirstName() + " 击败了 " + enemy.getName() + "!");
                 break;
             }
 
             switch (actionType) {
                 case NormalAttack -> {
                     SimpleLogger.log.info("你选择了普通攻击");
-                    enemy = normalAttack(layer, enemy);
+                    enemy = normalAttack(player, enemy);
                 }
                 case Skill -> {
                     SimpleLogger.log.info("你选择了技能" + SkillList.Skill0001.getName());
                     Action validSkill = new Action(org.demo.list.ActionType.Skill, SkillList.Skill0001);
                     // SimpleLogger.log.info(validSkill.toString());
-                    enemy = skillAttack(layer, enemy, validSkill);
+                    enemy = skillAttack(player, enemy, validSkill);
                 }
                 case Buff -> {
                     SimpleLogger.log.info("你选择了增益技能");
@@ -79,7 +78,7 @@ public class Player {
             }
         }
 
-        // enemy = attPhy(layer, enemy);
+        // enemy = attPhy(player, enemy);
     }
 
     public static ActionType checkAct(int act) {
