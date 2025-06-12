@@ -4,25 +4,32 @@ import org.demo.dto.PlayerModelDto;
 
 public class AttackCalculator {
 
-    // @SuppressWarnings({"FieldMayBeFinal", "NonConstantLogger"})
-    // private Logger log;
-    // /**
-    //  * このクラスの新しいインスタント生成し、必要なLoggerを初期化する ログパスは
-    //  * {@link LoggerConfig#setLogPath(String)}で設定する必要がある。
-    //  */
-    // public AttackCalculator() {
-    //     LoggerConfig loggerConfig = LoggerConfig.getInstance();
-    //     this.log = loggerConfig.getLogger("Log");
-    // }
     /**
      * 根据职业属性，计算伤害
      *
      * @param player 玩家属性
+     * @param damagePower 技能威力
      * @return 伤害
      */
-    public DamageResult calculatePhyDamage(PlayerModelDto player) {
+    public static DamageResult calculatePhyDamage(PlayerModelDto player, int damagePower) {
         int str = player.getStrength();
-        double rawDamage = str * Math.pow(str, 0.08) / 2;
+        double p;
+        if (damagePower < 20) {
+            p = 0.5 + (double) damagePower / 300.0;
+        } else if (damagePower < 60) {
+            p = 0.75 + (double) (damagePower - 20) / 150.0;
+        } else if (damagePower < 120) {
+            p = 1.0 + (double) (damagePower - 60) / 250.0;
+        } else {
+            p = 1.25 + (double) (damagePower - 120) / 400.0;
+        }
+        System.out.println(p + " ," + damagePower);
+        double rawDamage;
+        if (damagePower == 1) {
+            rawDamage = str * Math.pow(str, 0.08) / 2;
+        } else {
+            rawDamage = 0.6 * Math.pow(str, 1.3) * p;
+        }
         player.setBaseAttribute(Math.round(rawDamage * 100.0) / 100.0);
 
         boolean isCritical = Math.random() < player.getCriticalHitRate();
@@ -33,29 +40,45 @@ public class AttackCalculator {
         double min = rawDamage * 0.80;
         double max = rawDamage * 1.20;
 
-        int result = (int) (min + Math.random() * (max - min));
-        return new DamageResult(result, isCritical);
+        int DamageResult = (int) (min + Math.random() * (max - min));
+        return new DamageResult(DamageResult, isCritical);
     }
 
-    public int printResult(AttackCalculator attackCalculator, PlayerModelDto player) {
-        AttackCalculator.DamageResult damageResult = attackCalculator.calculatePhyDamage(player);
+    /**
+     * 计算玩家对敌人造成的伤害
+     *
+     * @param player 玩家属性
+     * @param enemy 敌人对象
+     * @return 伤害值
+     */
+    public static int result(PlayerModelDto player, Enemy enemy) {
+        int damagePower = 1; // 默认伤害值
+        DamageResult damageResult = calculatePhyDamage(player, damagePower);
         int damage = damageResult.getDamage();
         if (damageResult.isCritical()) {
             StringBuilder sb = new StringBuilder();
-            sb.append(player.getFirstName()).append(" 造成了[暴击] ").append(damage).append("! 点伤害");
+            sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了[暴击] ").append(damage).append("! 点伤害");
             // log.info(sb.toString());
             SimpleLogger.log.info(sb.toString());
         } else {
             StringBuilder sb = new StringBuilder();
-            sb.append(player.getFirstName()).append(" 造成了 ").append(damage).append(" 点伤害");
+            sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了 ").append(damage).append(" 点伤害");
             // log.info(sb.toString());
             SimpleLogger.log.info(sb.toString());
         }
         return damage;
     }
 
-    public int result(AttackCalculator attackCalculator, PlayerModelDto player, Enemy enemy) {
-        AttackCalculator.DamageResult damageResult = attackCalculator.calculatePhyDamage(player);
+    /**
+     * 计算玩家对敌人造成的伤害
+     *
+     * @param player 玩家属性
+     * @param enemy 敌人对象
+     * @param damagePower 技能威力
+     * @return 伤害值
+     */
+    public static int result(PlayerModelDto player, Enemy enemy, int damagePower) {
+        DamageResult damageResult = calculatePhyDamage(player, damagePower);
         int damage = damageResult.getDamage();
         if (damageResult.isCritical()) {
             StringBuilder sb = new StringBuilder();

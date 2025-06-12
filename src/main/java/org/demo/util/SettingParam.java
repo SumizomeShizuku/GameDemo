@@ -1,4 +1,4 @@
-package org.demo;
+package org.demo.util;
 
 import org.demo.data.Constants;
 import org.demo.dto.PlayerModelDto;

@@ -65,6 +65,6 @@ public class Enemy {
 
     @Override
     public String toString() {
-        return name + " (HP: " + currentHp + "/" + maxHp + ")";
+        return name + "[" + id + "]" + " (HP: " + currentHp + "/" + maxHp + ")";
     }
 }

@@ -74,4 +74,15 @@ public class EnemyModelDto {
     public int getDefense() {
         return defense;
     }
+
+    @Override
+    public String toString() {
+        return "EnemyModelDto{"
+                + "id='" + id + '\''
+                + ", 敌人名称='" + name + '\''
+                + ", 最大生命值=" + maxHp
+                + ", 攻击力=" + attack
+                + ", 防御力=" + defense
+                + '}';
+    }
 }
