@@ -1,14 +1,20 @@
 package org.demo;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.demo.backpack.Backpack;
+import org.demo.dto.ItemModelDto;
 import org.demo.dto.PlayerModelDto;
 import org.demo.list.Action;
 import org.demo.list.ActionType;
-import org.demo.list.EnemyType;
+import org.demo.list.EnemyList;
 import org.demo.list.SkillList;
 import org.demo.list.SkillType;
 import org.demo.util.AttackCalculator;
 import org.demo.util.Enemy;
 import org.demo.util.EnemyFactory;
+import org.demo.util.LevelUpHandler;
 import org.demo.util.SettingParam;
 import org.demo.util.SimpleLogger;
 
@@ -26,55 +32,70 @@ public class Player {
         // player.setExp(240000);
         player.setFirstName("Anneliese");
         player.setLastName("Wallis");
-        // LevelUpHandler levelUpHandler = new LevelUpHandler();
-        // levelUpHandler.handleExpGain(player, 120000);
+        LevelUpHandler levelUpHandler = new LevelUpHandler();
 
-        player.setStrength(70);
-
-        SimpleLogger.log.info(player.toString());
+        // player.setStrength(70);
+        // SimpleLogger.log.info(player.toString());
         // List<Enemy> enemyList = new List<Enemy>;
-
-        Enemy enemy = EnemyFactory.createEnemy(EnemyType.ORC);
-
-        SimpleLogger.log.info("你遇到了一只敌人：" + enemy);
-
-        int inputAct = 2; // 模拟玩家输入的技能类型
-        // 1:普通攻击, 2:技能, 3:增益技能, 4:减益技能
-
-        ActionType actionType = checkAct(inputAct);
-
+        Map<String, ItemModelDto> config = new HashMap<>();
+        Backpack bp = new Backpack();
         for (; true;) {
-            if (enemy.getCurrentHp() <= 0) {
-                SimpleLogger.log.info(player.getFirstName() + " 击败了 " + enemy.getName() + "!");
-                break;
+            if (player.getLevel() > 1) {
+                SimpleLogger.log.info("当前等级: " + player.getLevel());
+                return;
             }
+            Enemy enemy = EnemyFactory.createEnemy(EnemyList.SLIME);
 
-            switch (actionType) {
-                case NormalAttack -> {
-                    SimpleLogger.log.info("你选择了普通攻击");
-                    enemy = normalAttack(player, enemy);
+            SimpleLogger.log.info("你遇到了一只敌人：" + enemy);
+
+            int inputAct = 2; // 模拟玩家输入的技能类型
+            // 1:普通攻击, 2:技能, 3:增益技能, 4:减益技能
+
+            ActionType actionType = checkAct(inputAct);
+
+            for (; true;) {
+                if (enemy.getCurrentHp() <= 0) {
+                    SimpleLogger.log.info(player.getFirstName() + " 击败了 " + enemy.getName() + "!");
+                    SimpleLogger.log.info("获得经验: " + enemy.getDropExp());
+                    levelUpHandler.handleExpGain(player, enemy.getDropExp());
+                    SimpleLogger.log.info("获得物品: " + enemy.getDropItems().toString());
+
+                    for (var item : enemy.getDropItems()) {
+                        config.put(item.getId(), item);
+                        bp.addItem(item, 1);
+                    }
+                    SimpleLogger.log.info(player.toString());
+                    bp.showInventory(config);
+                    break;
                 }
-                case Skill -> {
-                    SimpleLogger.log.info("你选择了技能" + SkillList.Skill0001.getName());
-                    Action validSkill = new Action(org.demo.list.ActionType.Skill, SkillList.Skill0001);
-                    // SimpleLogger.log.info(validSkill.toString());
-                    enemy = skillAttack(player, enemy, validSkill);
+
+                switch (actionType) {
+                    case NormalAttack -> {
+                        SimpleLogger.log.info("你选择了普通攻击");
+                        enemy = normalAttack(player, enemy);
+                    }
+                    case Skill -> {
+                        SimpleLogger.log.info("你选择了技能" + SkillList.Skill0001.getName());
+                        Action validSkill = new Action(org.demo.list.ActionType.Skill, SkillList.Skill0001);
+                        // SimpleLogger.log.info(validSkill.toString());
+                        enemy = skillAttack(player, enemy, validSkill);
+                    }
+                    case Buff -> {
+                        SimpleLogger.log.info("你选择了增益技能");
+                        return;
+                    }
+                    case Debuff -> {
+                        SimpleLogger.log.info("你选择了减益技能");
+                        return;
+                    }
+                    default -> {
+                        SimpleLogger.log.error("未知的技能类型: " + actionType);
+                        return;
+                    }
                 }
-                case Buff -> {
-                    SimpleLogger.log.info("你选择了增益技能");
-                    return;
+                if (enemy.getCurrentHp() > 0) {
+                    SimpleLogger.log.info("敌人 " + enemy.getName() + " 还活着, 当前血量: " + enemy.getCurrentHp());
                 }
-                case Debuff -> {
-                    SimpleLogger.log.info("你选择了减益技能");
-                    return;
-                }
-                default -> {
-                    SimpleLogger.log.error("未知的技能类型: " + actionType);
-                    return;
-                }
-            }
-            if (enemy.getCurrentHp() > 0) {
-                SimpleLogger.log.info("敌人 " + enemy.getName() + " 还活着, 当前血量: " + enemy.getCurrentHp());
             }
         }
 

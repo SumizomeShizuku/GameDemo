@@ -1,6 +1,9 @@
 package org.demo.util;
 
+import java.util.List;
+
 import org.demo.dto.EnemyModelDto;
+import org.demo.dto.ItemModelDto;
 
 /**
  * 敌人类，表示游戏中的敌人。 包含敌人的属性和行为。
@@ -19,6 +22,10 @@ public class Enemy {
     private final int attack;
     // 防御力
     private final int defense;
+    // 掉落经验
+    private final int dropExp;
+    // 掉落物品
+    private final List<ItemModelDto> dropItems;
 
     /**
      * 构造一个敌人对象。
@@ -32,6 +39,8 @@ public class Enemy {
         this.currentHp = maxHp;
         this.attack = attr.getAttack();
         this.defense = attr.getDefense();
+        this.dropExp = attr.getDropExp();
+        this.dropItems = attr.getDropItems();
     }
 
     /**
@@ -61,6 +70,14 @@ public class Enemy {
     // 获取敌人防御力
     public int getDefense() {
         return defense;
+    }
+
+    public int getDropExp() {
+        return dropExp;
+    }
+
+    public List<ItemModelDto> getDropItems() {
+        return dropItems;
     }
 
     @Override

@@ -23,7 +23,6 @@ public class AttackCalculator {
         } else {
             p = 1.25 + (double) (damagePower - 120) / 400.0;
         }
-        System.out.println(p + " ," + damagePower);
         double rawDamage;
         if (damagePower == 1) {
             rawDamage = str * Math.pow(str, 0.08) / 2;

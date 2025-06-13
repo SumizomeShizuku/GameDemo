@@ -1,5 +1,7 @@
 package org.demo.dto;
 
+import java.util.List;
+
 public class EnemyModelDto {
 
     // 敌人ID
@@ -12,6 +14,10 @@ public class EnemyModelDto {
     private final int attack;
     // 防御力
     private final int defense;
+    // 掉落经验
+    private final int dropExp;
+    // 掉落物品
+    private final List<ItemModelDto> dropItems;
 
     /**
      * 构造一个敌人模型数据传输对象。
@@ -21,13 +27,17 @@ public class EnemyModelDto {
      * @param maxHp 最大生命值
      * @param attack 攻击力
      * @param defense 防御力
+     * @param dropExp 掉落经验
+     * @param dropItems 掉落物品
      */
-    public EnemyModelDto(String id, String name, int maxHp, int attack, int defense) {
+    public EnemyModelDto(String id, String name, int maxHp, int attack, int defense, int dropExp, List<ItemModelDto> dropItems) {
         this.id = id;
         this.name = name;
         this.maxHp = maxHp;
         this.attack = attack;
         this.defense = defense;
+        this.dropExp = dropExp;
+        this.dropItems = dropItems;
     }
 
     /**
@@ -75,6 +85,14 @@ public class EnemyModelDto {
         return defense;
     }
 
+    public int getDropExp() {
+        return dropExp;
+    }
+
+    public List<ItemModelDto> getDropItems() {
+        return dropItems;
+    }
+
     @Override
     public String toString() {
         return "EnemyModelDto{"
@@ -83,6 +101,8 @@ public class EnemyModelDto {
                 + ", 最大生命值=" + maxHp
                 + ", 攻击力=" + attack
                 + ", 防御力=" + defense
+                + ", 掉落经验=" + dropExp
+                + ", 掉落物品=" + dropItems.toString()
                 + '}';
     }
 }

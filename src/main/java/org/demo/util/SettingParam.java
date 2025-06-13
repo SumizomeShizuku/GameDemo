@@ -23,10 +23,11 @@ public class SettingParam {
 
     public static PlayerModelDto setPlayerJob(int jobNum, PlayerModelDto player) {
         JobList job = Constants.DEFAULT_JOB;
-        if (jobNum > 0 && jobNum <= Constants.TOTAL_ETHNICITY_NUM) {
+        if (jobNum > 0 && jobNum <= Constants.TOTAL_JOB_NUM) {
             job = JobList.getJob(jobNum);
         }
         player.setExp(job.getExp());
+        player.setLevel(job.getLevel());
         player.setHealthPoint(player.getHealthPoint() + job.getHealthPoint());
         player.setManaPoint(player.getManaPoint() + job.getManaPoint());
         player.setMoveSpeed(job.getMoveSpeed());
