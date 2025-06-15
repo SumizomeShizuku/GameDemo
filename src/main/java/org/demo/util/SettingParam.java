@@ -12,8 +12,8 @@ public class SettingParam {
         if (ethnicityNum > 0 && ethnicityNum <= Constants.TOTAL_ETHNICITY_NUM) {
             ethnicity = EthnicityList.getEthnicity(ethnicityNum);
         }
-        player.setHealthPoint(ethnicity.getHealthPoint());
-        player.setManaPoint(ethnicity.getManaPoint());
+        player.setMaxHealthPoint(ethnicity.getHealthPoint());
+        player.setMaxManaPoint(ethnicity.getManaPoint());
         player.setStrength(ethnicity.getStrength());
         player.setAgility(ethnicity.getAgility());
         player.setIntelligence(ethnicity.getIntelligence());
@@ -28,12 +28,9 @@ public class SettingParam {
         }
         player.setExp(job.getExp());
         player.setLevel(job.getLevel());
-        player.setHealthPoint(player.getHealthPoint() + job.getHealthPoint());
-        player.setManaPoint(player.getManaPoint() + job.getManaPoint());
+        player.setMaxHealthPoint(player.getMaxHealthPoint() + job.getHealthPoint());
+        player.setMaxManaPoint(player.getMaxManaPoint() + job.getManaPoint());
         player.setMoveSpeed(job.getMoveSpeed());
-        player.setStrength(player.getStrength() + job.getStrength());
-        player.setAgility(player.getAgility() + job.getAgility());
-        player.setIntelligence(player.getIntelligence() + job.getIntelligence());
         player.setJob(job);
         player.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
         player.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);

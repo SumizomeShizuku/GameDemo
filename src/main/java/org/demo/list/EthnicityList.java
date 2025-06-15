@@ -1,14 +1,22 @@
 package org.demo.list;
 
 public enum EthnicityList {
-    // 兽人  Kitsu-（日式狐狸灵）+ -ariel（精灵般高雅）空尾
-    KITSARIEL(4, 7, 0, 2, 4, "空尾族"),
-    // 人类  Grave（庄重）+ -enth（奇幻感）人
-    GRAVENTH(8, 3, 2, 2, 2, "人族"),
-    // 精灵  Sylva（森林）+ -rin（精灵/高贵的感觉）林语
-    SYLVARIN(5, 6, 0, 3, 3, "林语族"),
-    // 亡灵  Tharn（死土）+ -yx（冷硬感）亡影
-    THARNYX(10, 1, 5, 0, 1, "亡影族");
+    /**
+     * 空尾族
+     */
+    KITSARIEL(4, 7, 1, 2, 4, "空尾族"),
+    /**
+     * 人族
+     */
+    GRAVENTH(8, 3, 2, 2, 3, "人族"),
+    /**
+     * 林语族
+     */
+    SYLVARIN(5, 6, 1, 3, 3, "林语族"),
+    /**
+     * 亡影族
+     */
+    THARNYX(10, 1, 5, 1, 1, "亡影族");
 
     private final int healthPoint;
     private final int manaPoint;

@@ -1,6 +1,7 @@
 package org.demo.util;
 
 import org.demo.dto.PlayerModelDto;
+import org.demo.list.Action;
 
 public class AttackCalculator {
 
@@ -29,6 +30,11 @@ public class AttackCalculator {
         } else {
             rawDamage = 0.6 * Math.pow(str, 1.3) * p;
         }
+
+        if (rawDamage < 1) {
+            rawDamage = 2; // 最小伤害为2
+        }
+
         player.setBaseAttribute(Math.round(rawDamage * 100.0) / 100.0);
 
         boolean isCritical = Math.random() < player.getCriticalHitRate();
@@ -76,7 +82,8 @@ public class AttackCalculator {
      * @param damagePower 技能威力
      * @return 伤害值
      */
-    public static int result(PlayerModelDto player, Enemy enemy, int damagePower) {
+    public static int result(PlayerModelDto player, Enemy enemy, Action validSkill) {
+        int damagePower = validSkill.getSkillBaseDamage();
         DamageResult damageResult = calculatePhyDamage(player, damagePower);
         int damage = damageResult.getDamage();
         if (damageResult.isCritical()) {

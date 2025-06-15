@@ -18,10 +18,14 @@ public class PlayerModelDto {
     private int exp = Constants.DEFAULT_EXP;
     // 等级
     private int level;
-    // HP
-    private int healthPoint;
-    // MP
-    private int manaPoint;
+    // 最大HP
+    private int maxHealthPoint;
+    // 当前HP
+    private int currentHealthPoint;
+    // 最大MP
+    private int maxManaPoint;
+    // 当前MP
+    private int currentManaPoint;
     // 移速
     private double moveSpeed;
     // 力量
@@ -115,39 +119,75 @@ public class PlayerModelDto {
     }
 
     /**
-     * 获取玩家的生命值
+     * 获取玩家的最大生命值
      *
      * @return
      */
-    public int getHealthPoint() {
-        return healthPoint;
+    public int getMaxHealthPoint() {
+        return maxHealthPoint;
     }
 
     /**
-     * 设置玩家的生命值
+     * 设置玩家的最大生命值
      *
-     * @param healthPoint 生命值
+     * @param maxHealthPoint 生命值
      */
-    public void setHealthPoint(int healthPoint) {
-        this.healthPoint = healthPoint;
+    public void setMaxHealthPoint(int maxHealthPoint) {
+        this.maxHealthPoint = maxHealthPoint;
     }
 
     /**
-     * 获取玩家的魔法值
+     * 获取玩家的最大魔法值
      *
      * @return
      */
-    public int getManaPoint() {
-        return manaPoint;
+    public int getMaxManaPoint() {
+        return maxManaPoint;
     }
 
     /**
-     * 设置玩家的魔法值
+     * 设置玩家的最大魔法值
      *
-     * @param manaPoint 魔法值
+     * @param maxManaPoint 魔法值
      */
-    public void setManaPoint(int manaPoint) {
-        this.manaPoint = manaPoint;
+    public void setMaxManaPoint(int maxManaPoint) {
+        this.maxManaPoint = maxManaPoint;
+    }
+
+    /**
+     * 获取玩家的当前生命值
+     *
+     * @return
+     */
+    public int getCurrentHealthPoint() {
+        return currentHealthPoint;
+    }
+
+    /**
+     * 设置玩家的当前生命值
+     *
+     * @param currentHealthPoint 当前生命值
+     */
+    public void setCurrentHealthPoint(int currentHealthPoint) {
+        this.currentHealthPoint = currentHealthPoint;
+    }
+
+    /**
+     * 设置玩家的当前魔法值
+     *
+     * @param currentManaPoint 当前魔法值
+     */
+    public int getCurrentManaPoint() {
+        return currentManaPoint;
+    }
+
+    /**
+     * 获取玩家的当前魔法值
+     *
+     * @return 当前魔法值
+     */
+    public void setCurrentManaPoint(int currentManaPoint) {
+        this.currentManaPoint = currentManaPoint;
     }
 
     /**
@@ -365,8 +405,8 @@ public class PlayerModelDto {
         sb.append(ln).append("  职业: ").append(job.getNameZh());
         sb.append(ln).append("  持有经验: ").append(exp);
         sb.append(ln).append("  等级: ").append(level);
-        sb.append(ln).append("  HP: ").append(healthPoint);
-        sb.append(ln).append("  MP: ").append(manaPoint);
+        sb.append(ln).append("  HP: ").append(maxHealthPoint);
+        sb.append(ln).append("  MP: ").append(maxManaPoint);
         sb.append(ln).append("  力量: ").append(strength);
         sb.append(ln).append("  敏捷: ").append(agility);
         sb.append(ln).append("  智力: ").append(intelligence);

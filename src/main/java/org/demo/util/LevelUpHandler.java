@@ -7,16 +7,6 @@ import org.demo.list.ExpList;
 
 public class LevelUpHandler {
 
-    // @SuppressWarnings({"FieldMayBeFinal", "NonConstantLogger"})
-    // private Logger log;
-    // /**
-    //  * このクラスの新しいインスタント生成し、必要なLoggerを初期化する ログパスは
-    //  * {@link LoggerConfig#setLogPath(String)}で設定する必要がある。
-    //  */
-    // public LevelUpHandler() {
-    //     LoggerConfig loggerConfig = LoggerConfig.getInstance();
-    //     this.log = loggerConfig.getLogger("Log");
-    // }
     /**
      * 在经验更新之后调用，自动处理升级与属性成长
      */
@@ -28,6 +18,7 @@ public class LevelUpHandler {
         int levelGained = newLevel - oldLevel;
         if (levelGained > 0) {
             player.setLevel(newLevel);
+            SimpleLogger.log.info(player.getFirstName() + " 升级了! 当前等级: " + newLevel);
             applyGrowth(player, levelGained);
         }
     }
