@@ -405,8 +405,8 @@ public class PlayerModelDto {
         sb.append(ln).append("  职业: ").append(job.getNameZh());
         sb.append(ln).append("  持有经验: ").append(exp);
         sb.append(ln).append("  等级: ").append(level);
-        sb.append(ln).append("  HP: ").append(maxHealthPoint);
-        sb.append(ln).append("  MP: ").append(maxManaPoint);
+        sb.append(ln).append("  HP: ").append(currentHealthPoint).append(" / ").append(maxHealthPoint);
+        sb.append(ln).append("  MP: ").append(currentManaPoint).append(" / ").append(maxManaPoint);
         sb.append(ln).append("  力量: ").append(strength);
         sb.append(ln).append("  敏捷: ").append(agility);
         sb.append(ln).append("  智力: ").append(intelligence);

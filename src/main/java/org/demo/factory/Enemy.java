@@ -1,4 +1,4 @@
-package org.demo.util;
+package org.demo.factory;
 
 import java.util.List;
 

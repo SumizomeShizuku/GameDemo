@@ -61,17 +61,22 @@ public class Backpack {
     /**
      * 背包展示
      */
-    public void showInventory(Map<String, ItemModelDto> itemConfig) {
+    public String showInventory(Map<String, ItemModelDto> itemConfig) {
         SimpleLogger.log.info("📦 背包内容：");
+        String ln = System.lineSeparator();
+        StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Integer> entry : stackableItems.entrySet()) {
             String itemId = entry.getKey();
             ItemModelDto item = itemConfig.get(itemId);
-            SimpleLogger.log.info(" - " + item.getName() + " x" + entry.getValue());
+            sb.append(" - ").append(item.getName()).append(" x").append(entry.getValue()).append(ln);
         }
 
         for (ItemInstance item : nonStackableItems) {
             SimpleLogger.log.info(" - " + item.toString());
+            sb.append(" - ").append(item.toString()).append(ln);
         }
+
+        return sb.toString();
     }
 
     private boolean isStackable(ItemModelDto item) {

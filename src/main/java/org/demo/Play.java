@@ -4,34 +4,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.demo.backpack.Backpack;
+import org.demo.calculator.PlayerAttackCalculator;
 import org.demo.dto.ItemModelDto;
 import org.demo.dto.PlayerModelDto;
+import org.demo.factory.Enemy;
+import org.demo.factory.EnemyFactory;
+import org.demo.factory.PlayerFactory;
 import org.demo.list.Action;
 import org.demo.list.ActionType;
 import org.demo.list.EnemyList;
 import org.demo.list.SkillList;
 import org.demo.list.SkillType;
-import org.demo.util.AttackCalculator;
-import org.demo.util.Enemy;
-import org.demo.util.EnemyFactory;
 import org.demo.util.LevelUpHandler;
-import org.demo.util.SettingParam;
 import org.demo.util.SimpleLogger;
 
 public class Play {
 
     public static void playerInit() {
-        PlayerModelDto player = new PlayerModelDto();
-
-        // 1:战士, 2:法师, 3:游侠, 4:圣职者
-        int jobNum = 1;
+        // 模拟玩家输入的种族和职业
         // 1:空尾族, 2:人族 3:林语族, 4:亡影族
         int ethnicityNum = 1;
-        player = SettingParam.setPlayerEthnicity(ethnicityNum, player);
-        player = SettingParam.setPlayerJob(jobNum, player);
+        // 1:战士, 2:法师, 3:游侠, 4:圣职者
+        int jobNum = 1;
+        // 模拟玩家输入的名字
+        String playerFirstName = "Anneliese";
+        String playerLastName = "Wallis";
 
-        player.setFirstName("Anneliese");
-        player.setLastName("Wallis");
+        PlayerModelDto player = PlayerFactory.createPlayer(playerFirstName, playerLastName, ethnicityNum, jobNum);
 
         LevelUpHandler levelUpHandler = new LevelUpHandler();
 
@@ -42,8 +41,8 @@ public class Play {
 
         SimpleLogger.log.info("你遇到了一只敌人：" + enemy);
 
-        int inputAct = 2; // 模拟玩家输入的技能类型
         // 1:普通攻击, 2:技能, 3:增益技能, 4:减益技能
+        int inputAct = 1; // 模拟玩家输入的技能类型
 
         ActionType actionType = checkAct(inputAct);
 
@@ -59,7 +58,7 @@ public class Play {
                     bp.addItem(item, 1);
                 }
                 SimpleLogger.log.info(player.toString());
-                bp.showInventory(config);
+                SimpleLogger.log.info(bp.showInventory(config));
                 break;
             }
 
@@ -112,7 +111,7 @@ public class Play {
     }
 
     public static Enemy normalAttack(PlayerModelDto player, Enemy enemy) {
-        enemy.takeDamage(AttackCalculator.result(player, enemy));
+        enemy.takeDamage(PlayerAttackCalculator.result(player, enemy));
         return enemy;
     }
 
@@ -121,7 +120,7 @@ public class Play {
             SimpleLogger.log.error("技能列表为空或错误，无法执行技能攻击。");
             return enemy;
         }
-        enemy.takeDamage(AttackCalculator.result(player, enemy, validSkill));
+        enemy.takeDamage(PlayerAttackCalculator.result(player, enemy, validSkill));
         return enemy;
     }
 }

@@ -1,9 +1,11 @@
-package org.demo.util;
+package org.demo.calculator;
 
 import org.demo.dto.PlayerModelDto;
+import org.demo.factory.Enemy;
 import org.demo.list.Action;
+import org.demo.util.SimpleLogger;
 
-public class AttackCalculator {
+public class PlayerAttackCalculator {
 
     /**
      * 根据职业属性，计算伤害
@@ -57,7 +59,7 @@ public class AttackCalculator {
      * @return 伤害值
      */
     public static int result(PlayerModelDto player, Enemy enemy) {
-        int damagePower = 1; // 默认伤害值
+        int damagePower = 20; // 默认伤害值
         DamageResult damageResult = calculatePhyDamage(player, damagePower);
         int damage = damageResult.getDamage();
         if (damageResult.isCritical()) {
