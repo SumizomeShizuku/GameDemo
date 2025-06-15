@@ -38,7 +38,6 @@ public class Play {
         Backpack bp = new Backpack();
 
         Enemy enemy = EnemyFactory.createEnemy(EnemyList.SLIME);
-
         SimpleLogger.log.info("你遇到了一只敌人：" + enemy);
 
         // 1:普通攻击, 2:技能, 3:增益技能, 4:减益技能
