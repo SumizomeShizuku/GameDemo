@@ -43,12 +43,10 @@ public class ItemModelDto {
 
     @Override
     public String toString() {
-        return "ItemModelDto{"
-                + "物品ID='" + id + '\''
+        return "物品ID='" + id + '\''
                 + ", 物品名称='" + name + '\''
                 + ", 物品类型='" + type + '\''
                 + ", 物品描述='" + description + '\''
-                + ", 物品价格=" + price
-                + '}';
+                + ", 物品价格=" + price;
     }
 }

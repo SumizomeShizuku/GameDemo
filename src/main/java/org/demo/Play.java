@@ -42,7 +42,8 @@ public class Play {
         SimpleLogger.log.info("你遇到了一只敌人：" + enemy);
 
         // 1:普通攻击, 2:技能, 3:增益技能, 4:减益技能
-        int inputAct = 1; // 模拟玩家输入的技能类型
+        int inputAct = 2; // 模拟玩家输入的技能类型
+        SkillList skillList = SkillList.Skill0001; // 模拟玩家选择的技能
 
         ActionType actionType = checkAct(inputAct);
 
@@ -68,8 +69,8 @@ public class Play {
                     enemy = normalAttack(player, enemy);
                 }
                 case Skill -> {
-                    SimpleLogger.log.info("你选择了技能" + SkillList.Skill0001.getName());
-                    Action validSkill = new Action(ActionType.Skill, SkillList.Skill0001);
+                    SimpleLogger.log.info("你选择了技能" + skillList.getName());
+                    Action validSkill = new Action(ActionType.Skill, skillList);
                     // SimpleLogger.log.info(validSkill.toString());
                     enemy = skillAttack(player, enemy, validSkill);
                 }
@@ -111,7 +112,7 @@ public class Play {
     }
 
     public static Enemy normalAttack(PlayerModelDto player, Enemy enemy) {
-        enemy.takeDamage(PlayerAttackCalculator.result(player, enemy));
+        enemy.takeDamage(PlayerAttackCalculator.calculateNormalPhyAttack(player, enemy));
         return enemy;
     }
 
@@ -120,7 +121,17 @@ public class Play {
             SimpleLogger.log.error("技能列表为空或错误，无法执行技能攻击。");
             return enemy;
         }
-        enemy.takeDamage(PlayerAttackCalculator.result(player, enemy, validSkill));
+
+        if (!validSkill.getSkillTypes().contains(SkillType.Physics)) {
+            SimpleLogger.log.info("魔法攻击");
+            enemy.takeDamage(PlayerAttackCalculator.calculateMagicSkill(player, enemy, validSkill));
+            return enemy;
+        } else if (!validSkill.getSkillTypes().contains(SkillType.Magic)) {
+            SimpleLogger.log.info("物理攻击。");
+            enemy.takeDamage(PlayerAttackCalculator.calculatePhysicsSkill(player, enemy, validSkill));
+            return enemy;
+        }
+
         return enemy;
     }
 }

@@ -6,7 +6,7 @@ public enum SkillList {
     Skill0001("挥石魔法",
             EnumSet.of(SkillType.Physics),
             "使用石头进行攻击，造成物理伤害。",
-            100,
+            10,
             10),
     Skill0002("火球术",
             EnumSet.of(SkillType.Magic),
