@@ -1,14 +1,23 @@
 package org.demo.list;
 
-import java.util.List;
-
 import org.demo.dto.EnemyModelDto;
-import org.demo.dto.ItemModelDto;
 
+/**
+ * 敌人列表枚举类
+ * <p>
+ * 该类定义了游戏中的敌人类型及其属性。
+ * <p>
+ * 每个敌人类型包含一个模板 {@link EnemyModelDto}，用于描述敌人的基本属性和掉落物品。
+ */
 public enum EnemyList {
-    GOBLIN(new EnemyModelDto("GOBLIN", "哥布林", 30, 5, 2, 10, List.of(new ItemModelDto("GOBLIN_SWORD", "哥布林之剑", "weapon", "一把锋利的剑", 100)))),
-    SLIME(new EnemyModelDto("SLIME", "史莱姆", 20, 3, 1, 500, List.of(new ItemModelDto("SLIME_JUICE", "史莱姆果汁", " consumable", "恢复少量生命值", 50)))),
-    ORC(new EnemyModelDto("ORC", "兽人", 500, 10, 5, 50, List.of(new ItemModelDto("ORC_AXE", "兽人斧", "weapon", "一把沉重的斧头", 200))));
+    GOBLIN(new EnemyModelDto("GOBLIN", "哥布林", 15, 5, 2, 10,
+            ItemList.dropMap(
+                    ItemList.entry(ItemList.GOBLIN_SWORD, 0.005, 1, 1),
+                    ItemList.entry(ItemList.SLIME_JUICE, 0.995, 1, 5)))),
+    SLIME(new EnemyModelDto("SLIME", "史莱姆", 20, 3, 1, 500,
+            ItemList.dropMap(ItemList.entry(ItemList.SLIME_JUICE, 1.0, 1, 3)))),
+    ORC(new EnemyModelDto("ORC", "兽人", 500, 10, 5, 50,
+            ItemList.dropMap(ItemList.entry(ItemList.ORC_AXE, 1.0, 1, 1))));
 
     private final EnemyModelDto template;
 
@@ -16,6 +25,11 @@ public enum EnemyList {
         this.template = template;
     }
 
+    /**
+     * 获取敌人的模板
+     *
+     * @return 敌人的模板 {@link EnemyModelDto}
+     */
     public EnemyModelDto getTemplate() {
         return template;
     }

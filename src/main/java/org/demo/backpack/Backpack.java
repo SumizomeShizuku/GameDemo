@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.demo.dto.ItemModelDto;
-import org.demo.util.SimpleLogger;
 
 /**
  * 背包类：管理玩家拥有的物品（支持叠加与非叠加）
@@ -62,9 +61,13 @@ public class Backpack {
      * 背包展示
      */
     public String showInventory(Map<String, ItemModelDto> itemConfig) {
-        SimpleLogger.log.info("📦 背包内容：");
         String ln = System.lineSeparator();
         StringBuilder sb = new StringBuilder();
+        sb.append(ln).append("📦 背包内容：").append(ln);
+        if (stackableItems.isEmpty() && nonStackableItems.isEmpty()) {
+            sb.append("背包是空的。").append(ln);
+            return sb.toString();
+        }
         for (Map.Entry<String, Integer> entry : stackableItems.entrySet()) {
             String itemId = entry.getKey();
             ItemModelDto item = itemConfig.get(itemId);
@@ -72,7 +75,6 @@ public class Backpack {
         }
 
         for (ItemInstance item : nonStackableItems) {
-            SimpleLogger.log.info(" - " + item.toString());
             sb.append(" - ").append(item.toString()).append(ln);
         }
 

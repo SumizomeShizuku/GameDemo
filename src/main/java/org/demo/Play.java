@@ -1,6 +1,7 @@
 package org.demo;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.demo.backpack.Backpack;
@@ -31,18 +32,23 @@ public class Play {
         String playerLastName = "Wallis";
 
         PlayerModelDto player = PlayerFactory.createPlayer(playerFirstName, playerLastName, ethnicityNum, jobNum);
+        SimpleLogger.log.info("选择的职业: " + player.getJob().getNameZh());
+        SimpleLogger.log.info("选择的种族: " + player.getEthnicity().getEthnicityZh());
 
         LevelUpHandler levelUpHandler = new LevelUpHandler();
+
+        // 模拟玩家获得经验
+        levelUpHandler.handleExpGain(player, 2000000);
 
         Map<String, ItemModelDto> config = new HashMap<>();
         Backpack bp = new Backpack();
 
-        Enemy enemy = EnemyFactory.createEnemy(EnemyList.SLIME);
-        SimpleLogger.log.info("你遇到了一只敌人：" + enemy);
+        Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
+        SimpleLogger.log.info(player.getFirstName() + " 遇到了一只敌人： " + enemy);
 
         // 1:普通攻击, 2:技能, 3:增益技能, 4:减益技能
         int inputAct = 2; // 模拟玩家输入的技能类型
-        SkillList skillList = SkillList.Skill0001; // 模拟玩家选择的技能
+        SkillList skillList = SkillList.Skill0002; // 模拟玩家选择的技能
 
         ActionType actionType = checkAct(inputAct);
 
@@ -51,12 +57,17 @@ public class Play {
                 SimpleLogger.log.info(player.getFirstName() + " 击败了 " + enemy.getName() + "!");
                 SimpleLogger.log.info("获得经验: " + enemy.getDropExp());
                 levelUpHandler.handleExpGain(player, enemy.getDropExp());
-                SimpleLogger.log.info("获得物品: " + enemy.getDropItems().toString());
-
-                for (var item : enemy.getDropItems()) {
-                    config.put(item.getId(), item);
-                    bp.addItem(item, 1);
+                List<ItemModelDto> drops = enemy.generateDrops();
+                if (drops.isEmpty()) {
+                    SimpleLogger.log.info("没有掉落物品。");
+                } else {
+                    SimpleLogger.log.info("获得物品: " + enemy.formatDropItems(drops));
+                    for (var item : drops) {
+                        config.put(item.getId(), item);
+                        bp.addItem(item, 1);
+                    }
                 }
+
                 SimpleLogger.log.info(player.toString());
                 SimpleLogger.log.info(bp.showInventory(config));
                 break;
@@ -64,21 +75,21 @@ public class Play {
 
             switch (actionType) {
                 case NormalAttack -> {
-                    SimpleLogger.log.info("你选择了普通攻击");
+                    SimpleLogger.log.info(player.getFirstName() + " 选择了普通攻击");
                     enemy = normalAttack(player, enemy);
                 }
                 case Skill -> {
-                    SimpleLogger.log.info("你选择了技能" + skillList.getName());
+                    SimpleLogger.log.info(player.getFirstName() + " 选择了技能" + skillList.getName());
                     Action validSkill = new Action(ActionType.Skill, skillList);
                     // SimpleLogger.log.info(validSkill.toString());
                     enemy = skillAttack(player, enemy, validSkill);
                 }
                 case Buff -> {
-                    SimpleLogger.log.info("你选择了增益技能");
+                    SimpleLogger.log.info(player.getFirstName() + " 选择了增益技能");
                     return;
                 }
                 case Debuff -> {
-                    SimpleLogger.log.info("你选择了减益技能");
+                    SimpleLogger.log.info(player.getFirstName() + " 选择了减益技能");
                     return;
                 }
                 default -> {

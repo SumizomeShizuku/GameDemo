@@ -14,7 +14,7 @@ public class PlayerAttackCalculator {
      * @param damagePower 技能威力
      * @return 伤害
      */
-    public static DamageResult calculatePhyDamage(PlayerModelDto player, int damagePower) {
+    public static DamageResult calculatePhyDamage(PlayerModelDto player, Enemy enemy, int damagePower) {
         int str = player.getStrength();
         double p;
         if (damagePower < 20) {
@@ -33,25 +33,29 @@ public class PlayerAttackCalculator {
             rawDamage = 0.6 * Math.pow(str, 1.3) * p;
         }
 
-        if (rawDamage < 1) {
-            rawDamage = 2; // 最小伤害为2
+        int enemyPDEF = enemy.getDefense();
+        double defenseRatio = (double) enemyPDEF / (enemyPDEF + 100.0);
+        double finalDamage = rawDamage * (1.0 - defenseRatio);
+
+        if (finalDamage < 1) {
+            finalDamage = 2; // 最小伤害为2
         }
 
         player.setBaseAttribute(Math.round(rawDamage * 100.0) / 100.0);
 
         boolean isCritical = Math.random() < player.getCriticalHitRate();
         if (isCritical) {
-            rawDamage = rawDamage * 1.25;
+            finalDamage = finalDamage * 1.25;
         }
 
-        double min = rawDamage * 0.80;
-        double max = rawDamage * 1.20;
+        double min = finalDamage * 0.80;
+        double max = finalDamage * 1.20;
 
         int DamageResult = (int) (min + Math.random() * (max - min));
         return new DamageResult(DamageResult, isCritical);
     }
 
-    public static DamageResult calculateMagicDamage(PlayerModelDto player, int damagePower) {
+    public static DamageResult calculateMagicDamage(PlayerModelDto player, Enemy enemy, int damagePower) {
         int intelli = player.getIntelligence();
         double p;
         if (damagePower < 20) {
@@ -70,19 +74,23 @@ public class PlayerAttackCalculator {
             rawDamage = 0.6 * Math.pow(intelli, 1.3) * p;
         }
 
-        if (rawDamage < 1) {
-            rawDamage = 2; // 最小伤害为2
+        int enemyPDEF = enemy.getDefense();
+        double defenseRatio = (double) enemyPDEF / (enemyPDEF + 100.0);
+        double finalDamage = rawDamage * (1.0 - defenseRatio);
+
+        if (finalDamage < 1) {
+            finalDamage = 2; // 最小伤害为2
         }
 
         player.setBaseAttribute(Math.round(rawDamage * 100.0) / 100.0);
 
         boolean isCritical = Math.random() < player.getCriticalHitRate();
         if (isCritical) {
-            rawDamage = rawDamage * 1.25;
+            finalDamage = finalDamage * 1.25;
         }
 
-        double min = rawDamage * 0.80;
-        double max = rawDamage * 1.20;
+        double min = finalDamage * 0.60;
+        double max = finalDamage * 1.40;
 
         int DamageResult = (int) (min + Math.random() * (max - min));
         return new DamageResult(DamageResult, isCritical);
@@ -97,7 +105,7 @@ public class PlayerAttackCalculator {
      */
     public static int calculateNormalPhyAttack(PlayerModelDto player, Enemy enemy) {
         int damagePower = 20; // 默认伤害值
-        DamageResult damageResult = calculatePhyDamage(player, damagePower);
+        DamageResult damageResult = calculatePhyDamage(player, enemy, damagePower);
         int damage = damageResult.getDamage();
         if (damageResult.isCritical()) {
             StringBuilder sb = new StringBuilder();
@@ -123,37 +131,18 @@ public class PlayerAttackCalculator {
      */
     public static int calculatePhysicsSkill(PlayerModelDto player, Enemy enemy, Action validSkill) {
         int damagePower = validSkill.getSkillBaseDamage();
-        DamageResult damageResult = calculatePhyDamage(player, damagePower);
+        DamageResult damageResult = calculatePhyDamage(player, enemy, damagePower);
         int damage = damageResult.getDamage();
-        if (damageResult.isCritical()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了[暴击] ").append(damage).append("! 点伤害");
-            // log.info(sb.toString());
-            SimpleLogger.log.info(sb.toString());
-        } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了 ").append(damage).append(" 点伤害");
-            // log.info(sb.toString());
-            SimpleLogger.log.info(sb.toString());
-        }
+
+        logDamage(player.getFirstName(), enemy.getName(), damageResult);
         return damage;
     }
 
     public static int calculateMagicSkill(PlayerModelDto player, Enemy enemy, Action validSkill) {
         int damagePower = validSkill.getSkillBaseDamage();
-        DamageResult damageResult = calculateMagicDamage(player, damagePower);
+        DamageResult damageResult = calculateMagicDamage(player, enemy, damagePower);
         int damage = damageResult.getDamage();
-        if (damageResult.isCritical()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了[暴击] ").append(damage).append("! 点伤害");
-            // log.info(sb.toString());
-            SimpleLogger.log.info(sb.toString());
-        } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了 ").append(damage).append(" 点伤害");
-            // log.info(sb.toString());
-            SimpleLogger.log.info(sb.toString());
-        }
+        logDamage(player.getFirstName(), enemy.getName(), damageResult);
         return damage;
     }
 
@@ -174,6 +163,13 @@ public class PlayerAttackCalculator {
         public boolean isCritical() {
             return isCritical;
         }
+    }
+
+    private static void logDamage(String playerName, String enemyName, DamageResult result) {
+        String msg = result.isCritical()
+                ? String.format("%s 对 %s 造成了[暴击] %d! 点伤害", playerName, enemyName, result.getDamage())
+                : String.format("%s 对 %s 造成了 %d 点伤害", playerName, enemyName, result.getDamage());
+        SimpleLogger.log.info(msg);
     }
 
 }

@@ -7,17 +7,17 @@ public enum SkillList {
             EnumSet.of(SkillType.Physics),
             "使用石头进行攻击，造成物理伤害。",
             10,
-            10),
+            3),
     Skill0002("火球术",
             EnumSet.of(SkillType.Magic),
             "发射火球，造成魔法伤害。",
-            10,
-            20),
+            30,
+            5),
     SkillERROR("你不应该看到这个技能",
             EnumSet.of(SkillType.Error),
             "你不应该看到这个描述",
-            0,
-            0);
+            9999,
+            9999);
 
     private final String name;
     private final EnumSet<SkillType> types;
