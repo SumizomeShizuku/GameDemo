@@ -12,8 +12,8 @@ import org.demo.dto.EnemyModelDto;
 public enum EnemyList {
     GOBLIN(new EnemyModelDto("GOBLIN", "哥布林", 15, 5, 2, 10,
             ItemList.dropMap(
-                    ItemList.entry(ItemList.GOBLIN_SWORD, 0.005, 1, 1),
-                    ItemList.entry(ItemList.SLIME_JUICE, 0.995, 1, 5)))),
+                    ItemList.entry(ItemList.GOBLIN_SWORD, 0.05, 1, 1),
+                    ItemList.entry(ItemList.SLIME_JUICE, 0.95, 1, 5)))),
     SLIME(new EnemyModelDto("SLIME", "史莱姆", 20, 3, 1, 500,
             ItemList.dropMap(ItemList.entry(ItemList.SLIME_JUICE, 1.0, 1, 3)))),
     ORC(new EnemyModelDto("ORC", "兽人", 500, 10, 5, 50,

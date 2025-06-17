@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.demo.backpack.Backpack;
-import org.demo.calculator.PlayerAttack;
+import org.demo.calculator.PlayerAttackMain;
 import org.demo.dto.ItemModelDto;
 import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
@@ -37,9 +37,9 @@ public class Play {
         LevelUpHandler levelUpHandler = new LevelUpHandler();
 
         // 模拟玩家获得经验
-        levelUpHandler.handleExpGain(player, 20000);
+        levelUpHandler.handleExpGain(player, 626000);
 
-        Map<String, ItemModelDto> config = new HashMap<>();
+        Map<String, ItemModelDto> bag = new HashMap<>();
         Backpack bp = new Backpack();
 
         Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
@@ -62,27 +62,27 @@ public class Play {
                 } else {
                     SimpleLogger.log.info("获得物品: " + enemy.formatDropItems(drops));
                     for (var item : drops) {
-                        config.put(item.getId(), item);
+                        bag.put(item.getId(), item);
                         bp.addItem(item, 1);
                     }
                 }
 
                 SimpleLogger.log.info(player.toString());
-                SimpleLogger.log.info(bp.showInventory(config));
+                SimpleLogger.log.info(bp.showInventory(bag));
                 break;
             }
 
             switch (actionType) {
                 case NormalAttack -> {
                     SimpleLogger.log.info(player.getFirstName() + " 选择了普通攻击");
-                    enemy = PlayerAttack.normalAttack(player, enemy);
+                    enemy = PlayerAttackMain.normalAttack(player, enemy);
                 }
                 case Skill -> {
                     SimpleLogger.log.info(player.getFirstName() + " 选择了技能" + skillList.getName()
                             + " [ " + actionType.name() + " - " + skillList.getTypes() + " ]");
                     Action validSkill = new Action(ActionType.Skill, skillList);
                     // SimpleLogger.log.info(validSkill.toString());
-                    enemy = PlayerAttack.skillAttack(player, enemy, validSkill);
+                    enemy = PlayerAttackMain.skillAttack(player, enemy, validSkill);
                 }
                 case Buff -> {
                     SimpleLogger.log.info(player.getFirstName() + " 选择了增益技能");
@@ -101,8 +101,5 @@ public class Play {
                 SimpleLogger.log.info("敌人 " + enemy.getName() + " 还活着, 当前血量: " + enemy.getCurrentHp());
             }
         }
-        // }
-
-        // enemy = attPhy(player, enemy);
     }
 }

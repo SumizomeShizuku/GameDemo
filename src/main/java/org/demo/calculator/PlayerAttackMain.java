@@ -6,10 +6,10 @@ import org.demo.list.Action;
 import org.demo.list.SkillType;
 import org.demo.util.SimpleLogger;
 
-public class PlayerAttack {
+public class PlayerAttackMain {
 
     public static Enemy normalAttack(PlayerModelDto player, Enemy enemy) {
-        enemy.takeDamage(PlayerAttackCalculator.calculateNormalPhyAttack(player, enemy));
+        enemy.takeDamage(PlayerNormalSkillAttack.calculateNormalAttack(player, enemy));
         return enemy;
     }
 
@@ -24,14 +24,13 @@ public class PlayerAttack {
 
         if (isMagic && !isPhysics) {
             SimpleLogger.log.info("魔法攻击");
-            enemy.takeDamage(PlayerAttackCalculator.calculateMagicSkill(player, enemy, validSkill));
+            enemy.takeDamage(PlayerMagicSkillAttack.calculateMagicSkill(player, enemy, validSkill));
         } else if (isPhysics && !isMagic) {
             SimpleLogger.log.info("物理攻击");
-            enemy.takeDamage(PlayerAttackCalculator.calculatePhysicsSkill(player, enemy, validSkill));
+            enemy.takeDamage(PlayerPhysicsSkillAttack.calculatePhysicsSkill(player, enemy, validSkill));
         } else if (isMagic && isPhysics) {
             SimpleLogger.log.info("混合攻击");
-            int damage = PlayerAttackCalculator.calculateMagicSkill(player, enemy, validSkill);
-            damage += PlayerAttackCalculator.calculatePhysicsSkill(player, enemy, validSkill);
+            int damage = PlayerMixSkillAttack.calculateMixedSkill(player, enemy, validSkill);
             enemy.takeDamage(damage);
         } else {
             SimpleLogger.log.error("未知的技能类型: " + validSkill.getSkillTypes());
