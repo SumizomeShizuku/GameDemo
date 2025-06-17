@@ -1,22 +1,24 @@
 package org.demo.list;
 
+import org.demo.data.Constants;
+
 public enum JobList {
     /**
      * 战士
      */
-    WARRIOR(0, 1, 45, 12, 1, new double[]{0.5, 0.3, 0.2}, "战士"),
+    WARRIOR(Constants.DEFAULT_EXP, 1, 45, 12, 1, new double[]{0.5, 0.3, 0.2}, "战士"),
     /**
      * 法师
      */
-    MAGE(0, 1, 22, 30, 1, new double[]{0.25, 0.25, 0.5}, "法师"),
+    MAGE(Constants.DEFAULT_EXP, 1, 22, 30, 1, new double[]{0.25, 0.25, 0.5}, "法师"),
     /**
      * 游侠
      */
-    ARCHER(0, 1, 37, 16, 1, new double[]{0.3, 0.5, 0.2}, "游侠"),
+    ARCHER(Constants.DEFAULT_EXP, 1, 37, 16, 1, new double[]{0.3, 0.5, 0.2}, "游侠"),
     /**
      * 圣职者
      */
-    CLERIC(0, 1, 28, 26, 1, new double[]{0.33, 0.33, 0.34}, "圣职者");
+    CLERIC(Constants.DEFAULT_EXP, 1, 28, 26, 1, new double[]{0.33, 0.33, 0.34}, "圣职者");
 
     private final int exp;
     private final int level;

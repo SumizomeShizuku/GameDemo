@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.demo.backpack.Backpack;
-import org.demo.calculator.PlayerAttackCalculator;
+import org.demo.calculator.PlayerAttack;
 import org.demo.dto.ItemModelDto;
 import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
@@ -15,7 +15,6 @@ import org.demo.list.Action;
 import org.demo.list.ActionType;
 import org.demo.list.EnemyList;
 import org.demo.list.SkillList;
-import org.demo.list.SkillType;
 import org.demo.util.LevelUpHandler;
 import org.demo.util.SimpleLogger;
 
@@ -26,7 +25,7 @@ public class Play {
         // 1:空尾族, 2:人族 3:林语族, 4:亡影族
         int ethnicityNum = 1;
         // 1:战士, 2:法师, 3:游侠, 4:圣职者
-        int jobNum = 1;
+        int jobNum = 2;
         // 模拟玩家输入的名字
         String playerFirstName = "Anneliese";
         String playerLastName = "Wallis";
@@ -38,7 +37,7 @@ public class Play {
         LevelUpHandler levelUpHandler = new LevelUpHandler();
 
         // 模拟玩家获得经验
-        levelUpHandler.handleExpGain(player, 2000000);
+        levelUpHandler.handleExpGain(player, 20000);
 
         Map<String, ItemModelDto> config = new HashMap<>();
         Backpack bp = new Backpack();
@@ -48,9 +47,9 @@ public class Play {
 
         // 1:普通攻击, 2:技能, 3:增益技能, 4:减益技能
         int inputAct = 2; // 模拟玩家输入的技能类型
-        SkillList skillList = SkillList.Skill0002; // 模拟玩家选择的技能
+        SkillList skillList = SkillList.Skill0003; // 模拟玩家选择的技能
 
-        ActionType actionType = checkAct(inputAct);
+        ActionType actionType = ActionType.checkAct(inputAct);
 
         for (; true;) {
             if (enemy.getCurrentHp() <= 0) {
@@ -76,13 +75,14 @@ public class Play {
             switch (actionType) {
                 case NormalAttack -> {
                     SimpleLogger.log.info(player.getFirstName() + " 选择了普通攻击");
-                    enemy = normalAttack(player, enemy);
+                    enemy = PlayerAttack.normalAttack(player, enemy);
                 }
                 case Skill -> {
-                    SimpleLogger.log.info(player.getFirstName() + " 选择了技能" + skillList.getName());
+                    SimpleLogger.log.info(player.getFirstName() + " 选择了技能" + skillList.getName()
+                            + " [ " + actionType.name() + " - " + skillList.getTypes() + " ]");
                     Action validSkill = new Action(ActionType.Skill, skillList);
                     // SimpleLogger.log.info(validSkill.toString());
-                    enemy = skillAttack(player, enemy, validSkill);
+                    enemy = PlayerAttack.skillAttack(player, enemy, validSkill);
                 }
                 case Buff -> {
                     SimpleLogger.log.info(player.getFirstName() + " 选择了增益技能");
@@ -104,44 +104,5 @@ public class Play {
         // }
 
         // enemy = attPhy(player, enemy);
-    }
-
-    public static ActionType checkAct(int act) {
-        return switch (act) {
-            case 1 ->
-                ActionType.NormalAttack;
-            case 2 ->
-                ActionType.Skill;
-            case 3 ->
-                ActionType.Buff;
-            case 4 ->
-                ActionType.Debuff;
-            default ->
-                ActionType.Error;
-        };
-    }
-
-    public static Enemy normalAttack(PlayerModelDto player, Enemy enemy) {
-        enemy.takeDamage(PlayerAttackCalculator.calculateNormalPhyAttack(player, enemy));
-        return enemy;
-    }
-
-    public static Enemy skillAttack(PlayerModelDto player, Enemy enemy, Action validSkill) {
-        if (validSkill == null || validSkill.getSkillList().hasType(SkillType.Error)) {
-            SimpleLogger.log.error("技能列表为空或错误，无法执行技能攻击。");
-            return enemy;
-        }
-
-        if (!validSkill.getSkillTypes().contains(SkillType.Physics)) {
-            SimpleLogger.log.info("魔法攻击");
-            enemy.takeDamage(PlayerAttackCalculator.calculateMagicSkill(player, enemy, validSkill));
-            return enemy;
-        } else if (!validSkill.getSkillTypes().contains(SkillType.Magic)) {
-            SimpleLogger.log.info("物理攻击。");
-            enemy.takeDamage(PlayerAttackCalculator.calculatePhysicsSkill(player, enemy, validSkill));
-            return enemy;
-        }
-
-        return enemy;
     }
 }

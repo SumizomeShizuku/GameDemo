@@ -3,16 +3,33 @@ package org.demo.list;
 import java.util.EnumSet;
 
 public enum SkillList {
+    /**
+     * Skill0001: 挥石魔法
+     */
     Skill0001("挥石魔法",
             EnumSet.of(SkillType.Physics),
             "使用石头进行攻击，造成物理伤害。",
             10,
             3),
+    /**
+     * Skill0002: 火球术
+     */
     Skill0002("火球术",
             EnumSet.of(SkillType.Magic),
             "发射火球，造成魔法伤害。",
             30,
             5),
+    /**
+     * Skill0003: 冰锥术
+     */
+    Skill0003("冰锥术",
+            EnumSet.of(SkillType.Physics, SkillType.Magic),
+            "发射冰锥，造成物理和魔法伤害。",
+            30,
+            5),
+    /**
+     * SkillERROR: 错误技能
+     */
     SkillERROR("你不应该看到这个技能",
             EnumSet.of(SkillType.Error),
             "你不应该看到这个描述",

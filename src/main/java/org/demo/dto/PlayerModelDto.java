@@ -1,6 +1,5 @@
 package org.demo.dto;
 
-import org.demo.data.Constants;
 import org.demo.list.EthnicityList;
 import org.demo.list.JobList;
 
@@ -15,7 +14,7 @@ public class PlayerModelDto {
     // 职业
     private JobList job;
     // 经验
-    private int exp = Constants.DEFAULT_EXP;
+    private int exp;
     // 等级
     private int level;
     // 最大HP
@@ -173,7 +172,7 @@ public class PlayerModelDto {
     }
 
     /**
-     * 设置玩家的当前魔法值
+     * 获取玩家的当前魔法值
      *
      * @param currentManaPoint 当前魔法值
      */
@@ -182,7 +181,7 @@ public class PlayerModelDto {
     }
 
     /**
-     * 获取玩家的当前魔法值
+     * 设置玩家的当前魔法值
      *
      * @return 当前魔法值
      */

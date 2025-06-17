@@ -132,18 +132,33 @@ public class PlayerAttackCalculator {
     public static int calculatePhysicsSkill(PlayerModelDto player, Enemy enemy, Action validSkill) {
         int damagePower = validSkill.getSkillBaseDamage();
         DamageResult damageResult = calculatePhyDamage(player, enemy, damagePower);
-        int damage = damageResult.getDamage();
 
-        logDamage(player.getFirstName(), enemy.getName(), damageResult);
-        return damage;
+        // logDamage(player.getFirstName(), enemy.getName(), damageResult);
+        StringBuilder sb = new StringBuilder();
+        sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了");
+        if (damageResult.isCritical()) {
+            sb.append("[暴击] ").append(damageResult.getDamage()).append("! 魔法伤害");
+        } else {
+            sb.append(" ").append(damageResult.getDamage()).append(" 魔法伤害");
+        }
+        SimpleLogger.log.info(sb.toString());
+        return damageResult.getDamage();
     }
 
     public static int calculateMagicSkill(PlayerModelDto player, Enemy enemy, Action validSkill) {
         int damagePower = validSkill.getSkillBaseDamage();
         DamageResult damageResult = calculateMagicDamage(player, enemy, damagePower);
-        int damage = damageResult.getDamage();
-        logDamage(player.getFirstName(), enemy.getName(), damageResult);
-        return damage;
+
+        // logDamage(player.getFirstName(), enemy.getName(), damageResult);
+        StringBuilder sb = new StringBuilder();
+        sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了");
+        if (damageResult.isCritical()) {
+            sb.append("[暴击] ").append(damageResult.getDamage()).append("! 物理伤害");
+        } else {
+            sb.append(" ").append(damageResult.getDamage()).append(" 物理伤害");
+        }
+        SimpleLogger.log.info(sb.toString());
+        return damageResult.getDamage();
     }
 
     public static class DamageResult {
@@ -164,12 +179,4 @@ public class PlayerAttackCalculator {
             return isCritical;
         }
     }
-
-    private static void logDamage(String playerName, String enemyName, DamageResult result) {
-        String msg = result.isCritical()
-                ? String.format("%s 对 %s 造成了[暴击] %d! 点伤害", playerName, enemyName, result.getDamage())
-                : String.format("%s 对 %s 造成了 %d 点伤害", playerName, enemyName, result.getDamage());
-        SimpleLogger.log.info(msg);
-    }
-
 }

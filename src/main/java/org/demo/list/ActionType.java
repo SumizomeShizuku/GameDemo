@@ -9,4 +9,19 @@ public enum ActionType {
     Buff,
     Debuff,
     Error; // 错误类型，表示未知或不支持的技能类型
+
+    public static ActionType checkAct(int act) {
+        return switch (act) {
+            case 1 ->
+                NormalAttack;
+            case 2 ->
+                Skill;
+            case 3 ->
+                Buff;
+            case 4 ->
+                Debuff;
+            default ->
+                Error;
+        };
+    }
 }
