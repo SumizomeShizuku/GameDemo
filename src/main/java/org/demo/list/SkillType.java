@@ -6,6 +6,8 @@ package org.demo.list;
 public enum SkillType {
     Physics,
     Magic,
+    Mix,
+    Normal,
     Healing,
     Support,
     Error; // 错误类型，表示未知或不支持的技能类型

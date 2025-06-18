@@ -46,10 +46,11 @@ public class Play {
         SimpleLogger.log.info(player.getFirstName() + " 遇到了一只敌人： " + enemy);
 
         // 1:普通攻击, 2:技能, 3:增益技能, 4:减益技能
-        int inputAct = 2; // 模拟玩家输入的技能类型
-        SkillList skillList = SkillList.Skill0003; // 模拟玩家选择的技能
+        int inputAct = 1; // 模拟玩家输入的技能类型
+        SkillList skillList = SkillList.Skill0002; // 模拟玩家选择的技能
 
         ActionType actionType = ActionType.checkAct(inputAct);
+        Action validSkill = new Action(ActionType.Skill, skillList);
 
         for (; true;) {
             if (enemy.getCurrentHp() <= 0) {
@@ -75,13 +76,11 @@ public class Play {
             switch (actionType) {
                 case NormalAttack -> {
                     SimpleLogger.log.info(player.getFirstName() + " 选择了普通攻击");
-                    enemy = PlayerAttackMain.normalAttack(player, enemy);
+                    enemy = PlayerAttackMain.skillAttack(player, enemy, validSkill);
                 }
                 case Skill -> {
                     SimpleLogger.log.info(player.getFirstName() + " 选择了技能" + skillList.getName()
                             + " [ " + actionType.name() + " - " + skillList.getTypes() + " ]");
-                    Action validSkill = new Action(ActionType.Skill, skillList);
-                    // SimpleLogger.log.info(validSkill.toString());
                     enemy = PlayerAttackMain.skillAttack(player, enemy, validSkill);
                 }
                 case Buff -> {

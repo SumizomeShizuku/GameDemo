@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class SimpleLogger {
 
     private static final String LOG_DIR_PATH = "Logs";
-    private static final DateTimeFormatter TIME_FORMAT
-            = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    // private static final DateTimeFormatter TIME_FORMAT
+    //         = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
     // private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static final Log log = new Log();
@@ -35,8 +33,9 @@ public class SimpleLogger {
         }
 
         private void logWithLevel(String level, String message) {
-            String timestamp = LocalDateTime.now().format(TIME_FORMAT);
-            String formatted = String.format("[%s][%s] %s", timestamp, level, message);
+            // String timestamp = LocalDateTime.now().format(TIME_FORMAT);
+            // String formatted = String.format("[%s][%s] %s", timestamp, level, message);
+            String formatted = String.format("[%s] %s", level, message);
 
             // 输出到控制台
             // System.out.println(formatted);

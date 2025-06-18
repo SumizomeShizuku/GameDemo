@@ -6,8 +6,8 @@ import org.demo.util.SimpleLogger;
 
 public class Action {
 
-    private final ActionType actionType;
-    private final SkillList skillList;
+    private ActionType actionType;
+    private SkillList skillList;
 
     public Action(ActionType actionType, SkillList skillList) {
         if (actionType != ActionType.Skill && skillList != null) {
@@ -18,6 +18,8 @@ public class Action {
             SimpleLogger.log.info("技能列表为空，切换到错误状态。");
             this.actionType = ActionType.Error;
             this.skillList = SkillList.SkillERROR;
+        } else if (actionType == ActionType.NormalAttack && skillList != null && skillList.hasType(SkillType.Normal)) {
+
         } else {
             this.actionType = actionType;
             this.skillList = skillList;

@@ -2,10 +2,8 @@ package org.demo.calculator;
 
 import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
-import org.demo.list.Action;
-import org.demo.util.SimpleLogger;
 
-public class PlayerPhysicsSkillAttack {
+public class PlayerPhysicsSkillAttack extends AbstractSkillAttack {
 
     /**
      * 根据职业属性，计算伤害
@@ -14,7 +12,8 @@ public class PlayerPhysicsSkillAttack {
      * @param damagePower 技能威力
      * @return 伤害
      */
-    public static DamageResult calculatePhyDamage(PlayerModelDto player, Enemy enemy, int damagePower) {
+    @Override
+    protected DamageResult calculateDamage(PlayerModelDto player, Enemy enemy, int damagePower) {
         int str = player.getStrength();
         double p;
         if (damagePower < 20) {
@@ -55,27 +54,4 @@ public class PlayerPhysicsSkillAttack {
         return new DamageResult(DamageResult, isCritical);
     }
 
-    /**
-     * 计算玩家对敌人造成的伤害 技能物理攻击
-     *
-     * @param player 玩家属性
-     * @param enemy 敌人对象
-     * @param damagePower 技能威力
-     * @return 伤害值
-     */
-    public static int calculatePhysicsSkill(PlayerModelDto player, Enemy enemy, Action validSkill) {
-        int damagePower = validSkill.getSkillBaseDamage();
-        DamageResult damageResult = calculatePhyDamage(player, enemy, damagePower);
-
-        // logDamage(player.getFirstName(), enemy.getName(), damageResult);
-        StringBuilder sb = new StringBuilder();
-        sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了");
-        if (damageResult.isCritical()) {
-            sb.append("[暴击] ").append(damageResult.getDamage()).append("! 物理伤害");
-        } else {
-            sb.append(" ").append(damageResult.getDamage()).append(" 物理伤害");
-        }
-        SimpleLogger.log.info(sb.toString());
-        return damageResult.getDamage();
-    }
 }

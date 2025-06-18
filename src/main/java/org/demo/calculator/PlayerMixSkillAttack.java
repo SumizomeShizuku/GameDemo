@@ -2,39 +2,53 @@ package org.demo.calculator;
 
 import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
-import org.demo.list.Action;
-import org.demo.util.SimpleLogger;
 
-public class PlayerMixSkillAttack {
+public class PlayerMixSkillAttack extends AbstractSkillAttack {
 
-    public static int calculateMixedSkill(PlayerModelDto player, Enemy enemy, Action validSkill) {
-        int damagePower = validSkill.getSkillBaseDamage();
+    @Override
+    protected DamageResult calculateDamage(PlayerModelDto player, Enemy enemy, int damagePower) {
+        int str = player.getStrength();
+        int intel = player.getIntelligence();
+        double p;
 
-        DamageResult physical = PlayerPhysicsSkillAttack.calculatePhyDamage(player, enemy, damagePower);
-        DamageResult magical = PlayerMagicSkillAttack.calculateMagicDamage(player, enemy, damagePower);
-
-        // 混合比例
-        double physicalRatio = 0.5;
-        double magicalRatio = 0.5;
-
-        int totalDamage = (int) (physical.getDamage() * physicalRatio + magical.getDamage() * magicalRatio);
-
-        player.setBaseAttribute(Math.round(totalDamage * 100.0) / 100.0);
-
-        boolean isCritical = physical.isCritical() || magical.isCritical(); // 任一暴击即算暴击
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了");
-        if (isCritical) {
-            sb.append("[暴击] ").append(totalDamage).append("! 混合伤害");
+        if (damagePower < 20) {
+            p = 0.5 + (double) damagePower / 300.0;
+        } else if (damagePower < 60) {
+            p = 0.75 + (double) (damagePower - 20) / 150.0;
+        } else if (damagePower < 120) {
+            p = 1.0 + (double) (damagePower - 60) / 250.0;
         } else {
-            sb.append(" ").append(totalDamage).append(" 混合伤害");
+            p = 1.25 + (double) (damagePower - 120) / 400.0;
         }
-        sb.append(" ( ").append(physical.getDamage()).append(" 物理・ ");
-        sb.append(magical.getDamage()).append(" 魔法 )");
 
-        SimpleLogger.log.info(sb.toString());
+        double rawPhysical = 0.6 * Math.pow(str, 1.3) * p;
+        double rawMagic = 0.5 * Math.pow(intel, 1.2) * p;
 
-        return totalDamage;
+        double pDef = enemy.getDefense();
+        double mRes = 0.0;
+
+        double physicalReduction = pDef / (pDef + 100.0);
+        double magicReduction = mRes / (mRes + 100.0);
+
+        double finalDamage
+                = rawPhysical * (1 - physicalReduction) * 0.6
+                + rawMagic * (1 - magicReduction) * 0.4;
+
+        if (finalDamage < 1) {
+            finalDamage = 2;
+        }
+
+        player.setBaseAttribute(Math.round((rawPhysical + rawMagic) * 100.0) / 100.0);
+
+        boolean isCritical = Math.random() < player.getCriticalHitRate();
+        if (isCritical) {
+            finalDamage *= 1.25;
+        }
+
+        double min = finalDamage * 0.8;
+        double max = finalDamage * 1.2;
+        int damage = (int) (min + Math.random() * (max - min));
+
+        return new DamageResult(damage, isCritical);
     }
 }

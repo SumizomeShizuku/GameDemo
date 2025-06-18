@@ -2,9 +2,8 @@ package org.demo.calculator;
 
 import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
-import org.demo.util.SimpleLogger;
 
-public class PlayerNormalSkillAttack {
+public class PlayerNormalSkillAttack extends AbstractSkillAttack {
 
     /**
      * 根据职业属性，计算伤害
@@ -13,9 +12,10 @@ public class PlayerNormalSkillAttack {
      * @param damagePower 技能威力
      * @return 伤害
      */
-    public static DamageResult calculateNorDamage(PlayerModelDto player, Enemy enemy) {
+    @Override
+    public DamageResult calculateDamage(PlayerModelDto player, Enemy enemy, int damagePower) {
         int str = player.getStrength();
-        int damagePower = 20;
+        damagePower = 20;
         double p;
         if (damagePower < 20) {
             p = 0.5 + (double) damagePower / 300.0;
@@ -54,29 +54,4 @@ public class PlayerNormalSkillAttack {
         int DamageResult = (int) (min + Math.random() * (max - min));
         return new DamageResult(DamageResult, isCritical);
     }
-
-    /**
-     * 计算玩家对敌人造成的伤害 普通物理攻击
-     *
-     * @param player 玩家属性
-     * @param enemy 敌人对象
-     * @return 伤害值
-     */
-    public static int calculateNormalAttack(PlayerModelDto player, Enemy enemy) {
-        DamageResult damageResult = calculateNorDamage(player, enemy);
-        int damage = damageResult.getDamage();
-        if (damageResult.isCritical()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了[暴击] ").append(damage).append("! 物理伤害");
-            // log.info(sb.toString());
-            SimpleLogger.log.info(sb.toString());
-        } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append(player.getFirstName()).append(" 对 ").append(enemy.getName()).append(" 造成了 ").append(damage).append(" 物理伤害");
-            // log.info(sb.toString());
-            SimpleLogger.log.info(sb.toString());
-        }
-        return damage;
-    }
-
 }
