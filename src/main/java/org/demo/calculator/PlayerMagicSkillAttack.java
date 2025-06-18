@@ -6,11 +6,12 @@ import org.demo.factory.Enemy;
 public class PlayerMagicSkillAttack extends AbstractSkillAttack {
 
     /**
-     * 根据职业属性，计算伤害
+     * 根据属性计算玩家技能造成伤害，以及该伤害是否暴击
      *
-     * @param player 玩家属性
-     * @param damagePower 技能威力
-     * @return 伤害
+     * @param PlayerModelDto 玩家属性
+     * @param enemy 敌人属性
+     * @param damagePower 玩家所选择技能威力
+     * @return DamageResult类型 包含 玩家造成伤害，以及该伤害是否暴击
      */
     @Override
     protected DamageResult calculateDamage(PlayerModelDto player, Enemy enemy, int damagePower) {

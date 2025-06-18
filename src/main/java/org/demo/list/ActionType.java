@@ -4,11 +4,26 @@ package org.demo.list;
  * 动作类型 该枚举定义了游戏中可能的动作类型。 包括普通攻击、技能、增益效果、减益效果等。
  */
 public enum ActionType {
+    /**
+     * 普通攻击
+     */
     NormalAttack,
+    /**
+     * 释放技能
+     */
     Skill,
-    Buff,
-    Debuff,
-    Error; // 错误类型，表示未知或不支持的技能类型
+    /**
+     * 使用道具
+     */
+    UseItem,
+    /**
+     * 防御
+     */
+    Defend,
+    /**
+     * 错误类型，不支持的行动类型
+     */
+    Error;
 
     public static ActionType checkAct(int act) {
         return switch (act) {
@@ -17,9 +32,9 @@ public enum ActionType {
             case 2 ->
                 Skill;
             case 3 ->
-                Buff;
+                UseItem;
             case 4 ->
-                Debuff;
+                Defend;
             default ->
                 Error;
         };

@@ -5,6 +5,14 @@ import org.demo.factory.Enemy;
 
 public class PlayerMixSkillAttack extends AbstractSkillAttack {
 
+    /**
+     * 根据属性计算玩家技能造成伤害，以及该伤害是否暴击
+     *
+     * @param PlayerModelDto 玩家属性
+     * @param enemy 敌人属性
+     * @param damagePower 玩家所选择技能威力
+     * @return DamageResult类型 包含 玩家造成伤害，以及该伤害是否暴击
+     */
     @Override
     protected DamageResult calculateDamage(PlayerModelDto player, Enemy enemy, int damagePower) {
         int str = player.getStrength();
@@ -30,25 +38,46 @@ public class PlayerMixSkillAttack extends AbstractSkillAttack {
         double physicalReduction = pDef / (pDef + 100.0);
         double magicReduction = mRes / (mRes + 100.0);
 
-        double finalDamage
-                = rawPhysical * (1 - physicalReduction) * 0.6
-                + rawMagic * (1 - magicReduction) * 0.4;
+        double physicalDamage = rawPhysical * (1 - physicalReduction) * 0.4;
+        double magicDamage = rawMagic * (1 - magicReduction) * 0.4;
+
+        // double finalDamage = physicalDamage + magicDamage;
+        player.setBaseAttribute(Math.round((rawPhysical + rawMagic) * 100.0) / 100.0);
+
+        // 物理伤害浮动
+        double minphysicalDamage = physicalDamage * 0.8;
+        double maxphysicalDamage = physicalDamage * 1.2;
+
+        // 魔法伤害浮动
+        double minmagicDamage = magicDamage * 0.7;
+        double maxmagicDamage = magicDamage * 1.3;
+
+        // AbstractSkillAttack中的finalPhysicalDamage和finalMagicDamage
+        this.finalPhysicalDamage = (int) (minphysicalDamage + Math.random() * (maxphysicalDamage - minphysicalDamage));
+        this.finalMagicDamage = (int) (minmagicDamage + Math.random() * (maxmagicDamage - minmagicDamage));
+
+        // AbstractSkillAttack中的isPhysicalDamageCritical和isMagicDamageCritical
+        this.isPhysicalDamageCritical = Math.random() < player.getCriticalHitRate();
+        this.isMagicDamageCritical = Math.random() < player.getCriticalHitRate();
+        if (this.isPhysicalDamageCritical) {
+            this.finalPhysicalDamage *= 1.25;
+        }
+
+        if (this.isMagicDamageCritical) {
+            this.finalMagicDamage *= 1.4;
+        }
+
+        boolean isCritical = false;
+        if (this.isPhysicalDamageCritical || this.isMagicDamageCritical) {
+            isCritical = true;
+        }
+
+        int finalDamage = this.finalPhysicalDamage + this.finalMagicDamage;
 
         if (finalDamage < 1) {
             finalDamage = 2;
         }
 
-        player.setBaseAttribute(Math.round((rawPhysical + rawMagic) * 100.0) / 100.0);
-
-        boolean isCritical = Math.random() < player.getCriticalHitRate();
-        if (isCritical) {
-            finalDamage *= 1.25;
-        }
-
-        double min = finalDamage * 0.8;
-        double max = finalDamage * 1.2;
-        int damage = (int) (min + Math.random() * (max - min));
-
-        return new DamageResult(damage, isCritical);
+        return new DamageResult(finalDamage, isCritical);
     }
 }

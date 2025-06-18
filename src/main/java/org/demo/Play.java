@@ -11,7 +11,6 @@ import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
 import org.demo.factory.EnemyFactory;
 import org.demo.factory.PlayerFactory;
-import org.demo.list.Action;
 import org.demo.list.ActionType;
 import org.demo.list.EnemyList;
 import org.demo.list.SkillList;
@@ -37,7 +36,7 @@ public class Play {
         LevelUpHandler levelUpHandler = new LevelUpHandler();
 
         // 模拟玩家获得经验
-        levelUpHandler.handleExpGain(player, 626000);
+        levelUpHandler.handleExpGain(player, 6260);
 
         Map<String, ItemModelDto> bag = new HashMap<>();
         Backpack bp = new Backpack();
@@ -46,11 +45,20 @@ public class Play {
         SimpleLogger.log.info(player.getFirstName() + " 遇到了一只敌人： " + enemy);
 
         // 1:普通攻击, 2:技能, 3:增益技能, 4:减益技能
-        int inputAct = 1; // 模拟玩家输入的技能类型
-        SkillList skillList = SkillList.Skill0002; // 模拟玩家选择的技能
+        // 模拟玩家输入的技能类型
+        int inputAct = 2;
 
+        // 检查玩家操作(攻击、防御、使用道具等)
         ActionType actionType = ActionType.checkAct(inputAct);
-        Action validSkill = new Action(ActionType.Skill, skillList);
+
+        // 模拟玩家选择的技能
+        SkillList skill = SkillList.Skill0001;
+
+        // 如果玩家选择普通攻击以外的行动，但是技能为普通攻击，则调整行动为普通攻击
+        // 仅限测试中才会出现的情况
+        if (inputAct != 1 && skill == SkillList.Skill0001) {
+            actionType = ActionType.checkAct(1);
+        }
 
         for (; true;) {
             if (enemy.getCurrentHp() <= 0) {
@@ -73,28 +81,30 @@ public class Play {
                 break;
             }
 
+            // 模拟玩家选择操作(攻击、防御、使用道具等)
             switch (actionType) {
                 case NormalAttack -> {
                     SimpleLogger.log.info(player.getFirstName() + " 选择了普通攻击");
-                    enemy = PlayerAttackMain.skillAttack(player, enemy, validSkill);
+                    enemy = PlayerAttackMain.skillAttack(player, enemy, SkillList.Skill0001);
                 }
                 case Skill -> {
-                    SimpleLogger.log.info(player.getFirstName() + " 选择了技能" + skillList.getName()
-                            + " [ " + actionType.name() + " - " + skillList.getTypes() + " ]");
-                    enemy = PlayerAttackMain.skillAttack(player, enemy, validSkill);
+                    SimpleLogger.log.info(player.getFirstName() + " 选择了技能" + skill.getName()
+                            + " [ " + actionType.name() + " - " + skill.getTypes() + " ]");
+                    enemy = PlayerAttackMain.skillAttack(player, enemy, skill);
                 }
-                case Buff -> {
-                    SimpleLogger.log.info(player.getFirstName() + " 选择了增益技能");
+                case UseItem -> {
+                    SimpleLogger.log.info(player.getFirstName() + " 选择了使用道具");
                     return;
                 }
-                case Debuff -> {
-                    SimpleLogger.log.info(player.getFirstName() + " 选择了减益技能");
+                case Defend -> {
+                    SimpleLogger.log.info(player.getFirstName() + " 选择了防御");
                     return;
                 }
                 default -> {
                     SimpleLogger.log.error("未知的技能类型: " + actionType);
                     return;
                 }
+
             }
             if (enemy.getCurrentHp() > 0) {
                 SimpleLogger.log.info("敌人 " + enemy.getName() + " 还活着, 当前血量: " + enemy.getCurrentHp());
