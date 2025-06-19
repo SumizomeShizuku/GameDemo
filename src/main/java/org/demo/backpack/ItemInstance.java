@@ -42,6 +42,10 @@ public class ItemInstance {
         attributes.put(key, value);
     }
 
+    public String getName() {
+        return model.getName();
+    }
+
     @Override
     public String toString() {
         if (attributes.isEmpty()) {

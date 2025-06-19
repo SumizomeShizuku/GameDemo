@@ -1,6 +1,7 @@
 package org.demo.factory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +31,10 @@ public class Enemy {
     private final int defense;
     // 掉落经验
     private final int dropExp;
-    // 掉落物品
+    // 可能掉落物品
     private final Map<ItemModelDto, DropInfo> dropItems;
+    // 实际掉落物
+    private final Map<String, ItemModelDto> realDropItems;
 
     /**
      * 构造一个敌人对象。
@@ -47,6 +50,7 @@ public class Enemy {
         this.defense = attr.getDefense();
         this.dropExp = attr.getDropExp();
         this.dropItems = attr.getDropItems();
+        this.realDropItems = new HashMap<>();
     }
 
     /**
@@ -61,6 +65,11 @@ public class Enemy {
     // 获取敌人名字
     public String getName() {
         return name;
+    }
+
+    //获取敌人最大血量
+    public int getMaxHp() {
+        return maxHp;
     }
 
     //获取敌人血量
@@ -86,6 +95,15 @@ public class Enemy {
         return dropItems;
     }
 
+    public Map<String, ItemModelDto> getRealDropItems() {
+        return realDropItems;
+    }
+
+    // 判断敌人是否还活着
+    public boolean isAlive() {
+        return this.currentHp > 0;
+    }
+
     /**
      * 随机掉落一定范围内种类数量的物品，按权重抽取，避免重复。
      *
@@ -103,7 +121,7 @@ public class Enemy {
         Set<ItemModelDto> selected = new HashSet<>();
 
         // 确定要掉落多少种不同物品
-        int minTypes = 0; // 最少掉落0种物品
+        int minTypes = 1; // 最少掉落0种物品
         int maxTypes = 1; // 最多掉落1种物品
         int typeCount = random.nextInt(maxTypes - minTypes + 1) + minTypes;// 随机掉落0到1种物品
         // 如果掉落物品数量超过可选项总数，则限制为可选项总数
@@ -165,6 +183,10 @@ public class Enemy {
         }
 
         return sb.toString();
+    }
+
+    public boolean aliveChaeck() {
+        return true;
     }
 
     @Override

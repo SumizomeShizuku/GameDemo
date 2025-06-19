@@ -7,6 +7,15 @@ import org.demo.list.JobList;
 
 public class PlayerFactory {
 
+    /**
+     * 根据玩家种族和职业编号创建玩家对象。
+     *
+     * @param firstName 玩家名
+     * @param lastName 玩家姓
+     * @param ethnicityNum 种族编号（1~4）
+     * @param jobNum 职业编号（1~4）
+     * @return 构建完成的玩家数据传输对象
+     */
     public static PlayerModelDto createPlayer(String firstName, String lastName, int ethnicityNum, int jobNum) {
         PlayerModelDto player = new PlayerModelDto();
 
@@ -45,6 +54,8 @@ public class PlayerFactory {
         player.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
         player.setBaseAttribute(0.0);
         player.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
+        player.setActionsPerTurn(1);
+        player.setBackpack();
 
         return player;
     }
@@ -77,6 +88,7 @@ public class PlayerFactory {
         player.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
         player.setBaseAttribute(0.0);
         player.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
+        player.setActionsPerTurn(1);
 
         return player;
     }

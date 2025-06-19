@@ -53,8 +53,8 @@ public class PlayerMixSkillAttack extends AbstractSkillAttack {
         double maxmagicDamage = magicDamage * 1.3;
 
         // AbstractSkillAttack中的finalPhysicalDamage和finalMagicDamage
-        this.finalPhysicalDamage = (int) (minphysicalDamage + Math.random() * (maxphysicalDamage - minphysicalDamage));
-        this.finalMagicDamage = (int) (minmagicDamage + Math.random() * (maxmagicDamage - minmagicDamage));
+        this.finalPhysicalDamage = (int) Math.round((minphysicalDamage + Math.random() * (maxphysicalDamage - minphysicalDamage)));
+        this.finalMagicDamage = (int) Math.round((minmagicDamage + Math.random() * (maxmagicDamage - minmagicDamage)));
 
         // AbstractSkillAttack中的isPhysicalDamageCritical和isMagicDamageCritical
         this.isPhysicalDamageCritical = Math.random() < player.getCriticalHitRate();
@@ -75,7 +75,7 @@ public class PlayerMixSkillAttack extends AbstractSkillAttack {
         int finalDamage = this.finalPhysicalDamage + this.finalMagicDamage;
 
         if (finalDamage < 1) {
-            finalDamage = 2;
+            finalDamage = 1;
         }
 
         return new DamageResult(finalDamage, isCritical);

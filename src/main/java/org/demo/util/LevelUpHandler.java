@@ -10,7 +10,7 @@ public class LevelUpHandler {
     /**
      * 在经验更新之后调用，自动处理升级与属性成长
      */
-    public void handleExpGain(PlayerModelDto player, int gainedExp) {
+    public static void handleExpGain(PlayerModelDto player, int gainedExp) {
         if (!(player.getExp() >= ExpList.LEVEL_100.getMinExp())) {
             int oldLevel = ExpList.getLevelByExp(player.getExp()).getLevel();
             if (player.getExp() + gainedExp >= ExpList.LEVEL_100.getMinExp()) {
@@ -24,6 +24,7 @@ public class LevelUpHandler {
                 player.setLevel(newLevel);
                 SimpleLogger.log.info(player.getFirstName() + " 升级了! 当前等级: " + newLevel);
                 applyGrowth(player, levelGained);
+                SimpleLogger.log.info(player.toString());
             }
         }
 
@@ -32,7 +33,7 @@ public class LevelUpHandler {
     /**
      * 应用属性成长逻辑
      */
-    private void applyGrowth(PlayerModelDto player, int levelGained) {
+    private static void applyGrowth(PlayerModelDto player, int levelGained) {
         Random random = new Random();
         double[] weights = player.getJob().getGrowthWeights();
         // int strength = player.getStrength();

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.demo.dto.ItemModelDto;
+import org.demo.util.SimpleLogger;
 
 /**
  * 背包类：管理玩家拥有的物品（支持叠加与非叠加）
@@ -60,13 +61,13 @@ public class Backpack {
     /**
      * 背包展示
      */
-    public String showInventory(Map<String, ItemModelDto> itemConfig) {
+    public void showInventory(Map<String, ItemModelDto> itemConfig) {
         String ln = System.lineSeparator();
         StringBuilder sb = new StringBuilder();
         sb.append(ln).append("📦 背包内容：").append(ln);
         if (stackableItems.isEmpty() && nonStackableItems.isEmpty()) {
             sb.append("背包是空的。").append(ln);
-            return sb.toString();
+            SimpleLogger.log.info(sb.toString());
         }
         for (Map.Entry<String, Integer> entry : stackableItems.entrySet()) {
             String itemId = entry.getKey();
@@ -78,11 +79,17 @@ public class Backpack {
             sb.append(" - ").append(item.toString()).append(ln);
         }
 
-        return sb.toString();
+        SimpleLogger.log.info(sb.toString());
     }
 
     private boolean isStackable(ItemModelDto item) {
         String type = item.getType().toLowerCase();
         return !(type.equals("weapon") || type.equals("armor") || type.equals("accessory"));
     }
+
+    @Override
+    public String toString() {
+        return "Backpack [stackableItems=" + stackableItems + ", nonStackableItems=" + nonStackableItems + "]";
+    }
+
 }

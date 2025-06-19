@@ -1,5 +1,8 @@
 package org.demo.dto;
 
+import java.util.Map;
+
+import org.demo.backpack.Backpack;
 import org.demo.list.EthnicityList;
 import org.demo.list.JobList;
 
@@ -33,6 +36,10 @@ public class PlayerModelDto {
     private int agility;
     // 智力
     private int intelligence;
+    // 防御力
+    private int physicsDefenes;
+    // 魔法防御力
+    private int magicDefenes;
     // HP恢复速度
     private double recoverHP;
     // MP恢复速度
@@ -43,6 +50,12 @@ public class PlayerModelDto {
     private double baseAttribute;
     // 暴击率
     private double criticalHitRate;
+    // 玩家背包
+    private Backpack backpack;
+    // 物品模板
+    private Map<String, ItemModelDto> itemConfig;
+    // 行动力
+    private int actionsPerTurn;
 
     /**
      * 获取玩家的姓
@@ -81,22 +94,21 @@ public class PlayerModelDto {
     }
 
     /**
-     * 获取玩家的经验
+     * 获取玩家的种族
      *
      * @return
      */
-    public int getExp() {
-        return exp;
+    public EthnicityList getEthnicity() {
+        return ethnicity;
     }
 
     /**
-     * 设置玩家的经验
+     * 设置玩家的种族
      *
-     * @param exp 增加的经验值
+     * @param ethnicity 种族类型
      */
-    public void setExp(int exp) {
-        this.exp = exp;
-        // setLevel(getExp());
+    public void setEthnicity(EthnicityList ethnicity) {
+        this.ethnicity = ethnicity;
     }
 
     /**
@@ -118,6 +130,43 @@ public class PlayerModelDto {
     }
 
     /**
+     * 获取玩家的经验
+     *
+     * @return
+     */
+    public int getExp() {
+        return exp;
+    }
+
+    /**
+     * 设置玩家的经验
+     *
+     * @param exp 增加的经验值
+     */
+    public void setExp(int exp) {
+        this.exp = exp;
+        // setLevel(getExp());
+    }
+
+    /**
+     * 获取玩家的等级
+     *
+     * @return
+     */
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     * 设置玩家的等级
+     *
+     * @param level 等级
+     */
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    /**
      * 获取玩家的最大生命值
      *
      * @return
@@ -136,24 +185,6 @@ public class PlayerModelDto {
     }
 
     /**
-     * 获取玩家的最大魔法值
-     *
-     * @return
-     */
-    public int getMaxManaPoint() {
-        return maxManaPoint;
-    }
-
-    /**
-     * 设置玩家的最大魔法值
-     *
-     * @param maxManaPoint 魔法值
-     */
-    public void setMaxManaPoint(int maxManaPoint) {
-        this.maxManaPoint = maxManaPoint;
-    }
-
-    /**
      * 获取玩家的当前生命值
      *
      * @return
@@ -169,6 +200,24 @@ public class PlayerModelDto {
      */
     public void setCurrentHealthPoint(int currentHealthPoint) {
         this.currentHealthPoint = currentHealthPoint;
+    }
+
+    /**
+     * 获取玩家的最大魔法值
+     *
+     * @return
+     */
+    public int getMaxManaPoint() {
+        return maxManaPoint;
+    }
+
+    /**
+     * 设置玩家的最大魔法值
+     *
+     * @param maxManaPoint 魔法值
+     */
+    public void setMaxManaPoint(int maxManaPoint) {
+        this.maxManaPoint = maxManaPoint;
     }
 
     /**
@@ -262,6 +311,42 @@ public class PlayerModelDto {
     }
 
     /**
+     * 获取玩家的防御力
+     *
+     * @return
+     */
+    public int getPhysicsDefenes() {
+        return physicsDefenes;
+    }
+
+    /**
+     * 设置玩家的防御力
+     *
+     * @param physicsDefenes 防御力
+     */
+    public void setPhysicsDefenes(int physicsDefenes) {
+        this.physicsDefenes = physicsDefenes;
+    }
+
+    /**
+     * 获取玩家的魔法防御力
+     *
+     * @return
+     */
+    public int getMagicDefenes() {
+        return magicDefenes;
+    }
+
+    /**
+     * 设置玩家的魔法防御力
+     *
+     * @param magicDefenes 魔法防御力
+     */
+    public void setMagicDefenes(int magicDefenes) {
+        this.magicDefenes = magicDefenes;
+    }
+
+    /**
      * 获取玩家的生命恢复
      *
      * @return
@@ -316,42 +401,6 @@ public class PlayerModelDto {
     }
 
     /**
-     * 获取玩家的种族
-     *
-     * @return
-     */
-    public EthnicityList getEthnicity() {
-        return ethnicity;
-    }
-
-    /**
-     * 设置玩家的种族
-     *
-     * @param ethnicity 种族类型
-     */
-    public void setEthnicity(EthnicityList ethnicity) {
-        this.ethnicity = ethnicity;
-    }
-
-    /**
-     * 获取玩家的等级
-     *
-     * @return
-     */
-    public int getLevel() {
-        return level;
-    }
-
-    /**
-     * 设置玩家的等级
-     *
-     * @param level 等级
-     */
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    /**
      * 获取玩家的基础攻击力
      *
      * @return
@@ -388,6 +437,85 @@ public class PlayerModelDto {
     }
 
     /**
+     * 获取玩家背包
+     *
+     * @return
+     */
+    public Backpack getBackpack() {
+        return backpack;
+    }
+
+    /**
+     * 设置玩家背包
+     *
+     * @param backpack 玩家背包
+     */
+    public void setBackpack() {
+        this.backpack = new Backpack();
+    }
+
+    public Map<String, ItemModelDto> getItemConfig() {
+        return itemConfig;
+    }
+
+    public void setItemConfig(Map<String, ItemModelDto> itemConfig) {
+        this.itemConfig = itemConfig;
+    }
+
+    /**
+     * 获取行动力
+     *
+     * @return
+     */
+    public int getActionsPerTurn() {
+        return actionsPerTurn;
+    }
+
+    /**
+     * 设置行动力
+     *
+     * @param actionsPerTurn 物品实例
+     */
+    public void setActionsPerTurn(int actionsPerTurn) {
+        this.actionsPerTurn = actionsPerTurn;
+    }
+
+    // 玩家受伤判定
+    public void takeDamage(int damage) {
+        this.currentHealthPoint = Math.max(0, currentHealthPoint - damage);
+    }
+
+    /**
+     * 判断玩家是否存活
+     *
+     * @return true:存活, false:死亡
+     */
+    public boolean isAlive() {
+        return this.currentHealthPoint > 0;
+    }
+
+    // 玩家背包添加物品
+    public void addItem(ItemModelDto item, int count) {
+        backpack.addItem(item, count);
+    }
+
+    // 玩家背包移除物品
+    public boolean removeItem(ItemModelDto item, int count) {
+        return backpack.removeItem(item, count);
+    }
+
+    // 玩家背包展示物品
+    public void showInventory(Map<String, ItemModelDto> itemConfig) {
+        this.setItemConfig(itemConfig);
+        backpack.showInventory(getItemConfig());
+    }
+
+    // 玩家背包展示物品
+    public void showInventory() {
+        backpack.showInventory(getItemConfig());
+    }
+
+    /**
      * 获取玩家的属性字符串表示
      *
      * @return 属性字符串
@@ -418,4 +546,5 @@ public class PlayerModelDto {
         sb.append(ln).append("]");
         return sb.toString();
     }
+
 }
