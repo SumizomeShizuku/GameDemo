@@ -10,7 +10,7 @@ public class PlayerAttackMain {
 
     public static Enemy skillAttack(PlayerModelDto player, Enemy enemy, SkillList skillLisl) {
         if (skillLisl == null || skillLisl.hasType(SkillType.Error)) {
-            SimpleLogger.log.error("技能列表为空或错误，无法执行技能攻击。");
+            SimpleLogger.log.error("技能列表为空或错误, 无法执行技能攻击。");
             return enemy;
         }
 

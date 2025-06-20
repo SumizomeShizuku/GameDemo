@@ -4,14 +4,14 @@ import java.util.EnumSet;
 
 import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
-import org.demo.interfaces.PlayerSkillAttack;
+import org.demo.interfaces.EnemySkillAttack;
 import org.demo.list.SkillList;
 import org.demo.list.SkillType;
 
 /**
  * 技能攻击工厂类：支持 EnumSet<SkillType>, 可处理多类型技能。
  */
-public class PlayerSkillAttackFactory {
+public class EnemySkillAttackFactory {
 
     /**
      * 根据技能类型集合返回对应的攻击实现。 当包含 MAGIC 和 PHYSICS 时, 归类为 MIX。
@@ -20,19 +20,19 @@ public class PlayerSkillAttackFactory {
      *
      * @param EnumSet<SkillType> 技能类型(物理、魔法、混合或者其他)
      */
-    public static PlayerSkillAttack getAttack(EnumSet<SkillType> types) {
+    public static EnemySkillAttack getAttack(EnumSet<SkillType> types) {
         if (types.contains(SkillType.Magic) && types.contains(SkillType.Physics)) {
-            return new PlayerMixSkillAttack();
+            return new EnemyNormalSkillAttack();
         } else if (types.contains(SkillType.Mix)) {
-            return new PlayerMixSkillAttack();
+            return new EnemyNormalSkillAttack();
         } else if (types.contains(SkillType.Magic)) {
-            return new PlayerMagicSkillAttack();
+            return new EnemyNormalSkillAttack();
         } else if (types.contains(SkillType.Physics)) {
-            return new PlayerPhysicsSkillAttack();
+            return new EnemyNormalSkillAttack();
         } else if (types.contains(SkillType.Normal)) {
-            return new PlayerNormalSkillAttack();
+            return new EnemyNormalSkillAttack();
         } else {
-            return new PlayerNormalSkillAttack();
+            return new EnemyNormalSkillAttack();
         }
     }
 
@@ -44,9 +44,9 @@ public class PlayerSkillAttackFactory {
      * @param skillList 玩家所选择技能
      * @return 玩家造成伤害
      */
-    public static int calculate(PlayerModelDto player, Enemy enemy, SkillList skillList) {
+    public static int calculate(Enemy enemy, PlayerModelDto player, SkillList skillList) {
         EnumSet<SkillType> types = skillList.getTypes();
-        PlayerSkillAttack attack = getAttack(types);
-        return attack.calculateSkill(player, enemy, skillList);
+        EnemySkillAttack attack = getAttack(types);
+        return attack.calculateSkill(enemy, player, skillList);
     }
 }

@@ -1,6 +1,9 @@
 package org.demo.list;
 
+import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public enum SkillList {
     /**
@@ -8,7 +11,7 @@ public enum SkillList {
      */
     Skill0001("普通攻击",
             EnumSet.of(SkillType.Normal),
-            "使用石头进行攻击，造成物理伤害。",
+            "使用手中的武器攻击，根据武器属性造成伤害",
             10,
             3),
     /**
@@ -145,5 +148,18 @@ public enum SkillList {
      */
     public boolean isErrorSkill() {
         return types.contains(SkillType.Error);
+    }
+
+    /**
+     * 根据传入的技能条目数组生成技能Map
+     *
+     * @param skills 技能条目，每项为 Object[]，第0个元素应为SkillList
+     * @return Map，key为技能编号（如"Skill0001"），value为对应SkillList
+     */
+    public static Map<String, SkillList> skillMap(SkillList... skills) {
+        return Arrays.stream(skills).collect(Collectors.toMap(
+                SkillList::name, // 使用枚举的name()作为key
+                s -> s // 枚举本身作为value
+        ));
     }
 }

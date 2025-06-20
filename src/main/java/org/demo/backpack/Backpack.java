@@ -68,6 +68,7 @@ public class Backpack {
         if (stackableItems.isEmpty() && nonStackableItems.isEmpty()) {
             sb.append("背包是空的。").append(ln);
             SimpleLogger.log.info(sb.toString());
+            return;
         }
         for (Map.Entry<String, Integer> entry : stackableItems.entrySet()) {
             String itemId = entry.getKey();
@@ -80,6 +81,7 @@ public class Backpack {
         }
 
         SimpleLogger.log.info(sb.toString());
+
     }
 
     private boolean isStackable(ItemModelDto item) {

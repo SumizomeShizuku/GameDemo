@@ -114,7 +114,7 @@ public class BattleSystem {
      * @param player 玩家对象
      */
     private static void handleEnemyTurn(Enemy enemy, PlayerModelDto player) {
-        EnemyAttackMain.normalAttack(enemy, player);
+        EnemyAttackMain.normalAttack(enemy, player, SkillList.Skill0001);
 
         // int damage = enemy.attack(player);
         // log(enemy.getName() + " 攻击造成 " + damage + " 点伤害");

@@ -2,22 +2,22 @@ package org.demo.calculator;
 
 import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
-import org.demo.util.SimpleLogger;
 
 /**
  * 敌人的普通物理攻击
  */
-public class EnemyNormalAttack {
+public class EnemyNormalSkillAttack extends AbstractEnemySkillAttack {
 
     /**
-     * 敌人对玩家发动一次普通攻击，返回 DamageResult 并自动扣血
+     * 敌人对玩家发动一次普通攻击, 返回 DamageResult 并自动扣血
      */
-    public static DamageResult attack(Enemy enemy, PlayerModelDto player) {
+    @Override
+    public DamageResult calculateDamage(Enemy enemy, PlayerModelDto player, int damagePower) {
 
         int atk = enemy.getAttack();       // 敌人攻击力  :contentReference[oaicite:1]{index=1}
-        int damagePower = 20;              // 固定威力，与玩家普通技保持一致 :contentReference[oaicite:2]{index=2}
+        damagePower = 20;              // 固定威力, 与玩家普通技保持一致 :contentReference[oaicite:2]{index=2}
 
-        /* ==== 1. 伤害系数 p，与现有 Normal 技能完全相同 ==== */
+        /* ==== 1. 伤害系数 p, 与现有 Normal 技能完全相同 ==== */
         double p;
         if (damagePower < 20) {
             p = 0.5 + (double) damagePower / 300.0;
@@ -32,7 +32,7 @@ public class EnemyNormalAttack {
         /* ==== 2. 基础伤害 ==== */
         double rawDamage = 0.6 * Math.pow(atk, 1.3) * p;
 
-        /* ==== 3. 防御减伤，与玩家 → 敌人公式对称 ==== */
+        /* ==== 3. 防御减伤, 与玩家 → 敌人公式对称 ==== */
         int playerDEF = player.getPhysicsDefenes();
         double defenseRatio = (double) playerDEF / (playerDEF + 100.0);
         double finalDamage = rawDamage * (1.0 - defenseRatio);
@@ -51,12 +51,6 @@ public class EnemyNormalAttack {
         double min = finalDamage * 0.80;
         double max = finalDamage * 1.20;
         int damage = (int) (min + Math.random() * (max - min));
-
-        /* ==== 6. 扣血并记录 ===== */
-        player.takeDamage(damage);    // 刚刚添加的快捷方法
-        SimpleLogger.log.info(enemy.getName() + " 对 " + player.getFirstName()
-                + " 造成了" + (isCritical ? "[暴击] " : " ")
-                + damage + " 点物理伤害。");
 
         return new DamageResult(damage, isCritical);
     }

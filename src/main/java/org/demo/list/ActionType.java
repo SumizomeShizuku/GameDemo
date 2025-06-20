@@ -21,7 +21,7 @@ public enum ActionType {
      */
     Defend,
     /**
-     * 错误类型，不支持的行动类型
+     * 错误类型, 不支持的行动类型
      */
     Error;
 

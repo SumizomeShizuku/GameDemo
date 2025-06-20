@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.demo.dto.ItemModelDto;
 
 /**
- * 玩家实际拥有的物品实例（装备类），用于存储不可叠加物品及其附加属性。
+ * 玩家实际拥有的物品实例（装备类）, 用于存储不可叠加物品及其附加属性。
  */
 public class ItemInstance {
 

@@ -11,9 +11,10 @@ import java.util.Set;
 import org.demo.dto.EnemyModelDto;
 import org.demo.dto.ItemModelDto;
 import org.demo.list.DropInfo;
+import org.demo.list.SkillList;
 
 /**
- * 敌人类，表示游戏中的敌人。 包含敌人的属性和行为。
+ * 敌人类, 表示游戏中的敌人。 包含敌人的属性和行为。
  */
 public class Enemy {
 
@@ -35,11 +36,13 @@ public class Enemy {
     private final Map<ItemModelDto, DropInfo> dropItems;
     // 实际掉落物
     private final Map<String, ItemModelDto> realDropItems;
+    // 敌人技能
+    private final Map<String, SkillList> enemySkills;
 
     /**
      * 构造一个敌人对象。
      *
-     * @param attr 敌人模型数据传输对象，包含敌人的属性
+     * @param attr 敌人模型数据传输对象, 包含敌人的属性
      */
     public Enemy(EnemyModelDto attr) {
         this.id = attr.getId();
@@ -51,6 +54,7 @@ public class Enemy {
         this.dropExp = attr.getDropExp();
         this.dropItems = attr.getDropItems();
         this.realDropItems = new HashMap<>();
+        this.enemySkills = attr.getEnemySkills();
     }
 
     /**
@@ -99,13 +103,17 @@ public class Enemy {
         return realDropItems;
     }
 
+    public Map<String, SkillList> getEnemySkills() {
+        return enemySkills;
+    }
+
     // 判断敌人是否还活着
     public boolean isAlive() {
         return this.currentHp > 0;
     }
 
     /**
-     * 随机掉落一定范围内种类数量的物品，按权重抽取，避免重复。
+     * 随机掉落一定范围内种类数量的物品, 按权重抽取, 避免重复。
      *
      * @param minTypes 最少掉落几种物品
      * @param maxTypes 最多掉落几种物品
@@ -121,10 +129,10 @@ public class Enemy {
         Set<ItemModelDto> selected = new HashSet<>();
 
         // 确定要掉落多少种不同物品
-        int minTypes = 1; // 最少掉落0种物品
+        int minTypes = 0; // 最少掉落0种物品
         int maxTypes = 1; // 最多掉落1种物品
         int typeCount = random.nextInt(maxTypes - minTypes + 1) + minTypes;// 随机掉落0到1种物品
-        // 如果掉落物品数量超过可选项总数，则限制为可选项总数
+        // 如果掉落物品数量超过可选项总数, 则限制为可选项总数
         // 限制不超过可选项总数
         typeCount = Math.min(typeCount, dropItems.size());
 

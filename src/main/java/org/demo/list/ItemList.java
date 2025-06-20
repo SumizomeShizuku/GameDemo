@@ -12,7 +12,7 @@ import org.demo.dto.ItemModelDto;
  * <p>
  * 该类定义了游戏中的物品类型及其属性。
  * <p>
- * 每个物品类型包含一个模板 {@link ItemModelDto}，用于描述物品的基本属性。
+ * 每个物品类型包含一个模板 {@link ItemModelDto}, 用于描述物品的基本属性。
  */
 public enum ItemList {
     ORC_AXE("兽人斧", "weapon", "一把沉重的斧头", 200),
@@ -52,7 +52,7 @@ public enum ItemList {
     }
 
     /**
-     * 创建一个物品条目，包含物品、概率和数量
+     * 创建一个物品条目, 包含物品、概率和数量
      */
     public static Object[] entry(ItemList item, double weight, int minQty, int maxQty) {
         return new Object[]{item, weight, minQty, maxQty};

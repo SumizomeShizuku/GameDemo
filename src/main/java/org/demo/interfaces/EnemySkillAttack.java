@@ -4,7 +4,7 @@ import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
 import org.demo.list.SkillList;
 
-public interface PlayerSkillAttack {
+public interface EnemySkillAttack {
 
     /**
      * 技能主流程, 返回最终伤害值（不包含结构信息）
@@ -14,5 +14,5 @@ public interface PlayerSkillAttack {
      * @param skillList 玩家所选择技能
      * @return 玩家造成伤害
      */
-    int calculateSkill(PlayerModelDto player, Enemy enemy, SkillList skillList);
+    int calculateSkill(Enemy enemy, PlayerModelDto player, SkillList skillList);
 }

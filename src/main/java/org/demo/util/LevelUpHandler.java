@@ -8,7 +8,7 @@ import org.demo.list.ExpList;
 public class LevelUpHandler {
 
     /**
-     * 在经验更新之后调用，自动处理升级与属性成长
+     * 在经验更新之后调用, 自动处理升级与属性成长
      */
     public static void handleExpGain(PlayerModelDto player, int gainedExp) {
         if (!(player.getExp() >= ExpList.LEVEL_100.getMinExp())) {
@@ -59,6 +59,15 @@ public class LevelUpHandler {
         player.setAgility(player.getAgility() + agilityLeveUp);
         // intelligence = intelligence + intelligenceLeveUp;
         player.setIntelligence(player.getIntelligence() + intelligenceLeveUp);
+
+        // **新增: 计算并应用生命值和魔法值成长**
+        int hpIncrease = (int) Math.round(5 * levelGained + 0.1 * player.getStrength() * levelGained);
+        int mpIncrease = (int) Math.round(5 * levelGained + 0.125 * player.getIntelligence() * levelGained);
+        player.setMaxHealthPoint(player.getMaxHealthPoint() + hpIncrease);
+        player.setMaxManaPoint(player.getMaxManaPoint() + mpIncrease);
+        // 可选: 升级时恢复生命和魔法到新上限
+        player.setCurrentHealthPoint(player.getMaxHealthPoint());
+        player.setCurrentManaPoint(player.getMaxManaPoint());
 
         StringBuilder sb = new StringBuilder();
         sb.append("升级属性分布: 力量: ").append(strengthLeveUp)

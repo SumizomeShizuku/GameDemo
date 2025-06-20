@@ -3,6 +3,7 @@ package org.demo.dto;
 import java.util.Map;
 
 import org.demo.list.DropInfo;
+import org.demo.list.SkillList;
 
 public class EnemyModelDto {
 
@@ -20,6 +21,8 @@ public class EnemyModelDto {
     private final int dropExp;
     // 使用 Map<ItemModelDto, DropInfo> 表示每个物品及其掉落权重/概率/数量
     private final Map<ItemModelDto, DropInfo> dropItems;
+    // 敌人技能
+    private final Map<String, SkillList> enemySkills;
 
     /**
      * 构造一个敌人模型数据传输对象。
@@ -32,7 +35,7 @@ public class EnemyModelDto {
      * @param dropExp 掉落经验
      * @param dropItems 掉落物品
      */
-    public EnemyModelDto(String id, String name, int maxHp, int attack, int defense, int dropExp, Map<ItemModelDto, DropInfo> dropItems) {
+    public EnemyModelDto(String id, String name, int maxHp, int attack, int defense, int dropExp, Map<ItemModelDto, DropInfo> dropItems, Map<String, SkillList> enemySkills) {
         this.id = id;
         this.name = name;
         this.maxHp = maxHp;
@@ -40,6 +43,7 @@ public class EnemyModelDto {
         this.defense = defense;
         this.dropExp = dropExp;
         this.dropItems = dropItems;
+        this.enemySkills = enemySkills;
     }
 
     /**
@@ -93,6 +97,10 @@ public class EnemyModelDto {
 
     public Map<ItemModelDto, DropInfo> getDropItems() {
         return dropItems;
+    }
+
+    public Map<String, SkillList> getEnemySkills() {
+        return enemySkills;
     }
 
     @Override

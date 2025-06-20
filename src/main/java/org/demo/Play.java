@@ -26,9 +26,10 @@ public class Play {
 
         Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
         SimpleLogger.log.info(player.getFirstName() + " 遇到了一只敌人： " + enemy);
+        enemy.getEnemySkills();
 
         BattleSystem.startBattle(player, enemy);
 
-        player.showInventory();
+        // player.showInventory();
     }
 }
