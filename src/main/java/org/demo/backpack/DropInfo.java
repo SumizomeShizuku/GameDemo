@@ -1,4 +1,4 @@
-package org.demo.list;
+package org.demo.backpack;
 
 public class DropInfo {
 

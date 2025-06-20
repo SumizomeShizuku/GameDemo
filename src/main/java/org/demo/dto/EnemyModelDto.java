@@ -2,7 +2,7 @@ package org.demo.dto;
 
 import java.util.Map;
 
-import org.demo.list.DropInfo;
+import org.demo.backpack.DropInfo;
 import org.demo.list.SkillList;
 
 public class EnemyModelDto {
@@ -19,7 +19,10 @@ public class EnemyModelDto {
     private final int defense;
     // 掉落经验
     private final int dropExp;
+    // 物品掉落率
+    private final double dropRate;
     // 使用 Map<ItemModelDto, DropInfo> 表示每个物品及其掉落权重/概率/数量
+    // 掉落物品表
     private final Map<ItemModelDto, DropInfo> dropItems;
     // 敌人技能
     private final Map<String, SkillList> enemySkills;
@@ -33,15 +36,19 @@ public class EnemyModelDto {
      * @param attack 攻击力
      * @param defense 防御力
      * @param dropExp 掉落经验
-     * @param dropItems 掉落物品
+     * @param dropExp 物品掉落率
+     * @param dropItems 掉落物品表
+     * @param enemySkills 敌人技能
      */
-    public EnemyModelDto(String id, String name, int maxHp, int attack, int defense, int dropExp, Map<ItemModelDto, DropInfo> dropItems, Map<String, SkillList> enemySkills) {
+    public EnemyModelDto(String id, String name, int maxHp, int attack, int defense, int dropExp, double dropRate,
+            Map<ItemModelDto, DropInfo> dropItems, Map<String, SkillList> enemySkills) {
         this.id = id;
         this.name = name;
         this.maxHp = maxHp;
         this.attack = attack;
         this.defense = defense;
         this.dropExp = dropExp;
+        this.dropRate = dropRate;
         this.dropItems = dropItems;
         this.enemySkills = enemySkills;
     }
@@ -91,14 +98,38 @@ public class EnemyModelDto {
         return defense;
     }
 
+    /**
+     * 获取敌人掉落经验
+     *
+     * @return 掉落经验
+     */
     public int getDropExp() {
         return dropExp;
     }
 
+    /**
+     * 获取敌人物品掉落率
+     *
+     * @return 物品掉落率
+     */
+    public double getDropRate() {
+        return dropRate;
+    }
+
+    /**
+     * 获取敌人掉落物品表
+     *
+     * @return 掉落物品表
+     */
     public Map<ItemModelDto, DropInfo> getDropItems() {
         return dropItems;
     }
 
+    /**
+     * 获取敌人技能
+     *
+     * @return 敌人技能
+     */
     public Map<String, SkillList> getEnemySkills() {
         return enemySkills;
     }
@@ -115,4 +146,5 @@ public class EnemyModelDto {
                 + ", 掉落物品=" + dropItems.toString()
                 + '}';
     }
+
 }

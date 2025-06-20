@@ -2,15 +2,14 @@ package org.demo.factory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
+import org.demo.backpack.DropInfo;
+import org.demo.backpack.GenerateDrops;
 import org.demo.dto.EnemyModelDto;
 import org.demo.dto.ItemModelDto;
-import org.demo.list.DropInfo;
 import org.demo.list.SkillList;
 
 /**
@@ -32,9 +31,11 @@ public class Enemy {
     private final int defense;
     // 掉落经验
     private final int dropExp;
+    // 物品掉落率
+    private final double dropRate;
     // 可能掉落物品
     private final Map<ItemModelDto, DropInfo> dropItems;
-    // 实际掉落物
+    // 敌人掉落实体
     private final Map<String, ItemModelDto> realDropItems;
     // 敌人技能
     private final Map<String, SkillList> enemySkills;
@@ -52,6 +53,7 @@ public class Enemy {
         this.attack = attr.getAttack();
         this.defense = attr.getDefense();
         this.dropExp = attr.getDropExp();
+        this.dropRate = attr.getDropRate();
         this.dropItems = attr.getDropItems();
         this.realDropItems = new HashMap<>();
         this.enemySkills = attr.getEnemySkills();
@@ -91,23 +93,56 @@ public class Enemy {
         return defense;
     }
 
+    /**
+     * 获取敌人掉落经验
+     *
+     * @return 掉落经验
+     */
     public int getDropExp() {
         return dropExp;
     }
 
+    /**
+     * 获取敌人物品掉落率
+     *
+     * @return 物品掉落率
+     */
+    public double getDropRate() {
+        return dropRate;
+    }
+
+    /**
+     * 获取敌人掉落物品表
+     *
+     * @return 掉落物品表
+     */
     public Map<ItemModelDto, DropInfo> getDropItems() {
         return dropItems;
     }
 
+    /**
+     * 获取敌人掉落实体
+     *
+     * @return 敌人掉落实体
+     */
     public Map<String, ItemModelDto> getRealDropItems() {
         return realDropItems;
     }
 
+    /**
+     * 获取敌人技能
+     *
+     * @return 敌人技能
+     */
     public Map<String, SkillList> getEnemySkills() {
         return enemySkills;
     }
 
-    // 判断敌人是否还活着
+    /**
+     * 判断敌人是否存活
+     *
+     * @return true:存活, false:死亡
+     */
     public boolean isAlive() {
         return this.currentHp > 0;
     }
@@ -115,55 +150,54 @@ public class Enemy {
     /**
      * 随机掉落一定范围内种类数量的物品, 按权重抽取, 避免重复。
      *
+     * @param droppedItems 物品掉落率, 默认80%
      * @return 掉落的物品列表（可能包含相同物品多次）
      */
-    public List<ItemModelDto> generateDrops() {
-        List<ItemModelDto> drops = new ArrayList<>();
-        if (dropItems.isEmpty()) {
-            return drops;
-        }
+    public List<ItemModelDto> generateDrops(Enemy enemy) {
+        List<ItemModelDto> drops = GenerateDrops.generateDrops(enemy);
 
-        Random random = new Random();
-        Set<ItemModelDto> selected = new HashSet<>();
-
-        // 确定要掉落多少种不同物品
-        int minTypes = 0; // 最少掉落0种物品
-        int maxTypes = 1; // 最多掉落1种物品
-        int typeCount = random.nextInt(maxTypes - minTypes + 1) + minTypes;// 随机掉落0到1种物品
-        // 如果掉落物品数量超过可选项总数, 则限制为可选项总数
-        // 限制不超过可选项总数
-        typeCount = Math.min(typeCount, dropItems.size());
-
-        for (int i = 0; i < typeCount; i++) {
-            double totalWeight = dropItems.entrySet().stream()
-                    .filter(e -> !selected.contains(e.getKey()))
-                    .mapToDouble(e -> e.getValue().getWeight())
-                    .sum();
-
-            if (totalWeight <= 0) {
-                break;
-            }
-
-            double roll = random.nextDouble() * totalWeight;
-            double current = 0;
-
-            for (Map.Entry<ItemModelDto, DropInfo> entry : dropItems.entrySet()) {
-                if (selected.contains(entry.getKey())) {
-                    continue;
-                }
-
-                current += entry.getValue().getWeight();
-                if (roll < current) {
-                    selected.add(entry.getKey());
-                    int qty = entry.getValue().getRandomQuantity();
-                    for (int j = 0; j < qty; j++) {
-                        drops.add(entry.getKey());
-                    }
-                    break;
-                }
-            }
-        }
-
+        // List<ItemModelDto> drops = new ArrayList<>();
+        // if (dropItems.isEmpty()) {
+        //     return drops;
+        // }
+        // Random random = new Random();
+        // // 判断是否掉落
+        // if (random.nextDouble() > dropRate) {
+        //     return drops; // 不掉落任何物品
+        // }
+        // Set<ItemModelDto> selected = new HashSet<>();
+        // // 确定要掉落多少种不同物品
+        // int minTypes = 1; // 最少掉落0种物品
+        // int maxTypes = 1; // 最多掉落1种物品
+        // int typeCount = random.nextInt(maxTypes - minTypes + 1) + minTypes;// 随机掉落0到1种物品
+        // // 如果掉落物品数量超过可选项总数, 则限制为可选项总数
+        // // 限制不超过可选项总数
+        // typeCount = Math.min(typeCount, dropItems.size());
+        // for (int i = 0; i < typeCount; i++) {
+        //     double totalWeight = dropItems.entrySet().stream()
+        //             .filter(e -> !selected.contains(e.getKey()))
+        //             .mapToDouble(e -> e.getValue().getWeight())
+        //             .sum();
+        //     if (totalWeight <= 0) {
+        //         break;
+        //     }
+        //     double roll = random.nextDouble() * totalWeight;
+        //     double current = 0;
+        //     for (Map.Entry<ItemModelDto, DropInfo> entry : dropItems.entrySet()) {
+        //         if (selected.contains(entry.getKey())) {
+        //             continue;
+        //         }
+        //         current += entry.getValue().getWeight();
+        //         if (roll < current) {
+        //             selected.add(entry.getKey());
+        //             int qty = entry.getValue().getRandomQuantity();
+        //             for (int j = 0; j < qty; j++) {
+        //                 drops.add(entry.getKey());
+        //             }
+        //             break;
+        //         }
+        //     }
+        // }
         return drops;
     }
 
@@ -226,4 +260,5 @@ public class Enemy {
     public String toString() {
         return name + "[" + id + "]" + " (HP: " + currentHp + "/" + maxHp + ")";
     }
+
 }

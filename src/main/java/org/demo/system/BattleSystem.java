@@ -132,7 +132,7 @@ public class BattleSystem {
         LevelUpHandler.handleExpGain(player, exp);
         log("获得经验：" + exp);
 
-        List<ItemModelDto> drops = enemy.generateDrops();
+        List<ItemModelDto> drops = enemy.generateDrops(enemy);
         if (drops.isEmpty()) {
             SimpleLogger.log.info("没有掉落物品。");
         } else {
