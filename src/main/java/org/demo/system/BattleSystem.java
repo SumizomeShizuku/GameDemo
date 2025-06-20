@@ -31,9 +31,9 @@ public class BattleSystem {
         // 主战斗循环
         while (player.isAlive() && enemy.isAlive()) {
             log("==== 第 " + round + " 回合 ====");
-
-            boolean enemyDefeated = handlePlayerTurn(player, enemy);
+            log("玩家血量: " + player.getCurrentHealthPoint() + " / " + player.getMaxHealthPoint());
             log("敌人血量: " + enemy.getCurrentHp() + " / " + enemy.getMaxHp());
+            boolean enemyDefeated = handlePlayerTurn(player, enemy);
 
             if (enemyDefeated) {
                 handleVictory(player, enemy);
@@ -41,7 +41,6 @@ public class BattleSystem {
             }
 
             handleEnemyTurn(enemy, player);
-            log("玩家血量: " + player.getCurrentHealthPoint() + " / " + player.getMaxHealthPoint());
 
             if (!player.isAlive()) {
                 log("你被击败了...");
@@ -100,6 +99,8 @@ public class BattleSystem {
             // PlayerAttackMain.skillAttack(player, enemy, skill);
             if (!enemy.isAlive()) {
                 log(enemy.getName() + " 已被击败！");
+                log("敌人血量: " + enemy.getCurrentHp() + " / " + enemy.getMaxHp());
+                log("玩家血量: " + player.getCurrentHealthPoint() + " / " + player.getMaxHealthPoint());
                 return true; // 敌人死亡，提前结束玩家回合
             } else {
                 return false;
@@ -114,10 +115,9 @@ public class BattleSystem {
      * @param player 玩家对象
      */
     private static void handleEnemyTurn(Enemy enemy, PlayerModelDto player) {
-        EnemyAttackMain.normalAttack(enemy, player, SkillList.Skill0001);
-
-        // int damage = enemy.attack(player);
-        // log(enemy.getName() + " 攻击造成 " + damage + " 点伤害");
+        SkillList skill = SkillList.Skill0003;
+        // SkillList skill = Enemy.getEnemyRandomSkill(enemy.getEnemySkills());
+        EnemyAttackMain.skillAttack(enemy, player, skill);
     }
 
     /**

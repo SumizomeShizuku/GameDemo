@@ -6,10 +6,15 @@ import org.demo.factory.Enemy;
 /**
  * 敌人的普通物理攻击
  */
-public class EnemyNormalSkillAttack extends AbstractEnemySkillAttack {
+public class EnemyNormalSkillAttack extends EnemyAbstractSkillAttack {
 
     /**
-     * 敌人对玩家发动一次普通攻击, 返回 DamageResult 并自动扣血
+     * 根据属性计算敌人技能造成伤害, 以及该伤害是否暴击
+     *
+     * @param enemy 敌人属性
+     * @param PlayerModelDto 玩家属性
+     * @param damagePower 技能威力
+     * @return DamageResult类型 包含 玩家造成伤害, 以及该伤害是否暴击
      */
     @Override
     public DamageResult calculateDamage(Enemy enemy, PlayerModelDto player, int damagePower) {

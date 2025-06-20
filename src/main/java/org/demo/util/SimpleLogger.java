@@ -8,23 +8,24 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * 简易日志工具类, 用于将日志消息记录到文件。
+ * 简易日志工具类, 每15分钟自动切换日志文件。
  *
  * <p>
- * 每次程序启动时会在 Logs 目录下创建一个带有日期和时间后缀的日志文件, 例如 log_20250620_112437.txt。整个程序运行期间,
- * 所有日志都追加写入此文件。 日志格式为：2025-06-20 11:24:37 [INFO] 日志内容</p>
+ * 日志文件以每小时的 00、15、30、45 分为分割点。任何日志都会被写入当前15分钟对应的日志文件。 日志文件名格式为
+ * log_20250620_1115.txt, 表示2025年6月20日11:15起的15分钟内的所有日志。</p>
+ * <p>
+ * 日志行格式为：2025-06-20 11:24:37 [INFO] 日志内容</p>
  */
 public class SimpleLogger {
 
     private static final String LOG_DIR_PATH = "Logs";
-    // 日志文件名包含当前日期和时间, 唯一标识本次运行
-    private static final String LOG_FILE_NAME
-            = "log_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")) + ".log";
-    // 日志时间戳格式
-    private static final DateTimeFormatter LOG_TIME_FORMATTER
-            = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter FILE_NAME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmm");
+    private static final DateTimeFormatter LOG_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    // 公共 Log 实例
+    // 保留上一次写日志时所在的时间段和日志文件名
+    private static String currentLogFileName = getLogFileNameByTime(LocalDateTime.now());
+    private static LocalDateTime currentLogPeriod = getPeriodStart(LocalDateTime.now());
+
     public static final Log log = new Log();
 
     /**
@@ -69,27 +70,35 @@ public class SimpleLogger {
         }
 
         /**
-         * 以指定日志级别格式化消息并写入日志文件。 日志格式如：2025-06-20 11:24:37 [INFO] xxx
+         * 按时间段切割日志文件, 并追加写入日志。
          *
          * @param level 日志级别
          * @param message 日志内容
          */
         private void logWithLevel(String level, String message) {
-            // 获取当前时间字符串
-            String timestamp = LocalDateTime.now().format(LOG_TIME_FORMATTER);
-            // 格式化日志内容
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime periodStart = getPeriodStart(now);
+
+            // 检查是否进入新的15分钟区间, 切换文件名
+            synchronized (SimpleLogger.class) {
+                if (!periodStart.equals(currentLogPeriod)) {
+                    currentLogFileName = getLogFileNameByTime(now);
+                    currentLogPeriod = periodStart;
+                }
+            }
+
+            // 日志格式
+            String timestamp = now.format(LOG_TIME_FORMATTER);
             String formatted = String.format("%s [%s] %s", timestamp, level, message);
 
-            // 创建日志目录（如不存在）
+            // 确保目录存在
             File logDir = new File(LOG_DIR_PATH);
             if (!logDir.exists()) {
                 logDir.mkdirs();
             }
 
-            // 日志文件（本次运行唯一）
-            File logFile = new File(logDir, LOG_FILE_NAME);
-
-            // 写入日志文件（追加模式）
+            // 写入日志（追加模式）
+            File logFile = new File(logDir, currentLogFileName);
             try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
                 writer.println(formatted);
             } catch (IOException e) {
@@ -100,9 +109,33 @@ public class SimpleLogger {
         @Override
         public String toString() {
             return "Log{"
-                    + "logFile='" + LOG_FILE_NAME + '\''
-                    + ", logDir='" + LOG_DIR_PATH + '\''
+                    + "currentLogFileName='" + currentLogFileName + '\''
+                    + ", currentLogPeriod=" + currentLogPeriod
                     + '}';
         }
+    }
+
+    /**
+     * 获取当前时间属于哪个15分钟段的起始时间。
+     *
+     * @param time 当前时间
+     * @return 本段起始时间
+     */
+    private static LocalDateTime getPeriodStart(LocalDateTime time) {
+        int minute = time.getMinute();
+        int periodMinute = (minute / 15) * 15;
+        return time.withMinute(periodMinute).withSecond(0).withNano(0);
+    }
+
+    /**
+     * 根据时间生成日志文件名, 形如 log_20250620_1115.txt
+     *
+     * @param time 时间
+     * @return 日志文件名
+     */
+    private static String getLogFileNameByTime(LocalDateTime time) {
+        LocalDateTime periodStart = getPeriodStart(time);
+        String timePart = periodStart.format(FILE_NAME_FORMATTER);
+        return "log_" + timePart + ".log";
     }
 }

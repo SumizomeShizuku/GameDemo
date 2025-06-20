@@ -115,8 +115,6 @@ public class Enemy {
     /**
      * 随机掉落一定范围内种类数量的物品, 按权重抽取, 避免重复。
      *
-     * @param minTypes 最少掉落几种物品
-     * @param maxTypes 最多掉落几种物品
      * @return 掉落的物品列表（可能包含相同物品多次）
      */
     public List<ItemModelDto> generateDrops() {
@@ -169,6 +167,12 @@ public class Enemy {
         return drops;
     }
 
+    /**
+     * 将掉落的物品列表转换为文字列
+     *
+     * @param droppedItems
+     * @return 掉落物(文字列)
+     */
     public String formatDropItems(List<ItemModelDto> droppedItems) {
         StringBuilder sb = new StringBuilder();
         String ln = System.lineSeparator();
@@ -193,6 +197,27 @@ public class Enemy {
         return sb.toString();
     }
 
+    /**
+     * 从敌人的技能列表中随机获取一个技能
+     *
+     * @param skillMap 敌人技能Map
+     * @return 随机技能（SkillList）
+     */
+    public static SkillList getEnemyRandomSkill(Map<String, SkillList> skillMap) {
+        if (skillMap == null || skillMap.isEmpty()) {
+            return null;
+        }
+        List<SkillList> skillList = new ArrayList<>(skillMap.values());
+        Random random = new Random();
+        int index = random.nextInt(skillList.size());
+        return skillList.get(index);
+    }
+
+    /**
+     * 检查敌人是否存活
+     *
+     * @return
+     */
     public boolean aliveChaeck() {
         return true;
     }

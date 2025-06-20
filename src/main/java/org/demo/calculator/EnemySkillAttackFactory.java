@@ -26,7 +26,7 @@ public class EnemySkillAttackFactory {
         } else if (types.contains(SkillType.Mix)) {
             return new EnemyNormalSkillAttack();
         } else if (types.contains(SkillType.Magic)) {
-            return new EnemyNormalSkillAttack();
+            return new EnemyMagicSkillAttack();
         } else if (types.contains(SkillType.Physics)) {
             return new EnemyNormalSkillAttack();
         } else if (types.contains(SkillType.Normal)) {

@@ -3,7 +3,7 @@ package org.demo.calculator;
 import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
 
-public class PlayerMagicSkillAttack extends AbstractPlayerSkillAttack {
+public class PlayerMagicSkillAttack extends PlayerAbstractSkillAttack {
 
     /**
      * 根据属性计算玩家技能造成伤害, 以及该伤害是否暴击

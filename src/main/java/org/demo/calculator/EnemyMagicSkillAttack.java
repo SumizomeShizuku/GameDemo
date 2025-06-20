@@ -3,20 +3,19 @@ package org.demo.calculator;
 import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
 
-public class PlayerNormalSkillAttack extends PlayerAbstractSkillAttack {
+public class EnemyMagicSkillAttack extends EnemyAbstractSkillAttack {
 
     /**
-     * 根据属性计算玩家技能造成伤害, 以及该伤害是否暴击
+     * 根据属性计算敌人技能造成伤害, 以及该伤害是否暴击
      *
-     * @param PlayerModelDto 玩家属性
      * @param enemy 敌人属性
+     * @param PlayerModelDto 玩家属性
      * @param damagePower 技能威力
      * @return DamageResult类型 包含 玩家造成伤害, 以及该伤害是否暴击
      */
     @Override
-    public DamageResult calculateDamage(PlayerModelDto player, Enemy enemy, int damagePower) {
-        int str = player.getStrength();
-        damagePower = 20;
+    protected DamageResult calculateDamage(Enemy enemy, PlayerModelDto player, int damagePower) {
+        int intelli = player.getIntelligence();
         double p;
         if (damagePower < 20) {
             p = 0.5 + (double) damagePower / 300.0;
@@ -29,9 +28,9 @@ public class PlayerNormalSkillAttack extends PlayerAbstractSkillAttack {
         }
         double rawDamage;
         if (damagePower == 1) {
-            rawDamage = str * Math.pow(str, 0.08) / 2;
+            rawDamage = intelli * Math.pow(intelli, 0.08) / 2;
         } else {
-            rawDamage = 0.6 * Math.pow(str, 1.3) * p;
+            rawDamage = 0.6 * Math.pow(intelli, 1.3) * p;
         }
 
         int enemyPDEF = enemy.getDefense();
@@ -42,17 +41,16 @@ public class PlayerNormalSkillAttack extends PlayerAbstractSkillAttack {
             finalDamage = 2; // 最小伤害为2
         }
 
-        player.setBaseAttribute(Math.round(rawDamage * 100.0) / 100.0);
-
         boolean isCritical = Math.random() < player.getCriticalHitRate();
         if (isCritical) {
             finalDamage = finalDamage * 1.25;
         }
 
-        double min = finalDamage * 0.80;
-        double max = finalDamage * 1.20;
+        double min = finalDamage * 0.60;
+        double max = finalDamage * 1.40;
 
         int DamageResult = (int) (min + Math.random() * (max - min));
         return new DamageResult(DamageResult, isCritical);
     }
+
 }

@@ -3,14 +3,14 @@ package org.demo.calculator;
 import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
 
-public class PlayerMixSkillAttack extends AbstractPlayerSkillAttack {
+public class PlayerMixSkillAttack extends PlayerAbstractSkillAttack {
 
     /**
      * 根据属性计算玩家技能造成伤害, 以及该伤害是否暴击
      *
      * @param PlayerModelDto 玩家属性
      * @param enemy 敌人属性
-     * @param damagePower 玩家所选择技能威力
+     * @param damagePower 技能威力
      * @return DamageResult类型 包含 玩家造成伤害, 以及该伤害是否暴击
      */
     @Override

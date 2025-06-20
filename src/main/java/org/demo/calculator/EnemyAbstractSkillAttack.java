@@ -8,7 +8,7 @@ import org.demo.list.SkillList;
 import org.demo.list.SkillType;
 import org.demo.util.SimpleLogger;
 
-public abstract class AbstractEnemySkillAttack implements EnemySkillAttack {
+public abstract class EnemyAbstractSkillAttack implements EnemySkillAttack {
 
     protected int finalPhysicalDamage;
     protected int finalMagicDamage;
