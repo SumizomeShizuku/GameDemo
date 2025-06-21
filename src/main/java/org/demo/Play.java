@@ -25,11 +25,12 @@ public class Play {
         SimpleLogger.log.info("选择的种族: " + player.getEthnicity().getEthnicityZh());
 
         Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
-        SimpleLogger.log.info(player.getFirstName() + " 遇到了一只敌人： " + enemy);
+        SimpleLogger.log.info(player.getFirstName() + " 遇到了一只敌人:  " + enemy);
         enemy.getEnemySkills();
 
         BattleSystem.startBattle(player, enemy);
 
         // player.showInventory();
+        // System.out.println(player.getBackpack().toString());
     }
 }

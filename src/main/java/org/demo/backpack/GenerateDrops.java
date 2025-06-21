@@ -1,8 +1,7 @@
 package org.demo.backpack;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -16,12 +15,12 @@ public class GenerateDrops {
      * 随机掉落一定范围内种类数量的物品, 按权重抽取, 避免重复。
      *
      * @param droppedItems 物品掉落率, 默认80%
-     * @return 掉落的物品列表（可能包含相同物品多次）
+     * @return 掉落的物品列表( 可能包含相同物品多次 )
      */
-    public static List<ItemModelDto> generateDrops(Enemy enemy) {
+    public static Map<ItemModelDto, Integer> generateDrops(Enemy enemy) {
         Map<ItemModelDto, DropInfo> dropItems = enemy.getDropItems();
         double dropRate = enemy.getDropRate();
-        List<ItemModelDto> drops = new ArrayList<>();
+        Map<ItemModelDto, Integer> drops = new HashMap<>();
         if (dropItems.isEmpty()) {
             return drops;
         }
@@ -35,8 +34,8 @@ public class GenerateDrops {
         Set<ItemModelDto> selected = new HashSet<>();
 
         // 确定要掉落多少种不同物品
-        int minTypes = 1; // 最少掉落0种物品
-        int maxTypes = 1; // 最多掉落1种物品
+        int minTypes = 2; // 最少掉落0种物品
+        int maxTypes = 2; // 最多掉落1种物品
         int typeCount = random.nextInt(maxTypes - minTypes + 1) + minTypes;// 随机掉落0到1种物品
         // 如果掉落物品数量超过可选项总数, 则限制为可选项总数
         // 限制不超过可选项总数
@@ -64,9 +63,7 @@ public class GenerateDrops {
                 if (roll < current) {
                     selected.add(entry.getKey());
                     int qty = entry.getValue().getRandomQuantity();
-                    for (int j = 0; j < qty; j++) {
-                        drops.add(entry.getKey());
-                    }
+                    drops.put(entry.getKey(), qty);
                     break;
                 }
             }

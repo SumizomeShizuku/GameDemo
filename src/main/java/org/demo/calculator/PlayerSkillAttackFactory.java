@@ -9,14 +9,14 @@ import org.demo.list.SkillList;
 import org.demo.list.SkillType;
 
 /**
- * 技能攻击工厂类：支持 EnumSet<SkillType>, 可处理多类型技能。
+ * 技能攻击工厂类: 支持 EnumSet<SkillType>, 可处理多类型技能。
  */
 public class PlayerSkillAttackFactory {
 
     /**
      * 根据技能类型集合返回对应的攻击实现。 当包含 MAGIC 和 PHYSICS 时, 归类为 MIX。
      * <p>
-     * 其余优先级顺序：MIX > MAGIC > PHYSICS > NORMAL
+     * 其余优先级顺序: MIX > MAGIC > PHYSICS > NORMAL
      *
      * @param EnumSet<SkillType> 技能类型(物理、魔法、混合或者其他)
      */

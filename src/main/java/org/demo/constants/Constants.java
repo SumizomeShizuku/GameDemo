@@ -1,10 +1,12 @@
-package org.demo.data;
+package org.demo.constants;
 
 import org.demo.list.EthnicityList;
 import org.demo.list.JobList;
 
 public class Constants {
 
+    private Constants() {
+    }
     /**
      * 默认等级 : 0
      */
@@ -53,4 +55,5 @@ public class Constants {
      * 默认物品掉落率
      */
     public static final double DEFAULT_DROP_RATE = 0.8;
+
 }

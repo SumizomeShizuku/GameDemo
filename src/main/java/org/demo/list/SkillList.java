@@ -154,7 +154,7 @@ public enum SkillList {
      * 根据传入的技能条目数组生成技能Map
      *
      * @param skills 技能条目，每项为 Object[]，第0个元素应为SkillList
-     * @return Map，key为技能编号（如"Skill0001"），value为对应SkillList
+     * @return Map，key为技能编号( 如"Skill0001" )，value为对应SkillList
      */
     public static Map<String, SkillList> skillMap(SkillList... skills) {
         return Arrays.stream(skills).collect(Collectors.toMap(

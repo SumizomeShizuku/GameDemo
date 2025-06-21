@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
  * 日志文件以每小时的 00、15、30、45 分为分割点。任何日志都会被写入当前15分钟对应的日志文件。 日志文件名格式为
  * log_20250620_1115.txt, 表示2025年6月20日11:15起的15分钟内的所有日志。</p>
  * <p>
- * 日志行格式为：2025-06-20 11:24:37 [INFO] 日志内容</p>
+ * 日志行格式为: 2025-06-20 11:24:37 [INFO] 日志内容</p>
  */
 public class SimpleLogger {
 
@@ -97,7 +97,7 @@ public class SimpleLogger {
                 logDir.mkdirs();
             }
 
-            // 写入日志（追加模式）
+            // 写入日志( 追加模式 )
             File logFile = new File(logDir, currentLogFileName);
             try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
                 writer.println(formatted);

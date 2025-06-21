@@ -1,8 +1,8 @@
 package org.demo.dto;
 
-import java.util.Map;
-
 import org.demo.backpack.Backpack;
+import org.demo.backpack.Equipment;
+import org.demo.backpack.ItemInstance;
 import org.demo.list.EthnicityList;
 import org.demo.list.JobList;
 
@@ -51,9 +51,9 @@ public class PlayerModelDto {
     // 暴击率
     private double criticalHitRate;
     // 玩家背包
-    private Backpack backpack = new Backpack();
-    // 物品模板
-    private Map<String, ItemModelDto> itemConfig;
+    private final Backpack backpack = new Backpack();
+    // 玩家装备
+    private final Equipment equipment = new Equipment();
     // 行动力
     private int actionsPerTurn;
 
@@ -394,7 +394,7 @@ public class PlayerModelDto {
     /**
      * 设置玩家的基础冷却时间
      *
-     * @param commonCoolDown 冷却时间（单位：秒）
+     * @param commonCoolDown 冷却时间( 单位: 秒 )
      */
     public void setCommonCoolDown(double commonCoolDown) {
         this.commonCoolDown = commonCoolDown;
@@ -421,7 +421,7 @@ public class PlayerModelDto {
     /**
      * 设置玩家的暴击率
      *
-     * @param criticalHitRate 暴击率（0-1之间的小数）
+     * @param criticalHitRate 暴击率( 0-1之间的小数 )
      */
     public void setCriticalHitRate(double criticalHitRate) {
         this.criticalHitRate = criticalHitRate;
@@ -434,14 +434,6 @@ public class PlayerModelDto {
      */
     public Backpack getBackpack() {
         return backpack;
-    }
-
-    public Map<String, ItemModelDto> getItemConfig() {
-        return itemConfig;
-    }
-
-    public void setItemConfig(Map<String, ItemModelDto> itemConfig) {
-        this.itemConfig = itemConfig;
     }
 
     /**
@@ -476,25 +468,41 @@ public class PlayerModelDto {
         return this.currentHealthPoint > 0;
     }
 
-    // 玩家背包添加物品
+    /**
+     * 玩家背包添加物品
+     *
+     * @param item 物品dto
+     * @param count 数量
+     */
     public void addItem(ItemModelDto item, int count) {
         backpack.addItem(item, count);
     }
 
-    // 玩家背包移除物品
+    /**
+     * 玩家背包移除物品
+     *
+     * @param item 物品dto
+     * @param count 数量
+     * @return 是否移除成功
+     */
     public boolean removeItem(ItemModelDto item, int count) {
         return backpack.removeItem(item, count);
     }
 
-    // 玩家背包展示物品
-    public void showInventory(Map<String, ItemModelDto> itemConfig) {
-        this.setItemConfig(itemConfig);
-        backpack.showInventory(getItemConfig());
+    /**
+     * 玩家背包物品展示
+     *
+     * @param itemConfig
+     */
+    public void showInventory() {
+        backpack.showInventory();
     }
 
-    // 玩家背包展示物品
-    public void showInventory() {
-        backpack.showInventory(getItemConfig());
+    /**
+     * 玩家装备道具
+     */
+    public void equipItem(ItemInstance item) {
+        equipment.setEquip(item);
     }
 
     /**

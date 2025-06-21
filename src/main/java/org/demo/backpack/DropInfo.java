@@ -1,8 +1,11 @@
 package org.demo.backpack;
 
+/**
+ * 计算掉落物数量
+ */
 public class DropInfo {
 
-    private final double weight; // 掉落权重（例如：100 表示 100%）
+    private final double weight; // 掉落权重( 例如: 100 表示 100% )
     private final int minQuantity; // 掉落最小数量
     private final int maxQuantity;    // 掉落最大数量
 

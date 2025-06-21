@@ -1,6 +1,6 @@
 package org.demo.factory;
 
-import org.demo.data.Constants;
+import org.demo.constants.Constants;
 import org.demo.dto.PlayerModelDto;
 import org.demo.list.EthnicityList;
 import org.demo.list.JobList;
@@ -12,8 +12,8 @@ public class PlayerFactory {
      *
      * @param firstName 玩家名
      * @param lastName 玩家姓
-     * @param ethnicityNum 种族编号（1~4）
-     * @param jobNum 职业编号（1~4）
+     * @param ethnicityNum 种族编号( 1~4 )
+     * @param jobNum 职业编号( 1~4 )
      * @return 构建完成的玩家数据传输对象
      */
     public static PlayerModelDto createPlayer(String firstName, String lastName, int ethnicityNum, int jobNum) {
@@ -33,7 +33,7 @@ public class PlayerFactory {
         player.setEthnicity(ethnicity);
         player.setJob(job);
 
-        // 设置基础经验和等级（来自职业）
+        // 设置基础经验和等级( 来自职业 )
         player.setExp(job.getExp());
         player.setLevel(job.getLevel());
 
@@ -65,7 +65,7 @@ public class PlayerFactory {
         player.setEthnicity(ethnicity);
         player.setJob(job);
 
-        // 设置基础经验和等级（来自职业）
+        // 设置基础经验和等级( 来自职业 )
         player.setExp(job.getExp());
         player.setLevel(job.getLevel());
 

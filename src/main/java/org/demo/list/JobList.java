@@ -1,6 +1,6 @@
 package org.demo.list;
 
-import org.demo.data.Constants;
+import org.demo.constants.Constants;
 
 public enum JobList {
     /**
@@ -32,11 +32,11 @@ public enum JobList {
     /**
      * 构造一个带有基础属性的职业类型。
      *
-     * @param exp 初始等级（Exp）
-     * @param level 初始等级（Level）
-     * @param healthPoint 初始生命值（Health Points）
-     * @param manaPoint 初始魔法值（Mana Points）
-     * @param moveSpeed 初始移动速度（单位：格/秒）
+     * @param exp 初始等级( Exp )
+     * @param level 初始等级( Level )
+     * @param healthPoint 初始生命值( Health Points )
+     * @param manaPoint 初始魔法值( Mana Points )
+     * @param moveSpeed 初始移动速度( 单位: 格/秒 )
      * @param growthWeights 职业成长权重
      * @param nameZh 职业名(中文)
      */

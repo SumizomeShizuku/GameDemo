@@ -1,11 +1,15 @@
 package org.demo.backpack;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+
+import org.demo.list.ItemType;
+import org.demo.util.SimpleLogger;
 
 public class Equipment {
 
-    // 各装备槽位：初始为空（null或空列表）
+    // 各装备槽位: 初始为空( null或空列表 )
     // 主手
     private ItemInstance mainHand;
     // 副手
@@ -19,7 +23,7 @@ public class Equipment {
     // 鞋子
     private ItemInstance shoes;
     // 首饰
-    private List<ItemInstance> accessories = new ArrayList<>();
+    private final ItemInstance[] accessories = new ItemInstance[4];
 
     public ItemInstance getMainHand() {
         return mainHand;
@@ -69,12 +73,52 @@ public class Equipment {
         this.shoes = shoes;
     }
 
-    public List<ItemInstance> getAccessories() {
-        return accessories;
+    // 添加饰品到第一个空槽，成功返回true，失败返回false
+    public void addAccessory(ItemInstance accessory) {
+        for (int i = 0; i < accessories.length; i++) {
+            if (accessories[i] == null) {
+                accessories[i] = accessory;
+                SimpleLogger.log.info("装备成功");
+            }
+        }
+        SimpleLogger.log.info("没有空位");
     }
 
-    public void setAccessories(List<ItemInstance> accessories) {
-        this.accessories = accessories;
+    // 判断是否有空饰品槽
+    public boolean hasEmptyAccessorySlot() {
+        for (ItemInstance a : accessories) {
+            if (a == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 如果玩家选择替换某个槽
+    public void replaceAccessory(int slot, ItemInstance accessory) {
+        if (checkAccessorySlot(slot)) {
+            accessories[slot] = accessory;
+        }
+    }
+
+    // 工具方法：校验饰品槽下标
+    private boolean checkAccessorySlot(int slot) {
+        if (slot < 0 || slot >= accessories.length) {
+            SimpleLogger.log.info("饰品槽栏位错误");
+            return false;
+        }
+        return true;
+    }
+
+    // 如果需要查询所有已装备饰品
+    public List<ItemInstance> getAccessories() {
+        List<ItemInstance> list = new ArrayList<>();
+        for (ItemInstance a : accessories) {
+            if (a != null) {
+                list.add(a);
+            }
+        }
+        return list;
     }
 
     /**
@@ -84,9 +128,35 @@ public class Equipment {
      * @return 是否已装备
      */
     public boolean contains(ItemInstance item) {
-        return item.equals(mainHand) || item.equals(offHand) || item.equals(helmet)
-                || item.equals(armor) || item.equals(pants) || item.equals(shoes)
-                || accessories.contains(item);
+        return true;
+    }
+
+    // 装备功能实装
+    public void setEquip(ItemInstance item) {
+        EnumSet<ItemType> types = item.getModel().getType();
+        for (ItemType type : types) {
+            switch (type) {
+                case ItemType.WEAPON -> {
+                    setMainHand(item);
+                    return;
+                }
+
+                case ItemType.ARMOR -> {
+                    setHelmet(item);
+                    return;
+                }
+
+                case ItemType.ACCESSORY -> {
+                    addAccessory(item);
+                    return;
+                }
+
+                default -> {
+                    // 检索下一个type
+                }
+            }
+        }
+
     }
 
 }

@@ -1,6 +1,6 @@
 package org.demo.calculator;
 
-import org.demo.data.Constants;
+import org.demo.constants.Constants;
 import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
 import org.demo.interfaces.PlayerSkillAttack;

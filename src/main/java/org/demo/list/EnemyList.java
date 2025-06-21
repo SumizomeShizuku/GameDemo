@@ -1,6 +1,6 @@
 package org.demo.list;
 
-import org.demo.data.Constants;
+import org.demo.constants.Constants;
 import org.demo.dto.EnemyModelDto;
 
 /**
@@ -13,8 +13,8 @@ import org.demo.dto.EnemyModelDto;
 public enum EnemyList {
     GOBLIN(new EnemyModelDto("GOBLIN", "哥布林", 15, 5, 2, 10, Constants.DEFAULT_DROP_RATE,
             ItemList.dropMap(
-                    ItemList.entry(ItemList.GOBLIN_SWORD, 0.05, 1, 1),
-                    ItemList.entry(ItemList.SLIME_JUICE, 0.95, 1, 2)),
+                    ItemList.entry(ItemList.GOBLIN_SWORD, 0.5, 2, 2),
+                    ItemList.entry(ItemList.SLIME_JUICE, 0.5, 2, 2)),
             SkillList.skillMap(SkillList.Skill0001, SkillList.Skill0002))),
     SLIME(new EnemyModelDto("SLIME", "史莱姆", 20, 3, 1, 500, Constants.DEFAULT_DROP_RATE,
             ItemList.dropMap(

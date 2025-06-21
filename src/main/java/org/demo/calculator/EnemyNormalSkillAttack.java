@@ -46,7 +46,7 @@ public class EnemyNormalSkillAttack extends EnemyAbstractSkillAttack {
             finalDamage = 2;          // 保底伤害
         }
 
-        /* ==== 4. 暴击判定（统一 5%） ==== */
+        /* ==== 4. 暴击判定( 统一 5% ) ==== */
         boolean isCritical = Math.random() < 0.05;
         if (isCritical) {
             finalDamage *= 1.25;

@@ -1,7 +1,6 @@
 package org.demo.factory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -35,8 +34,6 @@ public class Enemy {
     private final double dropRate;
     // 可能掉落物品
     private final Map<ItemModelDto, DropInfo> dropItems;
-    // 敌人掉落实体
-    private final Map<String, ItemModelDto> realDropItems;
     // 敌人技能
     private final Map<String, SkillList> enemySkills;
 
@@ -55,7 +52,6 @@ public class Enemy {
         this.dropExp = attr.getDropExp();
         this.dropRate = attr.getDropRate();
         this.dropItems = attr.getDropItems();
-        this.realDropItems = new HashMap<>();
         this.enemySkills = attr.getEnemySkills();
     }
 
@@ -68,27 +64,47 @@ public class Enemy {
         currentHp = Math.max(0, currentHp - damage);
     }
 
-    // 获取敌人名字
+    /**
+     * 获取敌人名字
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
-    //获取敌人最大血量
+    /**
+     * 获取敌人最大血量
+     *
+     * @return
+     */
     public int getMaxHp() {
         return maxHp;
     }
 
-    //获取敌人血量
+    /**
+     * 获取敌人最大血量
+     *
+     * @return
+     */
     public int getCurrentHp() {
         return currentHp;
     }
 
-    // 获取敌人攻击力
+    /**
+     * 获取敌人攻击力
+     *
+     * @return
+     */
     public int getAttack() {
         return attack;
     }
 
-    // 获取敌人防御力
+    /**
+     * 获取敌人防御力
+     *
+     * @return
+     */
     public int getDefense() {
         return defense;
     }
@@ -121,15 +137,6 @@ public class Enemy {
     }
 
     /**
-     * 获取敌人掉落实体
-     *
-     * @return 敌人掉落实体
-     */
-    public Map<String, ItemModelDto> getRealDropItems() {
-        return realDropItems;
-    }
-
-    /**
      * 获取敌人技能
      *
      * @return 敌人技能
@@ -151,10 +158,10 @@ public class Enemy {
      * 随机掉落一定范围内种类数量的物品, 按权重抽取, 避免重复。
      *
      * @param droppedItems 物品掉落率, 默认80%
-     * @return 掉落的物品列表（可能包含相同物品多次）
+     * @return 掉落的物品列表( 可能包含相同物品多次 )
      */
-    public List<ItemModelDto> generateDrops(Enemy enemy) {
-        List<ItemModelDto> drops = GenerateDrops.generateDrops(enemy);
+    public Map<ItemModelDto, Integer> generateDrops(Enemy enemy) {
+        Map<ItemModelDto, Integer> drops = GenerateDrops.generateDrops(enemy);
         return drops;
     }
 
@@ -164,16 +171,15 @@ public class Enemy {
      * @param droppedItems
      * @return 掉落物(文字列)
      */
-    public String formatDropItems(List<ItemModelDto> droppedItems) {
+    public String formatDropItems(Map<ItemModelDto, Integer> droppedItems) {
         StringBuilder sb = new StringBuilder();
         String ln = System.lineSeparator();
-        Map<ItemModelDto, Integer> countMap = new java.util.HashMap<>();
+        // Map<ItemModelDto, Integer> countMap = new java.util.HashMap<>();
 
-        for (ItemModelDto item : droppedItems) {
-            countMap.put(item, countMap.getOrDefault(item, 0) + 1);
-        }
-
-        for (Map.Entry<ItemModelDto, Integer> entry : countMap.entrySet()) {
+        // for (ItemModelDto item : droppedItems) {
+        //     countMap.put(item, countMap.getOrDefault(item, 0) + 1);
+        // }
+        for (Map.Entry<ItemModelDto, Integer> entry : droppedItems.entrySet()) {
             ItemModelDto item = entry.getKey();
             int count = entry.getValue();
             sb.append(ln);
@@ -192,7 +198,7 @@ public class Enemy {
      * 从敌人的技能列表中随机获取一个技能
      *
      * @param skillMap 敌人技能Map
-     * @return 随机技能（SkillList）
+     * @return 随机技能( SkillList )
      */
     public static SkillList getEnemyRandomSkill(Map<String, SkillList> skillMap) {
         if (skillMap == null || skillMap.isEmpty()) {

@@ -7,7 +7,7 @@ import org.demo.list.SkillList;
 public interface EnemySkillAttack {
 
     /**
-     * 技能主流程, 返回最终伤害值（不包含结构信息）
+     * 技能主流程, 返回最终伤害值( 不包含结构信息 )
      *
      * @param PlayerModelDto 玩家属性
      * @param enemy 敌人属性

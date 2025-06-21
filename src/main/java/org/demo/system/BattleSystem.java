@@ -1,6 +1,6 @@
 package org.demo.system;
 
-import java.util.List;
+import java.util.Map;
 
 import org.demo.calculator.EnemyAttackMain;
 import org.demo.calculator.PlayerAttackMain;
@@ -26,22 +26,35 @@ public class BattleSystem {
     public static void startBattle(PlayerModelDto player, Enemy enemy) {
         int round = 1;
 
-        log("战斗开始！敌人是：" + enemy.getName());
+        log("战斗开始！敌人是: " + enemy.getName());
 
         // 主战斗循环
         while (player.isAlive() && enemy.isAlive()) {
             log("==== 第 " + round + " 回合 ====");
             log("玩家血量: " + player.getCurrentHealthPoint() + " / " + player.getMaxHealthPoint());
             log("敌人血量: " + enemy.getCurrentHp() + " / " + enemy.getMaxHp());
+
+            // 玩家回合, 检查敌人是否死亡
             boolean enemyDefeated = handlePlayerTurn(player, enemy);
 
-            if (enemyDefeated) {
-                handleVictory(player, enemy);
+            // 若玩家死亡 -玩家使用扣除生命值技能死亡的场合
+            if (!player.isAlive()) {
+                log("你被击败了...");
                 break;
             }
 
+            // 若滴人死亡
+            if (enemyDefeated) {
+                // 经验、道具获取
+                handleVictory(player, enemy);
+                // 结束战斗
+                break;
+            }
+
+            // 敌人回合
             handleEnemyTurn(enemy, player);
 
+            // 若玩家死亡
             if (!player.isAlive()) {
                 log("你被击败了...");
                 break;
@@ -130,19 +143,18 @@ public class BattleSystem {
         int exp = enemy.getDropExp();
         // player.addExp(exp);
         LevelUpHandler.handleExpGain(player, exp);
-        log("获得经验：" + exp);
+        log("获得经验: " + exp);
 
-        List<ItemModelDto> drops = enemy.generateDrops(enemy);
+        Map<ItemModelDto, Integer> drops = enemy.generateDrops(enemy);
         if (drops.isEmpty()) {
             SimpleLogger.log.info("没有掉落物品。");
         } else {
             SimpleLogger.log.info("获得物品: " + enemy.formatDropItems(drops));
             // Backpack bp = player.getBackpack();
-            for (ItemModelDto item : drops) {
-                enemy.getRealDropItems().put(item.getId(), item);
-                player.addItem(item, 1);
+            for (Map.Entry<ItemModelDto, Integer> item : drops.entrySet()) {
+                player.addItem(item.getKey(), item.getValue());
             }
-            player.showInventory(enemy.getRealDropItems());
+            player.showInventory();
         }
     }
 

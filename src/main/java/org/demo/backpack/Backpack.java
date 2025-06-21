@@ -1,20 +1,22 @@
 package org.demo.backpack;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.demo.dto.ItemModelDto;
+import org.demo.list.ItemType;
 import org.demo.util.SimpleLogger;
 
 /**
- * 背包类：管理玩家拥有的物品（支持叠加与非叠加）
+ * 背包类: 管理玩家拥有的物品( 支持叠加与非叠加 )
  */
 public class Backpack {
 
-    private final Map<String, Integer> stackableItems = new HashMap<>(); // itemId -> count
+    private final Map<ItemModelDto, Integer> stackableItems = new HashMap<>(); // itemId -> count
     private final List<ItemInstance> nonStackableItems = new ArrayList<>();
 
     /**
@@ -22,7 +24,7 @@ public class Backpack {
      */
     public void addItem(ItemModelDto itemModel, int count) {
         if (isStackable(itemModel)) {
-            stackableItems.merge(itemModel.getId(), count, Integer::sum);
+            stackableItems.merge(itemModel, count, Integer::sum);
         } else {
             for (int i = 0; i < count; i++) {
                 nonStackableItems.add(new ItemInstance(itemModel));
@@ -31,7 +33,7 @@ public class Backpack {
     }
 
     /**
-     * 移除物品
+     * 移除物品, 返回是否移除成功
      */
     public boolean removeItem(ItemModelDto itemModel, int count) {
         if (isStackable(itemModel)) {
@@ -40,9 +42,9 @@ public class Backpack {
                 return false;
             }
             if (current == count) {
-                stackableItems.remove(itemModel.getId());
+                stackableItems.remove(itemModel);
             } else {
-                stackableItems.put(itemModel.getId(), current - count);
+                stackableItems.put(itemModel, current - count);
             }
             return true;
         } else {
@@ -61,18 +63,19 @@ public class Backpack {
     /**
      * 背包展示
      */
-    public void showInventory(Map<String, ItemModelDto> itemConfig) {
+    // public void showInventory(Map<String, ItemModelDto> itemConfig) {
+    public void showInventory() {
         String ln = System.lineSeparator();
         StringBuilder sb = new StringBuilder();
-        sb.append(ln).append("📦 背包内容：").append(ln);
+        sb.append(ln).append("📦 背包内容: ").append(ln);
         if (stackableItems.isEmpty() && nonStackableItems.isEmpty()) {
             sb.append("背包是空的。").append(ln);
             SimpleLogger.log.info(sb.toString());
             return;
         }
-        for (Map.Entry<String, Integer> entry : stackableItems.entrySet()) {
-            String itemId = entry.getKey();
-            ItemModelDto item = itemConfig.get(itemId);
+        for (Map.Entry<ItemModelDto, Integer> entry : stackableItems.entrySet()) {
+            // String itemId = entry.getKey().getId();
+            ItemModelDto item = entry.getKey();
             sb.append(" - ").append(item.getName()).append(" x").append(entry.getValue()).append(ln);
         }
 
@@ -85,8 +88,9 @@ public class Backpack {
     }
 
     private boolean isStackable(ItemModelDto item) {
-        String type = item.getType().toLowerCase();
-        return !(type.equals("weapon") || type.equals("armor") || type.equals("accessory"));
+        EnumSet<ItemType> type = item.getType();
+        // String type = item.getType().toLowerCase();
+        return !(type.contains(ItemType.WEAPON) || type.contains(ItemType.ARMOR) || type.contains(ItemType.ACCESSORY));
     }
 
     @Override

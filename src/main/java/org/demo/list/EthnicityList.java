@@ -28,11 +28,11 @@ public enum EthnicityList {
     /**
      * 构造一个带有基础属性的职业类型。
      *
-     * @param healthPoint 初始生命值（Health Points）
-     * @param manaPoint 初始魔法值（Mana Points）
-     * @param strength 初始力量属性（影响物理攻击）
-     * @param agility 初始敏捷属性（影响闪避与速度）
-     * @param intelligence 初始智力属性（影响魔法攻击与回复）
+     * @param healthPoint 初始生命值( Health Points )
+     * @param manaPoint 初始魔法值( Mana Points )
+     * @param strength 初始力量属性( 影响物理攻击 )
+     * @param agility 初始敏捷属性( 影响闪避与速度 )
+     * @param intelligence 初始智力属性( 影响魔法攻击与回复 )
      * @param ethnicityZh 种族名(中文)
      */
     private EthnicityList(int healthPoint, int manaPoint, int strength, int agility, int intelligence, String ethnicityZh) {
