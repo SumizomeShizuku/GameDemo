@@ -42,8 +42,6 @@ public class PlayerNormalSkillAttack extends PlayerAbstractSkillAttack {
             finalDamage = 2; // 最小伤害为2
         }
 
-        player.setBaseAttribute(Math.round(rawDamage * 100.0) / 100.0);
-
         boolean isCritical = Math.random() < player.getCriticalHitRate();
         if (isCritical) {
             finalDamage = finalDamage * 1.25;

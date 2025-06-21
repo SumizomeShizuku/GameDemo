@@ -41,9 +41,6 @@ public class PlayerMixSkillAttack extends PlayerAbstractSkillAttack {
         double physicalDamage = rawPhysical * (1 - physicalReduction) * 0.4;
         double magicDamage = rawMagic * (1 - magicReduction) * 0.4;
 
-        // double finalDamage = physicalDamage + magicDamage;
-        player.setBaseAttribute(Math.round((rawPhysical + rawMagic) * 100.0) / 100.0);
-
         // 物理伤害浮动
         double minphysicalDamage = physicalDamage * 0.8;
         double maxphysicalDamage = physicalDamage * 1.2;

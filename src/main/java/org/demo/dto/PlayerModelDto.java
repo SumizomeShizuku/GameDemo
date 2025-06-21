@@ -51,7 +51,7 @@ public class PlayerModelDto {
     // 暴击率
     private double criticalHitRate;
     // 玩家背包
-    private Backpack backpack;
+    private Backpack backpack = new Backpack();
     // 物品模板
     private Map<String, ItemModelDto> itemConfig;
     // 行动力
@@ -410,15 +410,6 @@ public class PlayerModelDto {
     }
 
     /**
-     * 设置玩家的基础攻击力
-     *
-     * @param baseAttribute 基础攻击力
-     */
-    public void setBaseAttribute(double baseAttribute) {
-        this.baseAttribute = baseAttribute;
-    }
-
-    /**
      * 获取玩家的暴击率
      *
      * @return
@@ -443,15 +434,6 @@ public class PlayerModelDto {
      */
     public Backpack getBackpack() {
         return backpack;
-    }
-
-    /**
-     * 设置玩家背包
-     *
-     * @param backpack 玩家背包
-     */
-    public void setBackpack() {
-        this.backpack = new Backpack();
     }
 
     public Map<String, ItemModelDto> getItemConfig() {

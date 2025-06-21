@@ -52,10 +52,8 @@ public class PlayerFactory {
         player.setRecoverHP(0);
         player.setRecoverMP(0);
         player.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
-        player.setBaseAttribute(0.0);
         player.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
         player.setActionsPerTurn(1);
-        player.setBackpack();
 
         return player;
     }
@@ -86,7 +84,6 @@ public class PlayerFactory {
         player.setRecoverHP(0);
         player.setRecoverMP(0);
         player.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
-        player.setBaseAttribute(0.0);
         player.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
         player.setActionsPerTurn(1);
 
