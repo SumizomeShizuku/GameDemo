@@ -30,7 +30,8 @@ public class Play {
 
         BattleSystem.startBattle(player, enemy);
 
-        // player.showInventory();
+        player.setEquip(1);
+        player.showInventory();
         // System.out.println(player.getBackpack().toString());
     }
 }
