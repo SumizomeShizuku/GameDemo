@@ -19,8 +19,8 @@ public class GenerateDrops {
      */
     public static Map<ItemModelDto, Integer> generateDrops(Enemy enemy) {
         Map<ItemModelDto, DropInfo> dropItems = enemy.getDropItems();
-        double dropRate = enemy.getDropRate();
-        // double dropRate = 1.0;
+        // double dropRate = enemy.getDropRate();
+        double dropRate = 1.0;
         Map<ItemModelDto, Integer> drops = new HashMap<>();
         if (dropItems.isEmpty()) {
             return drops;

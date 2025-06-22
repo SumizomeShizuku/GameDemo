@@ -26,11 +26,23 @@ public class Play {
 
         Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
         SimpleLogger.log.info(player.getFirstName() + " 遇到了一只敌人:  " + enemy);
-        enemy.getEnemySkills();
 
         BattleSystem.startBattle(player, enemy);
 
-        player.setEquip(1);
+        // player.setEquip(1);
+        player.showInventory();
+        player.removeItemById(2);
+
+        player.removeStackableItemById(1, 2);
+        SimpleLogger.log.info("36行道具删除前");
+        player.showInventory();
+        SimpleLogger.log.info("36行道具删除后");
+        enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
+        SimpleLogger.log.info(player.getFirstName() + " 遇到了一只敌人:  " + enemy);
+
+        BattleSystem.startBattle(player, enemy);
+
+        player.setEquip(3);
         player.showInventory();
         // System.out.println(player.getBackpack().toString());
     }

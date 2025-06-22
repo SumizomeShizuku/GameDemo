@@ -153,6 +153,7 @@ public class BattleSystem {
             // Backpack bp = player.getBackpack();
             for (Map.Entry<ItemModelDto, Integer> item : drops.entrySet()) {
                 player.addItem(item.getKey(), item.getValue());
+                // player.addItem(item.getKey(), item.getValue());
             }
             player.showInventory();
 
@@ -160,7 +161,7 @@ public class BattleSystem {
                 player.setEquip(1);
                 player.showInventory();
                 SimpleLogger.log.info("break");
-                player.setEquip(2);
+                // player.setEquip(3);
                 player.showInventory();
             }
         }

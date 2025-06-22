@@ -470,6 +470,15 @@ public class PlayerModelDto {
         return this.currentHealthPoint > 0;
     }
 
+    // /**
+    //  * 玩家背包添加物品
+    //  *
+    //  * @param item 物品dto
+    //  * @param count 数量
+    //  */
+    // public void addItem(ItemModelDto item, int count) {
+    //     backpack.addItem(item, count);
+    // }
     /**
      * 玩家背包添加物品
      *
@@ -489,6 +498,26 @@ public class PlayerModelDto {
      */
     public boolean removeItem(ItemModelDto item, int count) {
         return backpack.removeItem(item, count);
+    }
+
+    /**
+     * 玩家背包移除物品
+     *
+     * @param id 物品id
+     * @return 是否移除成功
+     */
+    public boolean removeItemById(long id) {
+        return backpack.removeItemById(id);
+    }
+
+    /**
+     * 玩家背包移除物品
+     *
+     * @param id 物品id
+     * @return 是否移除成功
+     */
+    public boolean removeStackableItemById(long id, int count) {
+        return backpack.removeStackableItemById(id, count);
     }
 
     /**

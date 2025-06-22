@@ -21,23 +21,33 @@ public class Backpack {
 
     private final Map<Long, ItemInstance> idToNonStackableItem = new HashMap<>();
 
-    /**
-     * 添加物品
-     */
-    public List<Long> addItem(ItemModelDto itemModel, int count) {
-        List<Long> ids = new ArrayList<>();
-        if (isStackable(itemModel)) {
-            stackableItems.merge(itemModel, count, Integer::sum);
+    private final Map<Long, Map<ItemModelDto, Integer>> stackableItemGroups = new HashMap<>();
+    private long nextStackableId = 1;
+
+    //添加叠加物品（分配新编号）
+    public void addItem(ItemModelDto item, int count) {
+        if (isStackable(item)) {
+            for (Map.Entry<Long, Map<ItemModelDto, Integer>> entry : stackableItemGroups.entrySet()) {
+                Map<ItemModelDto, Integer> group = entry.getValue();
+                if (group.containsKey(item)) {
+                    group.merge(item, count, Integer::sum);
+                    return;
+                }
+            }
+            Map<ItemModelDto, Integer> group = new HashMap<>();
+            // Map<ItemModelDto, Integer> group = stackableItemGroups.;
+            group.put(item, count);
+            long id = nextStackableId++;
+            stackableItemGroups.put(id, group);
         } else {
             for (int i = 0; i < count; i++) {
-                // nonStackableItems.add(new ItemInstance(itemModel));
-                ItemInstance inst = new ItemInstance(itemModel);
+                ItemInstance inst = new ItemInstance(item);
                 nonStackableItems.add(inst);
                 idToNonStackableItem.put(inst.getInstanceId(), inst);
-                ids.add(inst.getInstanceId());
+                // ids.add(inst.getInstanceId());
             }
         }
-        return ids;
+        // return id;
     }
 
     /**
@@ -70,6 +80,28 @@ public class Backpack {
         }
     }
 
+    // 通过编号移除叠加物品
+    public boolean removeStackableItemById(long id, int count) {
+        Map<ItemModelDto, Integer> group = stackableItemGroups.get(id);
+        if (group == null) {
+            return false;
+        }
+        for (Map.Entry<ItemModelDto, Integer> entry : group.entrySet()) {
+            int current = entry.getValue();
+            if (current < count) {
+                return false;
+            }
+            if (current == count) {
+                group.remove(entry.getKey());
+                stackableItemGroups.remove(id); // 数量为0，移除这一组
+            } else {
+                group.put(entry.getKey(), current - count);
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 根据物品编号移除非叠加物品
      */
@@ -89,16 +121,21 @@ public class Backpack {
         String ln = System.lineSeparator();
         StringBuilder sb = new StringBuilder();
         sb.append(ln).append("📦 背包内容: ").append(ln);
-        if (stackableItems.isEmpty() && nonStackableItems.isEmpty()) {
+        if (stackableItemGroups.isEmpty() && nonStackableItems.isEmpty()) {
             sb.append("背包是空的。").append(ln);
             SimpleLogger.log.info(sb.toString());
             return;
         }
         sb.append("道具").append(ln);
-        for (Map.Entry<ItemModelDto, Integer> entry : stackableItems.entrySet()) {
-            // String itemId = entry.getKey().getId();
-            ItemModelDto item = entry.getKey();
-            sb.append(" - ").append(item.getName()).append(" x").append(entry.getValue()).append(ln);
+
+        for (Map.Entry<Long, Map<ItemModelDto, Integer>> entry : stackableItemGroups.entrySet()) {
+            long id = entry.getKey();
+            Map<ItemModelDto, Integer> group = entry.getValue();
+            for (Map.Entry<ItemModelDto, Integer> e : group.entrySet()) {
+                sb.append("编号:").append(id)
+                        .append(" - ").append(e.getKey().getName())
+                        .append(" x").append(e.getValue()).append("\n");
+            }
         }
 
         sb.append(ln).append("装备").append(ln);
