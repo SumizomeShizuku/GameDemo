@@ -155,6 +155,14 @@ public class BattleSystem {
                 player.addItem(item.getKey(), item.getValue());
             }
             player.showInventory();
+
+            if (!(player.selectItem("哥布林之剑") == null)) {
+                player.setEquip(1);
+                player.showInventory();
+                SimpleLogger.log.info("break");
+                player.setEquip(2);
+                player.showInventory();
+            }
         }
     }
 

@@ -1,5 +1,7 @@
 package org.demo.dto;
 
+import java.util.List;
+
 import org.demo.backpack.Backpack;
 import org.demo.backpack.Equipment;
 import org.demo.backpack.ItemInstance;
@@ -499,10 +501,19 @@ public class PlayerModelDto {
     }
 
     /**
+     * 玩家选择背包物品
+     *
+     * @param itemName 物品名
+     */
+    public List<ItemInstance> selectItem(String itemName) {
+        return backpack.selectItem(itemName);
+    }
+
+    /**
      * 玩家装备道具
      */
-    public void equipItem(ItemInstance item) {
-        equipment.setEquip(item);
+    public void setEquip(long instanceId) {
+        equipment.setEquip(backpack.selectItemById(instanceId));
     }
 
     /**

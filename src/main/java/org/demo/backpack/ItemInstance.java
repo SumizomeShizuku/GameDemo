@@ -2,7 +2,6 @@ package org.demo.backpack;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.demo.dto.ItemModelDto;
 
@@ -15,9 +14,14 @@ import org.demo.dto.ItemModelDto;
 public class ItemInstance {
 
     /**
+     * 背包中的物品编号 (自增)
+     */
+    private static long nextId = 1;
+
+    /**
      * 唯一实例ID( 与物品模板ID不同 )。
      */
-    private final String instanceId;
+    private final long instanceId;
 
     /**
      * 物品模板对象，包含物品的基本信息。
@@ -40,7 +44,8 @@ public class ItemInstance {
      * @param model 物品模板对象
      */
     public ItemInstance(ItemModelDto model) {
-        this.instanceId = UUID.randomUUID().toString();
+        // this.instanceId = UUID.randomUUID().toString();
+        this.instanceId = nextId++;
         this.model = model;
     }
 
@@ -49,7 +54,7 @@ public class ItemInstance {
      *
      * @return 实例ID( UUID )
      */
-    public String getInstanceId() {
+    public long getInstanceId() {
         return instanceId;
     }
 
