@@ -5,11 +5,10 @@ import java.util.Map;
 import org.demo.calculator.EnemyAttackMain;
 import org.demo.calculator.PlayerAttackMain;
 import org.demo.dto.ItemModelDto;
-import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
+import org.demo.factory.Player;
 import org.demo.list.ActionType;
 import org.demo.list.SkillList;
-import org.demo.util.LevelUpHandler;
 import org.demo.util.SimpleLogger;
 
 /**
@@ -23,7 +22,8 @@ public class BattleSystem {
      * @param player 玩家对象
      * @param enemy 敌人对象
      */
-    public static void startBattle(PlayerModelDto player, Enemy enemy) {
+    public static void startBattle(Player player, Enemy enemy) {
+        // PlayerModelDto player = playerModel.getModel();
         int round = 1;
 
         log("战斗开始！敌人是: " + enemy.getName());
@@ -70,7 +70,7 @@ public class BattleSystem {
      * @param player 玩家对象
      * @param enemy 敌人对象
      */
-    private static boolean handlePlayerTurn(PlayerModelDto player, Enemy enemy) {
+    private static boolean handlePlayerTurn(Player player, Enemy enemy) {
         log("【玩家回合】");
         while (true) {
             // log("玩家第 " + i + " 次行动");
@@ -127,7 +127,7 @@ public class BattleSystem {
      * @param enemy 敌人对象
      * @param player 玩家对象
      */
-    private static void handleEnemyTurn(Enemy enemy, PlayerModelDto player) {
+    private static void handleEnemyTurn(Enemy enemy, Player player) {
         SkillList skill = SkillList.Skill0003;
         // SkillList skill = Enemy.getEnemyRandomSkill(enemy.getEnemySkills());
         EnemyAttackMain.skillAttack(enemy, player, skill);
@@ -139,10 +139,9 @@ public class BattleSystem {
      * @param player 玩家对象
      * @param enemy 敌人对象
      */
-    private static void handleVictory(PlayerModelDto player, Enemy enemy) {
+    private static void handleVictory(Player player, Enemy enemy) {
         int exp = enemy.getDropExp();
-        // player.addExp(exp);
-        LevelUpHandler.handleExpGain(player, exp);
+        player.gainExp(exp);
         log("获得经验: " + exp);
 
         Map<ItemModelDto, Integer> drops = enemy.generateDrops(enemy);
@@ -157,13 +156,6 @@ public class BattleSystem {
             }
             player.showInventory();
 
-            if (!(player.selectItem("哥布林之剑") == null)) {
-                player.setEquip(1);
-                player.showInventory();
-                SimpleLogger.log.info("break");
-                // player.setEquip(3);
-                player.showInventory();
-            }
         }
     }
 

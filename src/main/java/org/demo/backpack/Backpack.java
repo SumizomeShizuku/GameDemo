@@ -2,10 +2,7 @@ package org.demo.backpack;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.demo.dto.ItemModelDto;
 import org.demo.list.ItemType;
@@ -16,171 +13,176 @@ import org.demo.util.SimpleLogger;
  */
 public class Backpack {
 
-    private final Map<ItemModelDto, Integer> stackableItems = new HashMap<>(); // itemId -> count
-    private final List<ItemInstance> nonStackableItems = new ArrayList<>();
+    private static final int CAPACITY = 40;
+    private final List<BackpackSlot> slots = new ArrayList<>(CAPACITY);
 
-    private final Map<Long, ItemInstance> idToNonStackableItem = new HashMap<>();
-
-    private final Map<Long, Map<ItemModelDto, Integer>> stackableItemGroups = new HashMap<>();
-    private long nextStackableId = 1;
-
-    //添加叠加物品（分配新编号）
-    public void addItem(ItemModelDto item, int count) {
-        if (isStackable(item)) {
-            for (Map.Entry<Long, Map<ItemModelDto, Integer>> entry : stackableItemGroups.entrySet()) {
-                Map<ItemModelDto, Integer> group = entry.getValue();
-                if (group.containsKey(item)) {
-                    group.merge(item, count, Integer::sum);
-                    return;
-                }
-            }
-            Map<ItemModelDto, Integer> group = new HashMap<>();
-            // Map<ItemModelDto, Integer> group = stackableItemGroups.;
-            group.put(item, count);
-            long id = nextStackableId++;
-            stackableItemGroups.put(id, group);
-        } else {
-            for (int i = 0; i < count; i++) {
-                ItemInstance inst = new ItemInstance(item);
-                nonStackableItems.add(inst);
-                idToNonStackableItem.put(inst.getInstanceId(), inst);
-                // ids.add(inst.getInstanceId());
-            }
+    /**
+     * 构造函数：初始化背包格子
+     */
+    public Backpack() {
+        // 预填充40个空格
+        for (int i = 0; i < CAPACITY; i++) {
+            slots.add(null);
         }
-        // return id;
     }
 
     /**
-     * 移除物品, 返回是否移除成功
+     * 向背包中添加物品
+     *
+     * @param item 物品模板
+     * @param count 添加数量
+     * @return 成功添加后所在格子的编号（下标），失败返回-1
      */
-    public boolean removeItem(ItemModelDto itemModel, int count) {
-        if (isStackable(itemModel)) {
-            int current = stackableItems.getOrDefault(itemModel.getId(), 0);
-            if (current < count) {
-                return false;
-            }
-            if (current == count) {
-                stackableItems.remove(itemModel);
-            } else {
-                stackableItems.put(itemModel, current - count);
-            }
-            return true;
-        } else {
-            int removed = 0;
-            Iterator<ItemInstance> it = nonStackableItems.iterator();
-            while (it.hasNext() && removed < count) {
-                ItemInstance inst = it.next();
-                if (inst.getModel().getId().equals(itemModel.getId())) {
-                    idToNonStackableItem.remove(inst.getInstanceId());
-                    it.remove();
-                    removed++;
+    public int addItem(ItemModelDto item, int count) {
+        if (isStackable(item)) {
+            // 先查找可叠加的格子
+            for (int i = 0; i < CAPACITY; i++) {
+                BackpackSlot slot = slots.get(i);
+                if (slot != null && slot.isStackable() && slot.getItem().equals(item)) {
+                    slot.setCount(slot.getCount() + count);
+                    return i;
                 }
             }
-            return removed == count;
+            // 没有找到，查找空格子
+            for (int i = 0; i < CAPACITY; i++) {
+                if (slots.get(i) == null) {
+                    slots.set(i, new BackpackSlot(item, count));
+                    return i;
+                }
+            }
+        } else {
+            // 非叠加物品，每个占一格
+            for (int i = 0; i < CAPACITY && count > 0; i++) {
+                if (slots.get(i) == null) {
+                    ItemInstance instance = new ItemInstance(item);
+                    slots.set(i, new BackpackSlot(instance));
+                    count--;
+                    if (count == 0) {
+                        return i;
+                    }
+                }
+            }
         }
+        // 背包满
+        return -1;
     }
 
-    // 通过编号移除叠加物品
-    public boolean removeStackableItemById(long id, int count) {
-        Map<ItemModelDto, Integer> group = stackableItemGroups.get(id);
-        if (group == null) {
+    /**
+     * 向背包中添加一个非叠加物品实例（如装备类ItemInstance） 用于装备卸下后放回背包
+     *
+     * @param instance 需要添加的物品实例
+     * @return 成功添加后所在格子的编号（下标），失败返回-1
+     */
+    public int addItem(ItemInstance instance) {
+        for (int i = 0; i < CAPACITY; i++) {
+            if (slots.get(i) == null) {
+                slots.set(i, new BackpackSlot(instance));
+                return i;
+            }
+        }
+        // 背包已满
+        return -1;
+    }
+
+    /**
+     * 移除背包中的物品（支持叠加与非叠加）
+     * <p>
+     * - 如果对应格子是叠加物品，则移除指定数量（count）。<br>
+     * 若移除后数量为0，则格子置空。<br>
+     * - 如果对应格子是非叠加物品，则无视count，直接清空格子。<br>
+     *
+     * @param slotId 格子编号（下标）
+     * @param count 要移除的数量（仅对可叠加物品有效）
+     * @return 是否移除成功
+     */
+    public boolean removeItemBySlot(int slotId, int count) {
+        // slotId = slotId - 1;
+        if (!isValidSlot(slotId)) {
             return false;
         }
-        for (Map.Entry<ItemModelDto, Integer> entry : group.entrySet()) {
-            int current = entry.getValue();
-            if (current < count) {
+        BackpackSlot slot = slots.get(slotId);
+        if (slot == null) {
+            return false;
+        }
+        if (slot.isStackable()) {
+            if (slot.getCount() < count) {
                 return false;
             }
-            if (current == count) {
-                group.remove(entry.getKey());
-                stackableItemGroups.remove(id); // 数量为0，移除这一组
+            if (slot.getCount() == count) {
+                slots.set(slotId, null);
             } else {
-                group.put(entry.getKey(), current - count);
+                slot.setCount(slot.getCount() - count);
             }
             return true;
-        }
-        return false;
-    }
-
-    /**
-     * 根据物品编号移除非叠加物品
-     */
-    public boolean removeItemById(long itemInstanceId) {
-        ItemInstance inst = idToNonStackableItem.remove(itemInstanceId);
-        if (inst != null) {
-            nonStackableItems.remove(inst);
+        } else {
+            // 非叠加物品，直接移除
+            slots.set(slotId, null);
             return true;
         }
-        return false;
     }
 
     /**
-     * 背包展示
+     * 获取指定格子的物品内容
+     *
+     * @param slotId 格子编号（下标）
+     * @return 对应的BackpackSlot对象，空格返回null
+     */
+    public BackpackSlot getSlot(int slotId) {
+        // slotId = slotId - 1;
+        if (!isValidSlot(slotId)) {
+            SimpleLogger.log.warn("请选择背包范围内的物品 [ " + 0 + " - " + CAPACITY + ", 当前选择的栏位为 " + (slotId + 1) + " ]");
+            return null;
+        }
+        if (slots.get(slotId) == null) {
+            SimpleLogger.log.warn("当前物品栏为空, 当前选择的栏位为[ " + (slotId + 1) + " ]");
+        }
+        return slots.get(slotId);
+    }
+
+    /**
+     * 检查格子编号是否合法
+     *
+     * @param slotId 格子编号（下标）
+     * @return 合法返回true，否则false
+     */
+    private boolean isValidSlot(int slotId) {
+        // slotId = slotId - 1;
+        return slotId >= 0 && slotId < CAPACITY;
+    }
+
+    /**
+     * 展示背包内容到日志
      */
     public void showInventory() {
         String ln = System.lineSeparator();
         StringBuilder sb = new StringBuilder();
-        sb.append(ln).append("📦 背包内容: ").append(ln);
-        if (stackableItemGroups.isEmpty() && nonStackableItems.isEmpty()) {
-            sb.append("背包是空的。").append(ln);
-            SimpleLogger.log.info(sb.toString());
-            return;
-        }
-        sb.append("道具").append(ln);
+        sb.append("📦 背包内容: ").append(ln);
+        int count = 0;
+        for (int i = 0; i < CAPACITY; i++) {
+            BackpackSlot slot = slots.get(i);
 
-        for (Map.Entry<Long, Map<ItemModelDto, Integer>> entry : stackableItemGroups.entrySet()) {
-            long id = entry.getKey();
-            Map<ItemModelDto, Integer> group = entry.getValue();
-            for (Map.Entry<ItemModelDto, Integer> e : group.entrySet()) {
-                sb.append("编号:").append(id)
-                        .append(" - ").append(e.getKey().getName())
-                        .append(" x").append(e.getValue()).append("\n");
-            }
-        }
-
-        sb.append(ln).append("装备").append(ln);
-        for (ItemInstance item : nonStackableItems) {
-            sb.append(" - ").append(item.toString());
-            if (item.isEquip()) {
-                sb.append(" - 已装备").append(ln);
+            if (slot == null) {
+                count++;
+            } else if (slot.isStackable()) {
+                sb.append("格子[").append(i + 1).append("]: ");
+                sb.append(slot.getItem().getName()).append(" x").append(slot.getCount()).append(ln);
             } else {
-                sb.append(ln);
+                sb.append("格子[").append(i + 1).append("]: ");
+                sb.append(slot.getInstance().toString()).append(ln);
             }
-
         }
-
+        sb.append("背包剩余容量: [ ").append(count).append(" / ").append(CAPACITY).append(" ]").append(ln);
         SimpleLogger.log.info(sb.toString());
-
     }
 
     /**
-     * 通过名称查找物品
+     * 判断物品是否为可叠加类型
+     *
+     * @param item 物品模板
+     * @return true为可叠加物品，false为不可叠加
      */
-    public List<ItemInstance> selectItem(String itemName) {
-        List<ItemInstance> items = new ArrayList<>();
-        for (ItemInstance item : nonStackableItems) {
-            if (item.getName().contains(itemName)) {
-                items.add(item);
-            }
-        }
-        return items;
-    }
-
-    /**
-     * 通过编号查找物品
-     */
-    public ItemInstance selectItemById(long itemInstanceId) {
-        return idToNonStackableItem.get(itemInstanceId);
-    }
-
     private boolean isStackable(ItemModelDto item) {
         EnumSet<ItemType> type = item.getType();
         return !(type.contains(ItemType.WEAPON) || type.contains(ItemType.ARMOR) || type.contains(ItemType.ACCESSORY));
     }
-
-    @Override
-    public String toString() {
-        return "Backpack [stackableItems=" + stackableItems + ", nonStackableItems=" + nonStackableItems + "]";
-    }
-
 }

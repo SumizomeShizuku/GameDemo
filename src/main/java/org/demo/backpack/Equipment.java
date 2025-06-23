@@ -56,7 +56,7 @@ public class Equipment {
      */
     public void setMainHand(ItemInstance mainHand) {
         this.mainHand = mainHand;
-        mainHand.setEquip(true);
+        mainHand.isEquip(true);
     }
 
     /**
@@ -71,6 +71,7 @@ public class Equipment {
      */
     public void setOffHand(ItemInstance offHand) {
         this.offHand = offHand;
+        offHand.isEquip(true);
     }
 
     /**
@@ -85,6 +86,7 @@ public class Equipment {
      */
     public void setHelmet(ItemInstance helmet) {
         this.helmet = helmet;
+        helmet.isEquip(true);
     }
 
     /**
@@ -99,6 +101,7 @@ public class Equipment {
      */
     public void setArmor(ItemInstance armor) {
         this.armor = armor;
+        armor.isEquip(true);
     }
 
     /**
@@ -113,6 +116,7 @@ public class Equipment {
      */
     public void setPants(ItemInstance pants) {
         this.pants = pants;
+        pants.isEquip(true);
     }
 
     /**
@@ -127,6 +131,7 @@ public class Equipment {
      */
     public void setShoes(ItemInstance shoes) {
         this.shoes = shoes;
+        shoes.isEquip(true);
     }
 
     /**
@@ -138,6 +143,7 @@ public class Equipment {
         for (int i = 0; i < accessories.length; i++) {
             if (accessories[i] == null) {
                 accessories[i] = accessory;
+                accessories[i].isEquip(true);
                 SimpleLogger.log.info("装备成功");
                 return; // 成功后直接退出
             }
@@ -167,7 +173,9 @@ public class Equipment {
      */
     public void replaceAccessory(int slot, ItemInstance accessory) {
         if (checkAccessorySlot(slot)) {
+            accessories[slot].isEquip(false);
             accessories[slot] = accessory;
+            accessories[slot].isEquip(true);
         }
     }
 
@@ -235,26 +243,11 @@ public class Equipment {
      */
     public void setEquip(ItemInstance selectedequip) {
         ItemInstance settedItem = null;
-        ItemInstance oldItem = null;
         EnumSet<ItemType> types = selectedequip.getModel().getType();
         for (ItemType type : types) {
             switch (type) {
                 case WEAPON -> {
-                    if (mainHand != null) {
-                        oldItem = getMainHand();
-                    }
-                    if (oldItem != null) {
-                        if (selectedequip.getInstanceId() != oldItem.getInstanceId()) {
-                            oldItem.setEquip(false);
-                            setMainHand(selectedequip);
-
-                            settedItem = selectedequip;
-                        }
-                    } else {
-                        setMainHand(selectedequip);
-                        settedItem = selectedequip;
-                    }
-                    break;
+                    setMainHand(selectedequip);
                 }
                 case ARMOR -> {
                     setHelmet(selectedequip); // 此处可根据防具细分类型进一步实现
@@ -268,16 +261,150 @@ public class Equipment {
                     // 跳过其它类型，继续尝试匹配
                 }
             }
-            if (!(settedItem == null)) {
+            if (settedItem != null) {
                 SimpleLogger.log.info("已装备" + settedItem.getName() + "[" + settedItem.getInstanceId() + "]");
             }
             break;
         }
-        // if (!(settedItem == null)) {
-        //     SimpleLogger.log.info("已装备" + settedItem.getName() + "[" + settedItem.getInstanceId() + "]");
-        // }
-        // break;
+    }
 
+    /**
+     * 脱下指定装备（通过部位名字符串），返回脱下的物品。
+     *
+     * @param position
+     * 要脱下的部位名称（如"mainHand","offHand","helmet","armor","pants","shoes","accessory0"-"accessory3"）
+     * @return 脱下的物品实例，如果该位置为空或输入非法，返回null
+     */
+    public ItemInstance putOffEquip(String position) {
+        if (position == null) {
+            SimpleLogger.log.info("部位不能为空");
+            return null;
+        }
+        ItemInstance removed = null;
+        switch (position) {
+            case "mainHand" -> {
+                if (mainHand != null) {
+                    removed = mainHand;
+                    removed.isEquip(false);
+                    mainHand = null;
+                }
+            }
+            case "offHand" -> {
+                if (offHand != null) {
+                    removed = offHand;
+                    removed.isEquip(false);
+                    offHand = null;
+                }
+            }
+            case "helmet" -> {
+                if (helmet != null) {
+                    removed = helmet;
+                    removed.isEquip(false);
+                    helmet = null;
+                }
+            }
+            case "armor" -> {
+                if (armor != null) {
+                    removed = armor;
+                    removed.isEquip(false);
+                    armor = null;
+                }
+            }
+            case "pants" -> {
+                if (pants != null) {
+                    removed = pants;
+                    removed.isEquip(false);
+                    pants = null;
+                }
+            }
+            case "shoes" -> {
+                if (shoes != null) {
+                    removed = shoes;
+                    removed.isEquip(false);
+                    shoes = null;
+                }
+            }
+            case "accessory0" -> {
+                if (accessories[0] != null) {
+                    removed = accessories[0];
+                    removed.isEquip(false);
+                    accessories[0] = null;
+                }
+            }
+            case "accessory1" -> {
+                if (accessories[1] != null) {
+                    removed = accessories[1];
+                    removed.isEquip(false);
+                    accessories[1] = null;
+                }
+            }
+            case "accessory2" -> {
+                if (accessories[2] != null) {
+                    removed = accessories[2];
+                    removed.isEquip(false);
+                    accessories[2] = null;
+                }
+            }
+            case "accessory3" -> {
+                if (accessories[3] != null) {
+                    removed = accessories[3];
+                    removed.isEquip(false);
+                    accessories[3] = null;
+                }
+            }
+            default -> {
+                SimpleLogger.log.info("部位名称错误: " + position);
+                return null;
+            }
+        }
+        if (removed != null) {
+            SimpleLogger.log.info("已脱下装备: " + removed.getName() + " [" + removed.getInstanceId() + "]");
+        } else {
+            SimpleLogger.log.info("该位置没有装备可脱下: " + position);
+        }
+        return removed;
+    }
+
+    /**
+     * 展示背包内容到日志
+     */
+    public void showEquipment() {
+        SimpleLogger.log.info(toString());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("【装备栏状态】\n");
+        sb.append("主手: ").append(mainHand != null ? mainHand.getName() + " [" + mainHand.getInstanceId() + "]" : "空")
+                .append("\n");
+        sb.append("副手: ").append(offHand != null ? offHand.getName() + " [" + offHand.getInstanceId() + "]" : "空")
+                .append("\n");
+        sb.append("头部: ").append(helmet != null ? helmet.getName() + " [" + helmet.getInstanceId() + "]" : "空")
+                .append("\n");
+        sb.append("上衣: ").append(armor != null ? armor.getName() + " [" + armor.getInstanceId() + "]" : "空")
+                .append("\n");
+        sb.append("裤子: ").append(pants != null ? pants.getName() + " [" + pants.getInstanceId() + "]" : "空")
+                .append("\n");
+        sb.append("鞋子: ").append(shoes != null ? shoes.getName() + " [" + shoes.getInstanceId() + "]" : "空")
+                .append("\n");
+        sb.append("饰品: ");
+        boolean hasAccessory = false;
+        for (int i = 0; i < accessories.length; i++) {
+            if (accessories[i] != null) {
+                if (hasAccessory) {
+                    sb.append(" | ");
+                }
+                sb.append("[").append(i).append("] ")
+                        .append(accessories[i].getName())
+                        .append(" [").append(accessories[i].getInstanceId()).append("]");
+                hasAccessory = true;
+            }
+        }
+        if (!hasAccessory) {
+            sb.append("空");
+        }
+        return sb.toString();
     }
 
 }

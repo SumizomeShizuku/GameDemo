@@ -1,8 +1,8 @@
 package org.demo.calculator;
 
 import org.demo.constants.Constants;
-import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
+import org.demo.factory.Player;
 import org.demo.interfaces.PlayerSkillAttack;
 import org.demo.list.SkillList;
 import org.demo.list.SkillType;
@@ -31,7 +31,7 @@ public abstract class PlayerAbstractSkillAttack implements PlayerSkillAttack {
      * @param damagePower 技能威力
      * @return DamageResult类型 包含 玩家造成伤害, 以及该伤害是否暴击
      */
-    protected abstract DamageResult calculateDamage(PlayerModelDto player, Enemy enemy, int baseDamage);
+    protected abstract DamageResult calculateDamage(Player player, Enemy enemy, int baseDamage);
 
     /**
      * 统一技能调用入口, 供外部简洁调用。
@@ -44,7 +44,7 @@ public abstract class PlayerAbstractSkillAttack implements PlayerSkillAttack {
      * @return 玩家造成伤害
      */
     @Override
-    public int calculateSkill(PlayerModelDto player, Enemy enemy, SkillList skillList) {
+    public int calculateSkill(Player player, Enemy enemy, SkillList skillList) {
         DamageResult result = calculateDamage(player, enemy, skillList.getBaseDamage());
 
         boolean isMagic = skillList.getTypes().contains(SkillType.Magic);

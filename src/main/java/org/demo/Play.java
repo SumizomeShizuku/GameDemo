@@ -1,11 +1,12 @@
 package org.demo;
 
-import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
 import org.demo.factory.EnemyFactory;
+import org.demo.factory.Player;
 import org.demo.factory.PlayerFactory;
 import org.demo.list.EnemyList;
 import org.demo.system.BattleSystem;
+import org.demo.util.LevelUpHandler;
 import org.demo.util.SimpleLogger;
 
 public class Play {
@@ -13,37 +14,43 @@ public class Play {
     public static void playerInit() {
         // 模拟玩家输入的种族和职业
         // 1:空尾族, 2:人族 3:林语族, 4:亡影族
-        int ethnicityNum = 4;
+        int ethnicityNum = 3;
         // 1:战士, 2:法师, 3:游侠, 4:圣职者
-        int jobNum = 1;
+        int jobNum = 2;
         // 模拟玩家输入的名字
         String playerFirstName = "Anneliese";
         String playerLastName = "Wallis";
 
-        PlayerModelDto player = PlayerFactory.createPlayer(playerFirstName, playerLastName, ethnicityNum, jobNum);
-        SimpleLogger.log.info("选择的职业: " + player.getJob().getNameZh());
-        SimpleLogger.log.info("选择的种族: " + player.getEthnicity().getEthnicityZh());
+        Player player = PlayerFactory.createPlayer(playerFirstName, playerLastName, ethnicityNum, jobNum);
+        SimpleLogger.log.info("选择的职业: " + player.getModel().getJob().getNameZh());
+        SimpleLogger.log.info("选择的种族: " + player.getModel().getEthnicity().getEthnicityZh());
+        LevelUpHandler.handleExpGain(player.getModel(), 40000);
 
         Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
-        SimpleLogger.log.info(player.getFirstName() + " 遇到了一只敌人:  " + enemy);
+        SimpleLogger.log.info(player.getModel().getFirstName() + " 遇到了一只敌人:  " + enemy);
 
         BattleSystem.startBattle(player, enemy);
 
-        // player.setEquip(1);
+        player.setEquip(2);
         player.showInventory();
-        player.removeItemById(2);
+        // player.removeItemBySlot(2,1);
 
-        player.removeStackableItemById(1, 2);
-        SimpleLogger.log.info("36行道具删除前");
+        // SimpleLogger.log.info("道具删除");
         player.showInventory();
-        SimpleLogger.log.info("36行道具删除后");
+
         enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
-        SimpleLogger.log.info(player.getFirstName() + " 遇到了一只敌人:  " + enemy);
+        SimpleLogger.log.info(player.getModel().getFirstName() + " 遇到了一只敌人:  " + enemy);
 
         BattleSystem.startBattle(player, enemy);
 
-        player.setEquip(3);
+        player.setEquip(1);
+
         player.showInventory();
         // System.out.println(player.getBackpack().toString());
+        player.showEquipment();
+        player.putOffEquip("mainHand");
+        SimpleLogger.log.info("--------------分割");
+        player.showInventory();
+        player.showEquipment();
     }
 }

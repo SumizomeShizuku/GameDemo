@@ -2,6 +2,7 @@ package org.demo.backpack;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.demo.dto.ItemModelDto;
 
@@ -14,14 +15,9 @@ import org.demo.dto.ItemModelDto;
 public class ItemInstance {
 
     /**
-     * 背包中的物品编号 (自增)
-     */
-    private static long nextId = 1;
-
-    /**
      * 唯一实例ID( 与物品模板ID不同 )。
      */
-    private final long instanceId;
+    private final String instanceId;
 
     /**
      * 物品模板对象，包含物品的基本信息。
@@ -44,8 +40,7 @@ public class ItemInstance {
      * @param model 物品模板对象
      */
     public ItemInstance(ItemModelDto model) {
-        // this.instanceId = UUID.randomUUID().toString();
-        this.instanceId = nextId++;
+        this.instanceId = UUID.randomUUID().toString();
         this.model = model;
     }
 
@@ -54,7 +49,7 @@ public class ItemInstance {
      *
      * @return 实例ID( UUID )
      */
-    public long getInstanceId() {
+    public String getInstanceId() {
         return instanceId;
     }
 
@@ -90,7 +85,7 @@ public class ItemInstance {
      *
      * @param isEquip 是否装备
      */
-    public void setEquip(boolean isEquip) {
+    public void isEquip(boolean isEquip) {
         this.isEquip = isEquip;
     }
 
@@ -120,9 +115,19 @@ public class ItemInstance {
      */
     @Override
     public String toString() {
-        if (attributes.isEmpty()) {
-            return model.getName() + " [ID:" + model.getId() + ", UUID:" + instanceId + "]";
+        StringBuilder sb = new StringBuilder();
+        sb.append(model.getName());
+        if (isEquip) {
+            sb.append(" -已装备");
         }
-        return model.getName() + " [ID:" + model.getId() + ", 属性:" + attributes + ", UUID:" + instanceId + "]";
+        if (attributes.isEmpty()) {
+            sb.append(" [ID:").append(model.getId()).append(", UUID:").append(instanceId)
+                    .append("]");
+        } else {
+            sb.append(" [ID:").append(model.getId()).append(", 属性:").append(attributes)
+                    .append(", UUID:").append(instanceId).append("]");
+        }
+
+        return sb.toString();
     }
 }

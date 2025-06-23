@@ -1,7 +1,7 @@
 package org.demo.calculator;
 
-import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
+import org.demo.factory.Player;
 
 /**
  * 敌人的普通物理攻击
@@ -17,7 +17,7 @@ public class EnemyNormalSkillAttack extends EnemyAbstractSkillAttack {
      * @return DamageResult类型 包含 玩家造成伤害, 以及该伤害是否暴击
      */
     @Override
-    public DamageResult calculateDamage(Enemy enemy, PlayerModelDto player, int damagePower) {
+    public DamageResult calculateDamage(Enemy enemy, Player player, int damagePower) {
 
         int atk = enemy.getAttack();       // 敌人攻击力  :contentReference[oaicite:1]{index=1}
         damagePower = 20;              // 固定威力, 与玩家普通技保持一致 :contentReference[oaicite:2]{index=2}

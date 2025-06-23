@@ -1,10 +1,7 @@
 package org.demo.dto;
 
-import java.util.List;
-
 import org.demo.backpack.Backpack;
 import org.demo.backpack.Equipment;
-import org.demo.backpack.ItemInstance;
 import org.demo.list.EthnicityList;
 import org.demo.list.JobList;
 
@@ -147,7 +144,6 @@ public class PlayerModelDto {
      */
     public void setExp(int exp) {
         this.exp = exp;
-        // setLevel(getExp());
     }
 
     /**
@@ -439,6 +435,15 @@ public class PlayerModelDto {
     }
 
     /**
+     * 获取玩家装备
+     *
+     * @return
+     */
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
+    /**
      * 获取行动力
      *
      * @return
@@ -456,20 +461,27 @@ public class PlayerModelDto {
         this.actionsPerTurn = actionsPerTurn;
     }
 
-    // 玩家受伤判定
-    public void takeDamage(int damage) {
-        this.currentHealthPoint = Math.max(0, currentHealthPoint - damage);
-    }
-
-    /**
-     * 判断玩家是否存活
-     *
-     * @return true:存活, false:死亡
-     */
-    public boolean isAlive() {
-        return this.currentHealthPoint > 0;
-    }
-
+    // // 玩家受伤判定
+    // public void takeDamage(int damage) {
+    //     this.currentHealthPoint = Math.max(0, currentHealthPoint - damage);
+    // }
+    // /**
+    //  * 判断玩家是否存活
+    //  *
+    //  * @return true:存活, false:死亡
+    //  */
+    // public boolean isAlive() {
+    //     return this.currentHealthPoint > 0;
+    // }
+    // // /**
+    // //  * 玩家背包添加物品
+    // //  *
+    // //  * @param item 物品dto
+    // //  * @param count 数量
+    // //  */
+    // // public void addItem(ItemModelDto item, int count) {
+    // //     backpack.addItem(item, count);
+    // // }
     // /**
     //  * 玩家背包添加物品
     //  *
@@ -479,72 +491,56 @@ public class PlayerModelDto {
     // public void addItem(ItemModelDto item, int count) {
     //     backpack.addItem(item, count);
     // }
-    /**
-     * 玩家背包添加物品
-     *
-     * @param item 物品dto
-     * @param count 数量
-     */
-    public void addItem(ItemModelDto item, int count) {
-        backpack.addItem(item, count);
-    }
-
-    /**
-     * 玩家背包移除物品
-     *
-     * @param item 物品dto
-     * @param count 数量
-     * @return 是否移除成功
-     */
-    public boolean removeItem(ItemModelDto item, int count) {
-        return backpack.removeItem(item, count);
-    }
-
-    /**
-     * 玩家背包移除物品
-     *
-     * @param id 物品id
-     * @return 是否移除成功
-     */
-    public boolean removeItemById(long id) {
-        return backpack.removeItemById(id);
-    }
-
-    /**
-     * 玩家背包移除物品
-     *
-     * @param id 物品id
-     * @return 是否移除成功
-     */
-    public boolean removeStackableItemById(long id, int count) {
-        return backpack.removeStackableItemById(id, count);
-    }
-
-    /**
-     * 玩家背包物品展示
-     *
-     * @param itemConfig
-     */
-    public void showInventory() {
-        backpack.showInventory();
-    }
-
-    /**
-     * 玩家选择背包物品
-     *
-     * @param itemName 物品名
-     */
-    public List<ItemInstance> selectItem(String itemName) {
-        return backpack.selectItem(itemName);
-    }
-
-    /**
-     * 玩家装备道具
-     */
-    public void setEquip(long instanceId) {
-        equipment.setEquip(backpack.selectItemById(instanceId));
-    }
-
+    // /**
+    //  * 玩家背包移除物品
+    //  *
+    //  * @param item 物品dto
+    //  * @param count 数量
+    //  * @return 是否移除成功
+    //  */
+    // public boolean removeItem(ItemModelDto item, int count) {
+    //     return backpack.removeItem(item, count);
+    // }
+    // /**
+    //  * 玩家背包移除物品
+    //  *
+    //  * @param id 物品id
+    //  * @return 是否移除成功
+    //  */
+    // public boolean removeItemById(long id) {
+    //     return backpack.removeItemById(id);
+    // }
+    // /**
+    //  * 玩家背包移除物品
+    //  *
+    //  * @param id 物品id
+    //  * @return 是否移除成功
+    //  */
+    // public boolean removeStackableItemById(long id, int count) {
+    //     return backpack.removeStackableItemById(id, count);
+    // }
+    // /**
+    //  * 玩家背包物品展示
+    //  *
+    //  * @param itemConfig
+    //  */
+    // public void showInventory() {
+    //     backpack.showInventory();
+    // }
+    // /**
+    //  * 玩家选择背包物品
+    //  *
+    //  * @param itemName 物品名
+    //  */
+    // public List<ItemInstance> selectItem(String itemName) {
+    //     return backpack.selectItem(itemName);
+    // }
+    // /**
+    //  * 玩家装备道具
+    //  */
+    // public void setEquip(long instanceId) {
+    //     equipment.setEquip(backpack.selectItemById(instanceId));
+    // }
     /**
      * 获取玩家的属性字符串表示
      *

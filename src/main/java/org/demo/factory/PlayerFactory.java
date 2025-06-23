@@ -16,8 +16,10 @@ public class PlayerFactory {
      * @param jobNum 职业编号( 1~4 )
      * @return 构建完成的玩家数据传输对象
      */
-    public static PlayerModelDto createPlayer(String firstName, String lastName, int ethnicityNum, int jobNum) {
+    public static Player createPlayer(String firstName, String lastName, int ethnicityNum, int jobNum) {
+
         PlayerModelDto player = new PlayerModelDto();
+        Player playerModel = new Player(player);
 
         EthnicityList ethnicity = Constants.DEFAULT_ETHNICITY;
         if (ethnicityNum > 0 && ethnicityNum <= Constants.TOTAL_ETHNICITY_NUM) {
@@ -55,11 +57,13 @@ public class PlayerFactory {
         player.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
         player.setActionsPerTurn(1);
 
-        return player;
+        return playerModel;
     }
 
-    public static PlayerModelDto createPlayerTemplate(String firstName, String lastName, EthnicityList ethnicity, JobList job) {
+    public static Player createPlayerTemplate(String firstName, String lastName, EthnicityList ethnicity, JobList job) {
         PlayerModelDto player = new PlayerModelDto();
+        Player playerModel = new Player(player);
+
         player.setFirstName(firstName);
         player.setLastName(lastName);
         player.setEthnicity(ethnicity);
@@ -87,15 +91,15 @@ public class PlayerFactory {
         player.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
         player.setActionsPerTurn(1);
 
-        return player;
+        return playerModel;
     }
 
     // 示例快捷方法
-    public static PlayerModelDto createDefaultArcherElf(String firstName, String lastName) {
+    public static Player createDefaultArcherElf(String firstName, String lastName) {
         return createPlayerTemplate(firstName, lastName, EthnicityList.SYLVARIN, JobList.ARCHER);
     }
 
-    public static PlayerModelDto createDefaultMageUndead(String firstName, String lastName) {
+    public static Player createDefaultMageUndead(String firstName, String lastName) {
         return createPlayerTemplate(firstName, lastName, EthnicityList.THARNYX, JobList.MAGE);
     }
 

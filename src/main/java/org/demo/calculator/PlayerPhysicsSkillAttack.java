@@ -1,7 +1,7 @@
 package org.demo.calculator;
 
-import org.demo.dto.PlayerModelDto;
 import org.demo.factory.Enemy;
+import org.demo.factory.Player;
 
 public class PlayerPhysicsSkillAttack extends PlayerAbstractSkillAttack {
 
@@ -14,7 +14,7 @@ public class PlayerPhysicsSkillAttack extends PlayerAbstractSkillAttack {
      * @return DamageResult类型 包含 玩家造成伤害, 以及该伤害是否暴击
      */
     @Override
-    protected DamageResult calculateDamage(PlayerModelDto player, Enemy enemy, int damagePower) {
+    protected DamageResult calculateDamage(Player player, Enemy enemy, int damagePower) {
         int str = player.getStrength();
         double p;
         if (damagePower < 20) {
