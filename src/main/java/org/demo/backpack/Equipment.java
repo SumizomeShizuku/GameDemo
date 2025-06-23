@@ -1,10 +1,9 @@
 package org.demo.backpack;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
-import org.demo.list.ItemType;
+import org.demo.dto.PlayerModelDto;
 import org.demo.util.SimpleLogger;
 
 /**
@@ -241,31 +240,109 @@ public class Equipment {
      *
      * @param item 物品实例
      */
-    public void setEquip(ItemInstance selectedequip) {
-        ItemInstance settedItem = null;
-        EnumSet<ItemType> types = selectedequip.getModel().getType();
-        for (ItemType type : types) {
-            switch (type) {
-                case WEAPON -> {
+    public void setEquip(PlayerModelDto model, String position, ItemInstance selectedequip) {
+        ItemInstance oldInstance;
+        switch (position) {
+            case "mainHand" -> {
+                if (mainHand != null) {
+                    oldInstance = putOffEquip("mainHand");
+                    setMainHand(selectedequip);
+                    model.getBackpack().addItem(oldInstance);
+                } else {
                     setMainHand(selectedequip);
                 }
-                case ARMOR -> {
-                    setHelmet(selectedequip); // 此处可根据防具细分类型进一步实现
-                    break;
-                }
-                case ACCESSORY -> {
-                    addAccessory(selectedequip);
-                    break;
-                }
-                default -> {
-                    // 跳过其它类型，继续尝试匹配
+            }
+            case "offHand" -> {
+                if (offHand != null) {
+                    oldInstance = putOffEquip("offHand");
+                    setOffHand(selectedequip);
+                    model.getBackpack().addItem(oldInstance);
+                } else {
+                    setOffHand(selectedequip);
                 }
             }
-            if (settedItem != null) {
-                SimpleLogger.log.info("已装备" + settedItem.getName() + "[" + settedItem.getInstanceId() + "]");
+            case "helmet" -> {
+                if (helmet != null) {
+                    oldInstance = putOffEquip("helmet");
+                    setHelmet(selectedequip);
+                    model.getBackpack().addItem(oldInstance);
+                } else {
+                    setHelmet(selectedequip);
+                }
             }
-            break;
+            case "armor" -> {
+                if (armor != null) {
+                    oldInstance = putOffEquip("armor");
+                    setArmor(selectedequip);
+                    model.getBackpack().addItem(oldInstance);
+                } else {
+                    setArmor(selectedequip);
+                }
+            }
+            case "pants" -> {
+                if (pants != null) {
+                    oldInstance = putOffEquip("pants");
+                    setPants(selectedequip);
+                    model.getBackpack().addItem(oldInstance);
+                } else {
+                    setPants(selectedequip);
+                }
+            }
+            case "shoes" -> {
+                if (shoes != null) {
+                    oldInstance = putOffEquip("shoes");
+                    setShoes(selectedequip);
+                    model.getBackpack().addItem(oldInstance);
+                } else {
+                    setShoes(selectedequip);
+                }
+            }
+            case "accessory" -> {
+                addAccessory(selectedequip);
+            }
+            case "accessory1" -> {
+                if (accessories[0] != null) {
+                    oldInstance = putOffEquip("accessory1");
+                    accessories[0] = selectedequip;
+                    model.getBackpack().addItem(oldInstance);
+                } else {
+                    accessories[0] = selectedequip;
+                }
+            }
+            case "accessory2" -> {
+                if (accessories[1] != null) {
+                    oldInstance = putOffEquip("accessory2");
+                    accessories[1] = selectedequip;
+                    model.getBackpack().addItem(oldInstance);
+                } else {
+                    accessories[1] = selectedequip;
+                }
+            }
+            case "accessory3" -> {
+                if (accessories[2] != null) {
+                    oldInstance = putOffEquip("accessory3");
+                    accessories[2] = selectedequip;
+                    model.getBackpack().addItem(oldInstance);
+                } else {
+                    accessories[2] = selectedequip;
+                }
+            }
+            case "accessory4" -> {
+                if (accessories[3] != null) {
+                    oldInstance = putOffEquip("accessory4");
+                    accessories[3] = selectedequip;
+                    model.getBackpack().addItem(oldInstance);
+                } else {
+                    accessories[3] = selectedequip;
+                }
+            }
+            default -> {
+                SimpleLogger.log.info("部位名称错误: " + position);
+
+            }
         }
+        SimpleLogger.log.info("已装备" + selectedequip.getName() + "[" + selectedequip.getInstanceId() + "]");
+
     }
 
     /**
@@ -324,28 +401,28 @@ public class Equipment {
                     shoes = null;
                 }
             }
-            case "accessory0" -> {
+            case "accessory1" -> {
                 if (accessories[0] != null) {
                     removed = accessories[0];
                     removed.isEquip(false);
                     accessories[0] = null;
                 }
             }
-            case "accessory1" -> {
+            case "accessory2" -> {
                 if (accessories[1] != null) {
                     removed = accessories[1];
                     removed.isEquip(false);
                     accessories[1] = null;
                 }
             }
-            case "accessory2" -> {
+            case "accessory3" -> {
                 if (accessories[2] != null) {
                     removed = accessories[2];
                     removed.isEquip(false);
                     accessories[2] = null;
                 }
             }
-            case "accessory3" -> {
+            case "accessory4" -> {
                 if (accessories[3] != null) {
                     removed = accessories[3];
                     removed.isEquip(false);
@@ -375,6 +452,8 @@ public class Equipment {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        String ln = System.lineSeparator();
+
         sb.append("【装备栏状态】\n");
         sb.append("主手: ").append(mainHand != null ? mainHand.getName() + " [" + mainHand.getInstanceId() + "]" : "空")
                 .append("\n");
@@ -388,14 +467,14 @@ public class Equipment {
                 .append("\n");
         sb.append("鞋子: ").append(shoes != null ? shoes.getName() + " [" + shoes.getInstanceId() + "]" : "空")
                 .append("\n");
-        sb.append("饰品: ");
+        sb.append("饰品列表: ").append(ln);
         boolean hasAccessory = false;
         for (int i = 0; i < accessories.length; i++) {
             if (accessories[i] != null) {
                 if (hasAccessory) {
-                    sb.append(" | ");
+                    sb.append(ln);
                 }
-                sb.append("[").append(i).append("] ")
+                sb.append("[").append(i + 1).append("] ")
                         .append(accessories[i].getName())
                         .append(" [").append(accessories[i].getInstanceId()).append("]");
                 hasAccessory = true;

@@ -31,7 +31,7 @@ public class Play {
 
         BattleSystem.startBattle(player, enemy);
 
-        player.setEquip(2);
+        player.setEquip("mainHand", 2);
         player.showInventory();
         // player.removeItemBySlot(2,1);
 
@@ -43,13 +43,20 @@ public class Play {
 
         BattleSystem.startBattle(player, enemy);
 
-        player.setEquip(1);
+        player.setEquip("mainHand", 1);
 
         player.showInventory();
         // System.out.println(player.getBackpack().toString());
         player.showEquipment();
         player.putOffEquip("mainHand");
         SimpleLogger.log.info("--------------分割");
+        player.showInventory();
+        player.showEquipment();
+        SimpleLogger.log.info("--------------分割-----------------");
+        player.setEquip("accessory", 2);
+        player.showInventory();
+        player.showEquipment();
+        player.setEquip("accessory4", 1);
         player.showInventory();
         player.showEquipment();
     }

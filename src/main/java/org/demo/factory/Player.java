@@ -341,7 +341,7 @@ public class Player {
     /**
      * 玩家装备道具
      */
-    public boolean setEquip(int slotId) {
+    public boolean setEquip(String position, int slotId) {
         boolean isEquipable = false;
         // 已在 getSlot 方法中处理了slotId
         // 故此处无需 -1
@@ -353,7 +353,7 @@ public class Player {
             ItemInstance item = bs.getInstance();
             if (removeItemBySlot(slotId, 1)) {
                 isEquipable = true;
-                model.getEquipment().setEquip(item);
+                model.getEquipment().setEquip(model, position, item);
             }
 
         }
