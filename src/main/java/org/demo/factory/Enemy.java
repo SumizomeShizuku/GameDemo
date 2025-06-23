@@ -1,6 +1,7 @@
 package org.demo.factory;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -9,6 +10,7 @@ import org.demo.backpack.DropInfo;
 import org.demo.backpack.GenerateDrops;
 import org.demo.dto.EnemyModelDto;
 import org.demo.dto.ItemModelDto;
+import org.demo.list.ItemType;
 import org.demo.list.SkillList;
 
 /**
@@ -174,24 +176,43 @@ public class Enemy {
     public String formatDropItems(Map<ItemModelDto, Integer> droppedItems) {
         StringBuilder sb = new StringBuilder();
         String ln = System.lineSeparator();
-        // Map<ItemModelDto, Integer> countMap = new java.util.HashMap<>();
 
-        // for (ItemModelDto item : droppedItems) {
-        //     countMap.put(item, countMap.getOrDefault(item, 0) + 1);
-        // }
         for (Map.Entry<ItemModelDto, Integer> entry : droppedItems.entrySet()) {
             ItemModelDto item = entry.getKey();
             int count = entry.getValue();
-            sb.append(ln);
-            sb.append("道具名称: ").append(item.getName()).append(ln);
-            sb.append("物品类型: ").append(item.getType()).append(ln);
-            sb.append("物品描述: ").append(item.getDescription()).append(ln);
-            sb.append("物品价格: ").append(item.getPrice()).append(ln);
-            sb.append("掉落数量: ").append(count).append(ln);
-            sb.append("---------------------------").append(ln);
+            if (isStackable(item)) {
+                sb.append(ln);
+                sb.append("道具名称: ").append(item.getName()).append(ln);
+                sb.append("物品类型: ").append(item.getType()).append(ln);
+                sb.append("物品描述: ").append(item.getDescription()).append(ln);
+                sb.append("物品价格: ").append(item.getPrice()).append(ln);
+                sb.append("掉落数量: ").append(count).append(ln);
+                sb.append("---------------------------").append(ln);
+            } else {
+                for (int i = 0; i < count; i++) {
+                    sb.append(ln);
+                    sb.append("道具名称: ").append(item.getName()).append(ln);
+                    sb.append("物品类型: ").append(item.getType()).append(ln);
+                    sb.append("物品描述: ").append(item.getDescription()).append(ln);
+                    sb.append("物品价格: ").append(item.getPrice()).append(ln);
+                    sb.append("---------------------------").append(ln);
+                }
+            }
+
         }
 
         return sb.toString();
+    }
+
+    /**
+     * 判断物品是否为可叠加类型
+     *
+     * @param item 物品模板
+     * @return true为可叠加物品，false为不可叠加
+     */
+    private boolean isStackable(ItemModelDto item) {
+        EnumSet<ItemType> type = item.getType();
+        return !(type.contains(ItemType.WEAPON) || type.contains(ItemType.ARMOR) || type.contains(ItemType.ACCESSORY));
     }
 
     /**
