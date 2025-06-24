@@ -193,15 +193,14 @@ public class Player {
         return model.getCommonCoolDown();
     }
 
-    /**
-     * 获取玩家的基础攻击力
-     *
-     * @return
-     */
-    public double getBaseAttribute() {
-        return model.getBaseAttribute();
-    }
-
+    // /**
+    //  * 获取玩家的基础攻击力
+    //  *
+    //  * @return
+    //  */
+    // public double getBaseAttribute() {
+    //     return model.getBaseAttribute();
+    // }
     /**
      * 获取玩家的暴击率
      *
@@ -351,14 +350,26 @@ public class Player {
         }
         if (bs.getInstance() != null) {
             ItemInstance item = bs.getInstance();
-            if (removeItemBySlot(slotId, 1)) {
-                isEquipable = true;
-                model.getEquipment().setEquip(model, position, item);
+            if (model.getEquipment().setEquip(model, position, item)) {
+                if (removeItemBySlot(slotId, 1)) {
+                    isEquipable = true;
+                }
+
             }
 
         }
         if (!isEquipable) {
-            SimpleLogger.log.info("该物品不可装备! [" + bs.getItem().getName() + "]");
+            StringBuilder sb = new StringBuilder();
+            sb.append("该物品不可装备! [");
+            if (bs.getInstance() != null) {
+                sb.append(bs.getInstance().getName());
+                sb.append(", ").append(bs.getInstance().getInstanceId());
+            } else if (bs.getItem() != null) {
+                sb.append(bs.getItem().getName());
+            }
+            sb.append("]");
+            SimpleLogger.log.warn(sb.toString());
+
         }
         return isEquipable;
     }

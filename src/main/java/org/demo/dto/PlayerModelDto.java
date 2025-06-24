@@ -45,8 +45,8 @@ public class PlayerModelDto {
     private double recoverMP;
     // 基础冷却时间
     private double commonCoolDown;
-    // 基础攻击力
-    private double baseAttribute;
+    // // 基础攻击力
+    // private double baseAttribute;
     // 暴击率
     private double criticalHitRate;
     // 玩家背包
@@ -398,15 +398,14 @@ public class PlayerModelDto {
         this.commonCoolDown = commonCoolDown;
     }
 
-    /**
-     * 获取玩家的基础攻击力
-     *
-     * @return
-     */
-    public double getBaseAttribute() {
-        return baseAttribute;
-    }
-
+    // /**
+    //  * 获取玩家的基础攻击力
+    //  *
+    //  * @return
+    //  */
+    // public double getBaseAttribute() {
+    //     return baseAttribute;
+    // }
     /**
      * 获取玩家的暴击率
      *
@@ -461,86 +460,6 @@ public class PlayerModelDto {
         this.actionsPerTurn = actionsPerTurn;
     }
 
-    // // 玩家受伤判定
-    // public void takeDamage(int damage) {
-    //     this.currentHealthPoint = Math.max(0, currentHealthPoint - damage);
-    // }
-    // /**
-    //  * 判断玩家是否存活
-    //  *
-    //  * @return true:存活, false:死亡
-    //  */
-    // public boolean isAlive() {
-    //     return this.currentHealthPoint > 0;
-    // }
-    // // /**
-    // //  * 玩家背包添加物品
-    // //  *
-    // //  * @param item 物品dto
-    // //  * @param count 数量
-    // //  */
-    // // public void addItem(ItemModelDto item, int count) {
-    // //     backpack.addItem(item, count);
-    // // }
-    // /**
-    //  * 玩家背包添加物品
-    //  *
-    //  * @param item 物品dto
-    //  * @param count 数量
-    //  */
-    // public void addItem(ItemModelDto item, int count) {
-    //     backpack.addItem(item, count);
-    // }
-    // /**
-    //  * 玩家背包移除物品
-    //  *
-    //  * @param item 物品dto
-    //  * @param count 数量
-    //  * @return 是否移除成功
-    //  */
-    // public boolean removeItem(ItemModelDto item, int count) {
-    //     return backpack.removeItem(item, count);
-    // }
-    // /**
-    //  * 玩家背包移除物品
-    //  *
-    //  * @param id 物品id
-    //  * @return 是否移除成功
-    //  */
-    // public boolean removeItemById(long id) {
-    //     return backpack.removeItemById(id);
-    // }
-    // /**
-    //  * 玩家背包移除物品
-    //  *
-    //  * @param id 物品id
-    //  * @return 是否移除成功
-    //  */
-    // public boolean removeStackableItemById(long id, int count) {
-    //     return backpack.removeStackableItemById(id, count);
-    // }
-    // /**
-    //  * 玩家背包物品展示
-    //  *
-    //  * @param itemConfig
-    //  */
-    // public void showInventory() {
-    //     backpack.showInventory();
-    // }
-    // /**
-    //  * 玩家选择背包物品
-    //  *
-    //  * @param itemName 物品名
-    //  */
-    // public List<ItemInstance> selectItem(String itemName) {
-    //     return backpack.selectItem(itemName);
-    // }
-    // /**
-    //  * 玩家装备道具
-    //  */
-    // public void setEquip(long instanceId) {
-    //     equipment.setEquip(backpack.selectItemById(instanceId));
-    // }
     /**
      * 获取玩家的属性字符串表示
      *
@@ -567,7 +486,6 @@ public class PlayerModelDto {
         sb.append(ln).append("  每秒恢复MP: ").append(recoverMP);
         sb.append(ln).append("  基础冷却时间: ").append(commonCoolDown);
         sb.append(ln).append("  移速: ").append(moveSpeed);
-        sb.append(ln).append("  基础攻击力: ").append(baseAttribute);
         sb.append(ln).append("  ").append(String.format("暴击率: %.2f%%", criticalHitRate * 100));
         sb.append(ln).append("]");
         return sb.toString();

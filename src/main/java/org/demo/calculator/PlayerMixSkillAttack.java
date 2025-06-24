@@ -32,8 +32,8 @@ public class PlayerMixSkillAttack extends PlayerAbstractSkillAttack {
         double rawPhysical = 0.6 * Math.pow(str, 1.3) * p;
         double rawMagic = 0.5 * Math.pow(intel, 1.2) * p;
 
-        double pDef = enemy.getDefense();
-        double mRes = 0.0;
+        double pDef = enemy.getPhyDefense();
+        double mRes = enemy.getMagicDefense();
 
         double physicalReduction = pDef / (pDef + 100.0);
         double magicReduction = mRes / (mRes + 100.0);

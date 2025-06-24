@@ -14,6 +14,14 @@ public enum ItemType {
      */
     WEAPON("weapon"),
     /**
+     * 武器( 主手可装备 )
+     */
+    MAINHAND("mainHand"),
+    /**
+     * 武器( 副手可装备 )
+     */
+    OFFHAND("offHand"),
+    /**
      * 剑( 包括单手剑、双手剑、巨剑等 )
      */
     SWORD("sword"),

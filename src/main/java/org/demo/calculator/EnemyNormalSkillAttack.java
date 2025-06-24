@@ -38,9 +38,9 @@ public class EnemyNormalSkillAttack extends EnemyAbstractSkillAttack {
         double rawDamage = 0.6 * Math.pow(atk, 1.3) * p;
 
         /* ==== 3. 防御减伤, 与玩家 → 敌人公式对称 ==== */
-        int playerDEF = player.getPhysicsDefenes();
-        double defenseRatio = (double) playerDEF / (playerDEF + 100.0);
-        double finalDamage = rawDamage * (1.0 - defenseRatio);
+        int pDef = player.getPhysicsDefenes();
+        double pDefRatio = (double) pDef / (pDef + 100.0);
+        double finalDamage = rawDamage * (1.0 - pDefRatio);
 
         if (finalDamage < 1) {
             finalDamage = 2;          // 保底伤害

@@ -1,9 +1,11 @@
 package org.demo.backpack;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 import org.demo.dto.PlayerModelDto;
+import org.demo.list.ItemType;
 import org.demo.util.SimpleLogger;
 
 /**
@@ -138,16 +140,17 @@ public class Equipment {
      *
      * @param accessory 待装备的饰品实例
      */
-    public void addAccessory(ItemInstance accessory) {
+    public boolean addAccessory(ItemInstance accessory) {
         for (int i = 0; i < accessories.length; i++) {
             if (accessories[i] == null) {
                 accessories[i] = accessory;
                 accessories[i].isEquip(true);
                 SimpleLogger.log.info("装备成功");
-                return; // 成功后直接退出
+                return true; // 成功后直接退出
             }
         }
         SimpleLogger.log.info("没有空位");
+        return false;
     }
 
     /**
@@ -240,16 +243,24 @@ public class Equipment {
      *
      * @param item 物品实例
      */
-    public void setEquip(PlayerModelDto model, String position, ItemInstance selectedequip) {
+    public boolean setEquip(PlayerModelDto model, String position, ItemInstance selectedequip) {
+        boolean equipFlg = false;
         ItemInstance oldInstance;
+        EnumSet<ItemType> types = selectedequip.getModel().getType();
         switch (position) {
             case "mainHand" -> {
-                if (mainHand != null) {
-                    oldInstance = putOffEquip("mainHand");
-                    setMainHand(selectedequip);
-                    model.getBackpack().addItem(oldInstance);
+                if (types.contains(ItemType.WEAPON)) {
+                    if (mainHand != null) {
+                        oldInstance = putOffEquip("mainHand");
+                        setMainHand(selectedequip);
+                        model.getBackpack().addItem(oldInstance);
+                        equipFlg = true;
+                    } else {
+                        setMainHand(selectedequip);
+                        equipFlg = true;
+                    }
                 } else {
-                    setMainHand(selectedequip);
+                    positionError(position, selectedequip);
                 }
             }
             case "offHand" -> {
@@ -257,8 +268,10 @@ public class Equipment {
                     oldInstance = putOffEquip("offHand");
                     setOffHand(selectedequip);
                     model.getBackpack().addItem(oldInstance);
+                    equipFlg = true;
                 } else {
                     setOffHand(selectedequip);
+                    equipFlg = true;
                 }
             }
             case "helmet" -> {
@@ -266,8 +279,10 @@ public class Equipment {
                     oldInstance = putOffEquip("helmet");
                     setHelmet(selectedequip);
                     model.getBackpack().addItem(oldInstance);
+                    equipFlg = true;
                 } else {
                     setHelmet(selectedequip);
+                    equipFlg = true;
                 }
             }
             case "armor" -> {
@@ -275,8 +290,10 @@ public class Equipment {
                     oldInstance = putOffEquip("armor");
                     setArmor(selectedequip);
                     model.getBackpack().addItem(oldInstance);
+                    equipFlg = true;
                 } else {
                     setArmor(selectedequip);
+                    equipFlg = true;
                 }
             }
             case "pants" -> {
@@ -284,8 +301,10 @@ public class Equipment {
                     oldInstance = putOffEquip("pants");
                     setPants(selectedequip);
                     model.getBackpack().addItem(oldInstance);
+                    equipFlg = true;
                 } else {
                     setPants(selectedequip);
+                    equipFlg = true;
                 }
             }
             case "shoes" -> {
@@ -293,47 +312,79 @@ public class Equipment {
                     oldInstance = putOffEquip("shoes");
                     setShoes(selectedequip);
                     model.getBackpack().addItem(oldInstance);
+                    equipFlg = true;
                 } else {
                     setShoes(selectedequip);
+                    equipFlg = true;
                 }
             }
             case "accessory" -> {
-                addAccessory(selectedequip);
+                if (types.contains(ItemType.ACCESSORY)) {
+                    if (addAccessory(selectedequip)) {
+                        equipFlg = true;
+                    }
+                } else {
+                    positionError(position, selectedequip);
+                }
             }
             case "accessory1" -> {
-                if (accessories[0] != null) {
-                    oldInstance = putOffEquip("accessory1");
-                    accessories[0] = selectedequip;
-                    model.getBackpack().addItem(oldInstance);
+                if (types.contains(ItemType.ACCESSORY)) {
+                    if (accessories[0] != null) {
+                        oldInstance = putOffEquip("accessory1");
+                        accessories[0] = selectedequip;
+                        model.getBackpack().addItem(oldInstance);
+                        equipFlg = true;
+                    } else {
+                        accessories[0] = selectedequip;
+                        equipFlg = true;
+                    }
                 } else {
-                    accessories[0] = selectedequip;
+                    positionError(position, selectedequip);
                 }
             }
             case "accessory2" -> {
-                if (accessories[1] != null) {
-                    oldInstance = putOffEquip("accessory2");
-                    accessories[1] = selectedequip;
-                    model.getBackpack().addItem(oldInstance);
+                if (types.contains(ItemType.ACCESSORY)) {
+                    if (accessories[1] != null) {
+                        oldInstance = putOffEquip("accessory2");
+                        accessories[1] = selectedequip;
+                        model.getBackpack().addItem(oldInstance);
+                        equipFlg = true;
+                    } else {
+                        accessories[1] = selectedequip;
+                        equipFlg = true;
+                    }
                 } else {
-                    accessories[1] = selectedequip;
+                    positionError(position, selectedequip);
                 }
             }
             case "accessory3" -> {
-                if (accessories[2] != null) {
-                    oldInstance = putOffEquip("accessory3");
-                    accessories[2] = selectedequip;
-                    model.getBackpack().addItem(oldInstance);
+                if (types.contains(ItemType.ACCESSORY)) {
+                    if (accessories[2] != null) {
+                        oldInstance = putOffEquip("accessory3");
+                        accessories[2] = selectedequip;
+                        model.getBackpack().addItem(oldInstance);
+                        equipFlg = true;
+                    } else {
+                        accessories[2] = selectedequip;
+                        equipFlg = true;
+                    }
                 } else {
-                    accessories[2] = selectedequip;
+                    positionError(position, selectedequip);
                 }
             }
             case "accessory4" -> {
-                if (accessories[3] != null) {
-                    oldInstance = putOffEquip("accessory4");
-                    accessories[3] = selectedequip;
-                    model.getBackpack().addItem(oldInstance);
+                if (types.contains(ItemType.ACCESSORY)) {
+                    if (accessories[3] != null) {
+                        oldInstance = putOffEquip("accessory4");
+                        accessories[3] = selectedequip;
+                        model.getBackpack().addItem(oldInstance);
+                        equipFlg = true;
+                    } else {
+                        accessories[3] = selectedequip;
+                        equipFlg = true;
+                    }
                 } else {
-                    accessories[3] = selectedequip;
+                    positionError(position, selectedequip);
                 }
             }
             default -> {
@@ -341,8 +392,10 @@ public class Equipment {
 
             }
         }
-        SimpleLogger.log.info("已装备" + selectedequip.getName() + "[" + selectedequip.getInstanceId() + "]");
-
+        if (equipFlg) {
+            SimpleLogger.log.info("已装备" + selectedequip.getName() + "[" + selectedequip.getInstanceId() + "]");
+        }
+        return equipFlg;
     }
 
     /**
@@ -486,4 +539,13 @@ public class Equipment {
         return sb.toString();
     }
 
+    /**
+     *
+     */
+    private void positionError(String position, ItemInstance selectedequip) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("这件装备不能装备在这个部位!").append(" [ 位置: ").append(position)
+                .append(", 装备: ").append(selectedequip.getName()).append(" ]");
+        SimpleLogger.log.error(sb.toString());
+    }
 }

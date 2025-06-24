@@ -28,8 +28,10 @@ public class Enemy {
     private int currentHp;
     // 攻击力
     private final int attack;
-    // 防御力
-    private final int defense;
+    // 物理防御力
+    private final int phyDefense;
+    // 魔法防御力
+    private final int magicDefense;
     // 掉落经验
     private final int dropExp;
     // 物品掉落率
@@ -50,7 +52,8 @@ public class Enemy {
         this.maxHp = attr.getMaxHp();
         this.currentHp = maxHp;
         this.attack = attr.getAttack();
-        this.defense = attr.getDefense();
+        this.phyDefense = attr.getPhyDefense();
+        this.magicDefense = attr.getMagicDefense();
         this.dropExp = attr.getDropExp();
         this.dropRate = attr.getDropRate();
         this.dropItems = attr.getDropItems();
@@ -103,12 +106,21 @@ public class Enemy {
     }
 
     /**
-     * 获取敌人防御力
+     * 获取敌人物理防御力
      *
      * @return
      */
-    public int getDefense() {
-        return defense;
+    public int getPhyDefense() {
+        return phyDefense;
+    }
+
+    /**
+     * 获取敌人魔法防御力
+     *
+     * @return
+     */
+    public int getMagicDefense() {
+        return magicDefense;
     }
 
     /**

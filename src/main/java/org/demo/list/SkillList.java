@@ -13,7 +13,7 @@ public enum SkillList {
             EnumSet.of(SkillType.Normal),
             "使用手中的武器攻击，根据武器属性造成伤害",
             10,
-            3),
+            0),
     /**
      * Skill0002: 挥石魔法
      */

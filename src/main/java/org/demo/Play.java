@@ -24,7 +24,7 @@ public class Play {
         Player player = PlayerFactory.createPlayer(playerFirstName, playerLastName, ethnicityNum, jobNum);
         SimpleLogger.log.info("选择的职业: " + player.getModel().getJob().getNameZh());
         SimpleLogger.log.info("选择的种族: " + player.getModel().getEthnicity().getEthnicityZh());
-        LevelUpHandler.handleExpGain(player.getModel(), 40000);
+        LevelUpHandler.handleExpGain(player.getModel(), 400);
 
         Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
         SimpleLogger.log.info(player.getModel().getFirstName() + " 遇到了一只敌人:  " + enemy);
@@ -59,5 +59,6 @@ public class Play {
         player.setEquip("accessory4", 1);
         player.showInventory();
         player.showEquipment();
+        SimpleLogger.log.info(player.getModel().toString());
     }
 }

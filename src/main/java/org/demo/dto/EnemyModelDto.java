@@ -15,8 +15,10 @@ public class EnemyModelDto {
     private final int maxHp;
     // 攻击力
     private final int attack;
-    // 防御力
-    private final int defense;
+    // 物理防御力
+    private final int phyDefense;
+    // 魔法防御力
+    private final int magicDefense;
     // 掉落经验
     private final int dropExp;
     // 物品掉落率
@@ -34,19 +36,20 @@ public class EnemyModelDto {
      * @param name 敌人名称
      * @param maxHp 最大生命值
      * @param attack 攻击力
-     * @param defense 防御力
+     * @param phyDefense 防御力
      * @param dropExp 掉落经验
      * @param dropExp 物品掉落率
      * @param dropItems 掉落物品表
      * @param enemySkills 敌人技能
      */
-    public EnemyModelDto(String id, String name, int maxHp, int attack, int defense, int dropExp, double dropRate,
+    public EnemyModelDto(String id, String name, int maxHp, int attack, int phyDefense, int magicDefense, int dropExp, double dropRate,
             Map<ItemModelDto, DropInfo> dropItems, Map<String, SkillList> enemySkills) {
         this.id = id;
         this.name = name;
         this.maxHp = maxHp;
         this.attack = attack;
-        this.defense = defense;
+        this.phyDefense = phyDefense;
+        this.magicDefense = magicDefense;
         this.dropExp = dropExp;
         this.dropRate = dropRate;
         this.dropItems = dropItems;
@@ -90,12 +93,21 @@ public class EnemyModelDto {
     }
 
     /**
-     * 获取敌人防御力
+     * 获取敌人物理防御力
      *
-     * @return 防御力
+     * @return 物理防御力
      */
-    public int getDefense() {
-        return defense;
+    public int getPhyDefense() {
+        return phyDefense;
+    }
+
+    /**
+     * 获取敌人魔法防御力
+     *
+     * @return 魔法防御力
+     */
+    public int getMagicDefense() {
+        return magicDefense;
     }
 
     /**
@@ -141,7 +153,7 @@ public class EnemyModelDto {
                 + ", 敌人名称='" + name + '\''
                 + ", 最大生命值=" + maxHp
                 + ", 攻击力=" + attack
-                + ", 防御力=" + defense
+                + ", 物理防御力=" + phyDefense
                 + ", 掉落经验=" + dropExp
                 + ", 掉落物品=" + dropItems.toString()
                 + '}';

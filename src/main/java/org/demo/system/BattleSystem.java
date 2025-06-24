@@ -72,6 +72,7 @@ public class BattleSystem {
      */
     private static boolean handlePlayerTurn(Player player, Enemy enemy) {
         log("【玩家回合】");
+        SkillList skill = SkillList.Skill0004;
         while (true) {
             // log("玩家第 " + i + " 次行动");
 
@@ -81,42 +82,46 @@ public class BattleSystem {
             // 检查玩家操作(攻击、防御、使用道具等)
             ActionType actionType = ActionType.checkAct(inputAct);
 
-            SkillList skill = SkillList.Skill0004;
+            // SkillList skill = SkillList.Skill0004;
+            if (player.getCurrentManaPoint() >= skill.getCost()) {
+                switch (actionType) {
+                    case NormalAttack -> {
+                        SimpleLogger.log.info(player.getFirstName() + " 选择了普通攻击");
+                        enemy = PlayerAttackMain.skillAttack(player, enemy, SkillList.Skill0001);
+                    }
+                    case Skill -> {
+                        SimpleLogger.log.info(player.getFirstName() + " 选择了技能" + skill.getName()
+                                + " [ " + actionType.name() + " - " + skill.getTypes() + " ]");
+                        enemy = PlayerAttackMain.skillAttack(player, enemy, skill);
+                    }
+                    case UseItem -> {
+                        SimpleLogger.log.info(player.getFirstName() + " 选择了使用道具");
 
-            switch (actionType) {
-                case NormalAttack -> {
-                    SimpleLogger.log.info(player.getFirstName() + " 选择了普通攻击");
-                    enemy = PlayerAttackMain.skillAttack(player, enemy, SkillList.Skill0001);
-                }
-                case Skill -> {
-                    SimpleLogger.log.info(player.getFirstName() + " 选择了技能" + skill.getName()
-                            + " [ " + actionType.name() + " - " + skill.getTypes() + " ]");
-                    enemy = PlayerAttackMain.skillAttack(player, enemy, skill);
-                }
-                case UseItem -> {
-                    SimpleLogger.log.info(player.getFirstName() + " 选择了使用道具");
+                        continue;
+                    }
+                    case Defend -> {
+                        SimpleLogger.log.info(player.getFirstName() + " 选择了防御");
+                        return false;
+                    }
+                    default -> {
+                        SimpleLogger.log.error("未知的技能类型: " + actionType);
+                        return false;
+                    }
 
-                    continue;
                 }
-                case Defend -> {
-                    SimpleLogger.log.info(player.getFirstName() + " 选择了防御");
+
+                // PlayerAttackMain.skillAttack(player, enemy, skill);
+                if (!enemy.isAlive()) {
+                    log(enemy.getName() + " 已被击败！");
+                    log("敌人血量: " + enemy.getCurrentHp() + " / " + enemy.getMaxHp());
+                    log("玩家血量: " + player.getCurrentHealthPoint() + " / " + player.getMaxHealthPoint());
+                    return true; // 敌人死亡，提前结束玩家回合
+                } else {
                     return false;
                 }
-                default -> {
-                    SimpleLogger.log.error("未知的技能类型: " + actionType);
-                    return false;
-                }
-
-            }
-
-            // PlayerAttackMain.skillAttack(player, enemy, skill);
-            if (!enemy.isAlive()) {
-                log(enemy.getName() + " 已被击败！");
-                log("敌人血量: " + enemy.getCurrentHp() + " / " + enemy.getMaxHp());
-                log("玩家血量: " + player.getCurrentHealthPoint() + " / " + player.getMaxHealthPoint());
-                return true; // 敌人死亡，提前结束玩家回合
             } else {
-                return false;
+                SimpleLogger.log.info("魔力值不足，重新选择行动!");
+                skill = SkillList.Skill0001;
             }
         }
     }

@@ -11,6 +11,6 @@ public class EnemyFactory {
      * @return 新创建的敌人实例
      */
     public static Enemy createEnemy(EnemyList type) {
-        return new Enemy(type.getTemplate());
+        return new Enemy(type.getEnemyTemplate());
     }
 }

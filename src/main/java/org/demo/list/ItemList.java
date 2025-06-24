@@ -17,9 +17,14 @@ import org.demo.dto.ItemModelDto;
  * 每个物品类型包含一个模板 {@link ItemModelDto}, 用于描述物品的基本属性。
  */
 public enum ItemList {
-    ORC_AXE("兽人斧", "一把沉重的斧头", 200, EnumSet.of(ItemType.WEAPON, ItemType.AXE)),
-    GOBLIN_SWORD("哥布林之剑", "一把锋利的剑", 100, EnumSet.of(ItemType.WEAPON, ItemType.SWORD)),
-    SLIME_JUICE("史莱姆果汁", "恢复少量生命值", 50, EnumSet.of(ItemType.CONSUMABLE));
+    ORC_AXE("兽人斧", "一把沉重的斧头", 200,
+            EnumSet.of(ItemType.WEAPON, ItemType.AXE)),
+    GOBLIN_SWORD("哥布林之剑", "一把锋利的剑", 100,
+            EnumSet.of(ItemType.WEAPON, ItemType.SWORD)),
+    SLIME_JUICE("史莱姆果汁", "恢复少量生命值", 50,
+            EnumSet.of(ItemType.CONSUMABLE)),
+    WOOD_RING("橡木指环", "随处可见的木头打磨成的戒指", 100,
+            EnumSet.of(ItemType.ACCESSORY));
 
     private final String name;
     private final String description;

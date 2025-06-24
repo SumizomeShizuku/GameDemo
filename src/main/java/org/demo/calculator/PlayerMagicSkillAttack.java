@@ -33,8 +33,8 @@ public class PlayerMagicSkillAttack extends PlayerAbstractSkillAttack {
             rawDamage = 0.6 * Math.pow(intelli, 1.3) * p;
         }
 
-        int enemyPDEF = enemy.getDefense();
-        double defenseRatio = (double) enemyPDEF / (enemyPDEF + 100.0);
+        double mRes = enemy.getMagicDefense();
+        double defenseRatio = (double) mRes / (mRes + 100.0);
         double finalDamage = rawDamage * (1.0 - defenseRatio);
 
         if (finalDamage < 1) {

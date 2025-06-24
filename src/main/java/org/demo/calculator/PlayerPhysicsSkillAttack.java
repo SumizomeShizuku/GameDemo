@@ -33,8 +33,8 @@ public class PlayerPhysicsSkillAttack extends PlayerAbstractSkillAttack {
             rawDamage = 0.6 * Math.pow(str, 1.3) * p;
         }
 
-        int enemyPDEF = enemy.getDefense();
-        double defenseRatio = (double) enemyPDEF / (enemyPDEF + 100.0);
+        double pDef = enemy.getPhyDefense();
+        double defenseRatio = (double) pDef / (pDef + 100.0);
         double finalDamage = rawDamage * (1.0 - defenseRatio);
 
         if (finalDamage < 1) {

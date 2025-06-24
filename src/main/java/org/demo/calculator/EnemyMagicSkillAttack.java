@@ -33,9 +33,9 @@ public class EnemyMagicSkillAttack extends EnemyAbstractSkillAttack {
             rawDamage = 0.6 * Math.pow(intelli, 1.3) * p;
         }
 
-        int enemyPDEF = enemy.getDefense();
-        double defenseRatio = (double) enemyPDEF / (enemyPDEF + 100.0);
-        double finalDamage = rawDamage * (1.0 - defenseRatio);
+        int mRes = player.getMagicDefenes();
+        double mResRatio = (double) mRes / (mRes + 100.0);
+        double finalDamage = rawDamage * (1.0 - mResRatio);
 
         if (finalDamage < 1) {
             finalDamage = 2; // 最小伤害为2
