@@ -1,12 +1,14 @@
 package org.demo;
 
+import java.util.Map;
+
 import org.demo.factory.Enemy;
 import org.demo.factory.EnemyFactory;
 import org.demo.factory.Player;
 import org.demo.factory.PlayerFactory;
 import org.demo.list.EnemyList;
 import org.demo.system.BattleSystem;
-import org.demo.util.LevelUpHandler;
+import org.demo.system.Map10x10;
 import org.demo.util.SimpleLogger;
 
 public class Play {
@@ -24,7 +26,14 @@ public class Play {
         Player player = PlayerFactory.createPlayer(playerFirstName, playerLastName, ethnicityNum, jobNum);
         SimpleLogger.log.info("选择的职业: " + player.getModel().getJob().getNameZh());
         SimpleLogger.log.info("选择的种族: " + player.getModel().getEthnicity().getEthnicityZh());
-        LevelUpHandler.handleExpGain(player.getModel(), 400);
+        player.gainExp(400);
+
+        // 随机房间数量
+        Map10x10 maze = new Map10x10(20, 30);
+        SimpleLogger.log.info(System.lineSeparator() + maze.toString());
+        // System.out.println(maze.whichRoom(1, 1).isRoom());
+        Map<Integer, Integer> a = maze.whereIam();
+        System.out.println(a.toString());
 
         Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
         SimpleLogger.log.info(player.getModel().getFirstName() + " 遇到了一只敌人:  " + enemy);

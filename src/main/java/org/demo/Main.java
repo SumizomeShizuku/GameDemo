@@ -9,8 +9,10 @@ public class Main {
 
     public static void main(String[] args) {
         SimpleLogger.log.info("当前版本: " + VERSION);
-        Play.playerInit();
 
+        // Map10x10 maze = new Map10x10(20, 30);
+        // System.err.println(maze.renderFancy());
+        Play.playerInit();
         SimpleLogger.log.info("---------------运行终了---------------" + System.lineSeparator());
     }
 
