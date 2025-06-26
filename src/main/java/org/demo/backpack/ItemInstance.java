@@ -9,7 +9,7 @@ import org.demo.dto.ItemModelDto;
 /**
  * 玩家实际拥有的物品实例( 装备类 )。
  * <p>
- * 用于存储不可叠加物品及其附加属性，如词条、附魔等。 每个实例具有唯一的实例ID( 与物品模板ID不同 )，可以绑定附加属性，并标识是否已装备。
+ * 用于存储不可叠加物品及其附加属性, 如词条、附魔等。 每个实例具有唯一的实例ID( 与物品模板ID不同 ), 可以绑定附加属性, 并标识是否已装备。
  * </p>
  */
 public class ItemInstance {
@@ -20,12 +20,12 @@ public class ItemInstance {
     private final String instanceId;
 
     /**
-     * 物品模板对象，包含物品的基本信息。
+     * 物品模板对象, 包含物品的基本信息。
      */
     private final ItemModelDto model;
 
     /**
-     * 物品附加属性( 如词条、附魔等，当前未实装 )。
+     * 物品附加属性( 如词条、附魔等, 当前未实装 )。
      */
     private final Map<String, Object> attributes = new HashMap<>();
 
@@ -35,7 +35,7 @@ public class ItemInstance {
     private boolean isEquip;
 
     /**
-     * 构造一个新的物品实例，并生成唯一实例ID。
+     * 构造一个新的物品实例, 并生成唯一实例ID。
      *
      * @param model 物品模板对象
      */
@@ -74,7 +74,7 @@ public class ItemInstance {
     /**
      * 判断该物品是否已装备。
      *
-     * @return true 表示已装备，false 表示未装备
+     * @return true 表示已装备, false 表示未装备
      */
     public boolean isEquip() {
         return isEquip;
@@ -109,7 +109,7 @@ public class ItemInstance {
     }
 
     /**
-     * 返回物品实例的字符串表示形式，包含物品名、模板ID、附加属性( 如果有 )及唯一实例ID。
+     * 返回物品实例的字符串表示形式, 包含物品名、模板ID、附加属性( 如果有 )及唯一实例ID。
      *
      * @return 物品实例信息的字符串
      */

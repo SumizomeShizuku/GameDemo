@@ -16,7 +16,7 @@ public class RoomEventCheck {
     }
 
     /**
-     * 玩家每次移动后调用，检测当前位置是否有敌人，如果有则自动触发战斗。
+     * 玩家每次移动后调用, 检测当前位置是否有敌人, 如果有则自动触发战斗。
      *
      * @param player 玩家对象
      */
@@ -34,9 +34,9 @@ public class RoomEventCheck {
         if (room.getEnemyCount() > 0) {
             // 这里可以进一步获得敌人类型或直接生成敌人
             Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
-            System.out.println("遇到敌人，进入战斗！");
+            System.out.println("遇到敌人, 进入战斗！");
             battleFlg = BattleSystem.startBattle(player, enemy);
-            // 3. 战斗后，敌人数量-1，或你有更详细的处理方式
+            // 3. 战斗后, 敌人数量-1, 或你有更详细的处理方式
             if (battleFlg) {
                 room.setEnemyCount(0);
                 room.setClear(battleFlg);

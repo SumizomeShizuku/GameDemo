@@ -231,7 +231,7 @@ public enum ItemType {
     }
 
     /**
-     * 根据字符串值获取对应枚举( 忽略大小写，不存在返回null )
+     * 根据字符串值获取对应枚举( 忽略大小写, 不存在返回null )
      *
      * @param value 字符串
      * @return ItemType 或 null

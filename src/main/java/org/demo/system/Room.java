@@ -3,10 +3,10 @@ package org.demo.system;
 import java.awt.Point;
 
 /**
- * 房间（格子）数据类。
+ * 房间( 格子 )数据类。
  *
  * <p>
- * 只保存“是什么”的静态信息，不包含迷宫算法。
+ * 只保存“是什么”的静态信息, 不包含迷宫算法。
  * </p>
  */
 public class Room {
@@ -119,7 +119,7 @@ public class Room {
     /**
      * 判定此格子当前是否为墙。
      *
-     * @return {@code true} 表示墙体（不可通行）；{@code false} 表示已开凿房间
+     * @return {@code true} 表示墙体( 不可通行 )；{@code false} 表示已开凿房间
      */
     public boolean isWall() {
         return !room;
@@ -136,7 +136,7 @@ public class Room {
     }
 
     /**
-     * 返回渲染用字符：'#' | '.' | 'A' | 'B'
+     * 返回渲染用字符: '#' | '.' | 'A' | 'B'
      */
     @Override
     public String toString() {

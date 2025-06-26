@@ -17,7 +17,7 @@ public class Backpack {
     private final List<BackpackSlot> slots = new ArrayList<>(CAPACITY);
 
     /**
-     * 构造函数：初始化背包格子
+     * 构造函数: 初始化背包格子
      */
     public Backpack() {
         // 预填充40个空格
@@ -31,7 +31,7 @@ public class Backpack {
      *
      * @param item 物品模板
      * @param count 添加数量
-     * @return 成功添加后所在格子的编号（下标），失败返回-1
+     * @return 成功添加后所在格子的编号( 下标 ), 失败返回-1
      */
     public int addItem(ItemModelDto item, int count) {
         if (isStackable(item)) {
@@ -43,7 +43,7 @@ public class Backpack {
                     return i;
                 }
             }
-            // 没有找到，查找空格子
+            // 没有找到, 查找空格子
             for (int i = 0; i < CAPACITY; i++) {
                 if (slots.get(i) == null) {
                     slots.set(i, new BackpackSlot(item, count));
@@ -51,7 +51,7 @@ public class Backpack {
                 }
             }
         } else {
-            // 非叠加物品，每个占一格
+            // 非叠加物品, 每个占一格
             for (int i = 0; i < CAPACITY && count > 0; i++) {
                 if (slots.get(i) == null) {
                     ItemInstance instance = new ItemInstance(item);
@@ -68,10 +68,10 @@ public class Backpack {
     }
 
     /**
-     * 向背包中添加一个非叠加物品实例（如装备类ItemInstance） 用于装备卸下后放回背包
+     * 向背包中添加一个非叠加物品实例( 如装备类ItemInstance ) 用于装备卸下后放回背包
      *
      * @param instance 需要添加的物品实例
-     * @return 成功添加后所在格子的编号（下标），失败返回-1
+     * @return 成功添加后所在格子的编号( 下标 ), 失败返回-1
      */
     public int addItem(ItemInstance instance) {
         for (int i = 0; i < CAPACITY; i++) {
@@ -85,14 +85,14 @@ public class Backpack {
     }
 
     /**
-     * 移除背包中的物品（支持叠加与非叠加）
+     * 移除背包中的物品( 支持叠加与非叠加 )
      * <p>
-     * - 如果对应格子是叠加物品，则移除指定数量（count）。<br>
-     * 若移除后数量为0，则格子置空。<br>
-     * - 如果对应格子是非叠加物品，则无视count，直接清空格子。<br>
+     * - 如果对应格子是叠加物品, 则移除指定数量( count )。<br>
+     * 若移除后数量为0, 则格子置空。<br>
+     * - 如果对应格子是非叠加物品, 则无视count, 直接清空格子。<br>
      *
-     * @param slotId 格子编号（下标）
-     * @param count 要移除的数量（仅对可叠加物品有效）
+     * @param slotId 格子编号( 下标 )
+     * @param count 要移除的数量( 仅对可叠加物品有效 )
      * @return 是否移除成功
      */
     public boolean removeItemBySlot(int slotId, int count) {
@@ -115,7 +115,7 @@ public class Backpack {
             }
             return true;
         } else {
-            // 非叠加物品，直接移除
+            // 非叠加物品, 直接移除
             slots.set(slotId, null);
             return true;
         }
@@ -124,8 +124,8 @@ public class Backpack {
     /**
      * 获取指定格子的物品内容
      *
-     * @param slotId 格子编号（下标）
-     * @return 对应的BackpackSlot对象，空格返回null
+     * @param slotId 格子编号( 下标 )
+     * @return 对应的BackpackSlot对象, 空格返回null
      */
     public BackpackSlot getSlot(int slotId) {
         // slotId = slotId - 1;
@@ -142,8 +142,8 @@ public class Backpack {
     /**
      * 检查格子编号是否合法
      *
-     * @param slotId 格子编号（下标）
-     * @return 合法返回true，否则false
+     * @param slotId 格子编号( 下标 )
+     * @return 合法返回true, 否则false
      */
     private boolean isValidSlot(int slotId) {
         // slotId = slotId - 1;
@@ -179,7 +179,7 @@ public class Backpack {
      * 判断物品是否为可叠加类型
      *
      * @param item 物品模板
-     * @return true为可叠加物品，false为不可叠加
+     * @return true为可叠加物品, false为不可叠加
      */
     private boolean isStackable(ItemModelDto item) {
         EnumSet<ItemType> type = item.getType();

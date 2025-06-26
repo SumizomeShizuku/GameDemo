@@ -13,44 +13,44 @@ public class ItemType {
      */
     public static final String WEAPON = "weapon";
     /**
-     * 剑( SWORD )：包括单手剑、双手剑、巨剑等
+     * 剑( SWORD ): 包括单手剑、双手剑、巨剑等
      */
     public static final String SWORD = "sword";
     /**
-     * 匕首( DAGGER )：短刀、飞刀等
+     * 匕首( DAGGER ): 短刀、飞刀等
      */
     public static final String DAGGER = "dagger";
     /**
-     * 斧头( AXE )：单手斧、双手斧
+     * 斧头( AXE ): 单手斧、双手斧
      */
     public static final String AXE = "axe";
     /**
-     * 锤( HAMMER )：战锤、钉锤等
+     * 锤( HAMMER ): 战锤、钉锤等
      */
     public static final String HAMMER = "hammer";
     /**
-     * 钝器( MACE )：狼牙棒、锤棒等
+     * 钝器( MACE ): 狼牙棒、锤棒等
      */
     public static final String MACE = "mace";
     /**
-     * 长矛( SPEAR )：矛、戟、枪等
+     * 长矛( SPEAR ): 矛、戟、枪等
      */
     public static final String SPEAR = "spear";
     /**
-     * 法杖( STAFF )：魔法杖、牧师杖等
+     * 法杖( STAFF ): 魔法杖、牧师杖等
      */
     public static final String STAFF = "staff";
     /**
-     * 拳套( FIST_WEAPON )：铁拳、臂铠等
+     * 拳套( FIST_WEAPON ): 铁拳、臂铠等
      */
     public static final String FIST_WEAPON = "fist_weapon";
 
     /**
-     * 弓( BOW )：长弓、短弓、复合弓等
+     * 弓( BOW ): 长弓、短弓、复合弓等
      */
     public static final String BOW = "bow";
     /**
-     * 弩( CROSSBOW )：连弩、重弩等
+     * 弩( CROSSBOW ): 连弩、重弩等
      */
     public static final String CROSSBOW = "crossbow";
     /**
@@ -58,20 +58,20 @@ public class ItemType {
      */
     public static final String SLING = "sling";
     /**
-     * 投掷武器( THROWN )：飞镖、投矛、回旋镖等
+     * 投掷武器( THROWN ): 飞镖、投矛、回旋镖等
      */
     public static final String THROWN = "thrown";
 
     /**
-     * 魔杖( WAND )：小型魔法棒
+     * 魔杖( WAND ): 小型魔法棒
      */
     public static final String WAND = "wand";
     /**
-     * 法球( ORB )：水晶球、法力球等
+     * 法球( ORB ): 水晶球、法力球等
      */
     public static final String ORB = "orb";
     /**
-     * 魔法书( TOME )：魔法卷轴、法书
+     * 魔法书( TOME ): 魔法卷轴、法书
      */
     public static final String TOME = "tome";
 
@@ -96,7 +96,7 @@ public class ItemType {
      */
     public static final String SNIPER = "sniper";
     /**
-     * 发射器( LAUNCHER )：火箭筒、榴弹发射器等
+     * 发射器( LAUNCHER ): 火箭筒、榴弹发射器等
      */
     public static final String LAUNCHER = "launcher";
 
@@ -157,7 +157,7 @@ public class ItemType {
 
     // 饰品类( 细化 )
     /**
-     * 饰品( 通用，不细分时用 )
+     * 饰品( 通用, 不细分时用 )
      */
     public static final String ACCESSORY = "accessory";
     /**

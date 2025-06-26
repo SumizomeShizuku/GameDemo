@@ -9,9 +9,9 @@ import org.demo.list.ItemType;
 import org.demo.util.SimpleLogger;
 
 /**
- * 玩家装备栏，管理各类可穿戴装备和饰品槽。
+ * 玩家装备栏, 管理各类可穿戴装备和饰品槽。
  * <p>
- * 支持主手、副手、防具（头部、上衣、裤子、鞋子）、4格饰品自动分配与替换。
+ * 支持主手、副手、防具( 头部、上衣、裤子、鞋子 )、4格饰品自动分配与替换。
  * </p>
  */
 public class Equipment {
@@ -25,11 +25,11 @@ public class Equipment {
      */
     private ItemInstance offHand;
     /**
-     * 头部装备（如帽子、头盔）
+     * 头部装备( 如帽子、头盔 )
      */
     private ItemInstance helmet;
     /**
-     * 上衣装备（如护甲）
+     * 上衣装备( 如护甲 )
      */
     private ItemInstance armor;
     /**
@@ -41,7 +41,7 @@ public class Equipment {
      */
     private ItemInstance shoes;
     /**
-     * 饰品槽，固定4格，自动分配空位
+     * 饰品槽, 固定4格, 自动分配空位
      */
     private final ItemInstance[] accessories = new ItemInstance[4];
 
@@ -136,7 +136,7 @@ public class Equipment {
     }
 
     /**
-     * 尝试添加饰品到第一个空槽，成功则日志提示装备成功，否则提示没有空位。
+     * 尝试添加饰品到第一个空槽, 成功则日志提示装备成功, 否则提示没有空位。
      *
      * @param accessory 待装备的饰品实例
      */
@@ -168,9 +168,9 @@ public class Equipment {
     }
 
     /**
-     * 替换指定饰品槽的内容（适用于玩家手动替换）。
+     * 替换指定饰品槽的内容( 适用于玩家手动替换 )。
      *
-     * @param slot 替换槽位下标（0~3）
+     * @param slot 替换槽位下标( 0~3 )
      * @param accessory 新的饰品实例
      */
     public void replaceAccessory(int slot, ItemInstance accessory) {
@@ -185,7 +185,7 @@ public class Equipment {
      * 检查饰品槽下标是否合法。
      *
      * @param slot 槽位下标
-     * @return 合法返回true，否则输出日志并返回false
+     * @return 合法返回true, 否则输出日志并返回false
      */
     private boolean checkAccessorySlot(int slot) {
         if (slot < 0 || slot >= accessories.length) {
@@ -196,7 +196,7 @@ public class Equipment {
     }
 
     /**
-     * 获取所有已装备的饰品（不含null槽位）。
+     * 获取所有已装备的饰品( 不含null槽位 )。
      *
      * @return 已装备饰品的列表
      */
@@ -236,9 +236,9 @@ public class Equipment {
      * 自动分配装备到对应槽位。
      * <ul>
      * <li>武器装备到主手</li>
-     * <li>防具装备到头部（示例，可拓展分部位）</li>
+     * <li>防具装备到头部( 示例, 可拓展分部位 )</li>
      * <li>饰品自动分配到第一个空槽</li>
-     * <li>如有多类型，则依次尝试</li>
+     * <li>如有多类型, 则依次尝试</li>
      * </ul>
      *
      * @param item 物品实例
@@ -399,11 +399,12 @@ public class Equipment {
     }
 
     /**
-     * 脱下指定装备（通过部位名字符串），返回脱下的物品。
+     * 脱下指定装备( 通过部位名字符串 ), 返回脱下的物品。
      *
-     * @param position
-     * 要脱下的部位名称（如"mainHand","offHand","helmet","armor","pants","shoes","accessory0"-"accessory3"）
-     * @return 脱下的物品实例，如果该位置为空或输入非法，返回null
+     * @param position 要脱下的部位名称(
+     * 如"mainHand","offHand","helmet","armor","pants","shoes","accessory0"-"accessory3"
+     * )
+     * @return 脱下的物品实例, 如果该位置为空或输入非法, 返回null
      */
     public ItemInstance putOffEquip(String position) {
         if (position == null) {

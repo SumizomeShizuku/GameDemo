@@ -3,7 +3,7 @@ package org.demo.backpack;
 import org.demo.dto.ItemModelDto;
 
 /**
- * 背包格子，表示一个背包格可容纳的物品或物品实例。
+ * 背包格子, 表示一个背包格可容纳的物品或物品实例。
  */
 public class BackpackSlot {
 

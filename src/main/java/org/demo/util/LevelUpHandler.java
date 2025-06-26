@@ -23,7 +23,7 @@ public class LevelUpHandler {
                     // 玩家经验值固定为100级时最低经验值 (不可再获取经验值)
                     player.setExp(ExpList.LEVEL_100.getMinExp());
                 } else {
-                    // 等级未满100，正常获取经验值
+                    // 等级未满100, 正常获取经验值
                     player.setExp(player.getExp() + gainedExp);
                 }
 

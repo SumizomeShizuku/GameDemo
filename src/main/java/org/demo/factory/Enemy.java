@@ -220,7 +220,7 @@ public class Enemy {
      * 判断物品是否为可叠加类型
      *
      * @param item 物品模板
-     * @return true为可叠加物品，false为不可叠加
+     * @return true为可叠加物品, false为不可叠加
      */
     private boolean isStackable(ItemModelDto item) {
         EnumSet<ItemType> type = item.getType();

@@ -12,12 +12,12 @@ import org.demo.list.SkillList;
 import org.demo.util.SimpleLogger;
 
 /**
- * 战斗系统类，处理玩家与敌人的回合制战斗。
+ * 战斗系统类, 处理玩家与敌人的回合制战斗。
  */
 public class BattleSystem {
 
     /**
-     * 开始回合制战斗，直到玩家或敌人一方死亡。
+     * 开始回合制战斗, 直到玩家或敌人一方死亡。
      *
      * @param player 玩家对象
      * @param enemy 敌人对象
@@ -124,12 +124,12 @@ public class BattleSystem {
                     log(enemy.getName() + " 已被击败！");
                     log("敌人血量: " + enemy.getCurrentHp() + " / " + enemy.getMaxHp());
                     log("玩家血量: " + player.getCurrentHealthPoint() + " / " + player.getMaxHealthPoint());
-                    return true; // 敌人死亡，提前结束玩家回合
+                    return true; // 敌人死亡, 提前结束玩家回合
                 } else {
                     return false;
                 }
             } else {
-                SimpleLogger.log.info("魔力值不足，重新选择行动!");
+                SimpleLogger.log.info("魔力值不足, 重新选择行动!");
                 skill = SkillList.Skill0001;
             }
         }
@@ -148,7 +148,7 @@ public class BattleSystem {
     }
 
     /**
-     * 玩家获胜后的处理，掉落经验和物品。
+     * 玩家获胜后的处理, 掉落经验和物品。
      *
      * @param player 玩家对象
      * @param enemy 敌人对象
@@ -168,7 +168,7 @@ public class BattleSystem {
                 player.addItem(item.getKey(), item.getValue());
                 // player.addItem(item.getKey(), item.getValue());
             }
-            player.showInventory();
+            // player.showInventory();
 
         }
     }

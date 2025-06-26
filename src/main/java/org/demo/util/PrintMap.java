@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * 将地图打印至Map.log 每次打印覆盖旧纪录，模拟真实的游戏地图
+ * 将地图打印至Map.log 每次打印覆盖旧纪录, 模拟真实的游戏地图
  */
 public class PrintMap {
 

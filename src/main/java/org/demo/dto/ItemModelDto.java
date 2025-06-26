@@ -5,7 +5,7 @@ import java.util.EnumSet;
 import org.demo.list.ItemType;
 
 /**
- * 该类用于表示游戏或应用中的物品信息，包括ID、名称、类型、描述和价格等字段。
+ * 该类用于表示游戏或应用中的物品信息, 包括ID、名称、类型、描述和价格等字段。
  * </p>
  *
  */
@@ -101,7 +101,7 @@ public class ItemModelDto {
     /**
      * 返回物品的字符串表示形式。
      *
-     * @return 字符串，包含物品的主要属性信息
+     * @return 字符串, 包含物品的主要属性信息
      */
     @Override
     public String toString() {

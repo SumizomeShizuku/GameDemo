@@ -14,23 +14,23 @@ import org.demo.util.SimpleLogger;
 /**
  * MazeGrowingTree10x10 - 最终版
  * <p>
- * 特点汇总：
+ * 特点汇总:
  * </p>
  * <ul>
- * <li>Growing-Tree（DFS × Prim 混合）——分支丰富</li>
- * <li>3 × 3 稠密度限制：周围 8 格房间数 &gt; 5 拒绝连通</li>
+ * <li>Growing-Tree( DFS × Prim 混合 )——分支丰富</li>
+ * <li>3 × 3 稠密度限制: 周围 8 格房间数 &gt; 5 拒绝连通</li>
  * <li>禁止出现 2 × 3 / 3 × 2 及更大<strong>实心矩形</strong></li>
- * <li>起点 <b>A</b> 随机，终点 <b>B</b> = 与 A 曼哈顿距离最远的格子，但再加：</li>
+ * <li>起点 <b>A</b> 随机, 终点 <b>B</b> = 与 A 曼哈顿距离最远的格子, 但再加: </li>
  * <li>
  * <b>B 的连通度修正</b><br>
- * 若候选 B 与其他房间连通度 ≥ 2，则尝试在 B 附近“打掉一面墙”<br>
+ * 若候选 B 与其他房间连通度 ≥ 2, 则尝试在 B 附近“打掉一面墙”<br>
  * 新位置满足连通度 = 1 后才真正设为 B。<br>
- * 若 B 位于边缘且无法修正，则<strong>整张地图重生成</strong>。
+ * 若 B 位于边缘且无法修正, 则<strong>整张地图重生成</strong>。
  * </li>
  * </ul>
  *
  * <p>
- * 默认房间数区间：8~40，可由命令行参数覆盖。
+ * 默认房间数区间: 8~40, 可由命令行参数覆盖。
  * </p>
  */
 public class Map10x10 {
@@ -59,7 +59,7 @@ public class Map10x10 {
         this.eventCheck = new RoomEventCheck(this);
 
         if (minRooms < 2 || maxRooms > SIZE * SIZE) {
-            System.out.println("房间下限与上限超过范围，已设置为默认值: 最小房间数[8], 最大房间数[40]");
+            System.out.println("房间下限与上限超过范围, 已设置为默认值: 最小房间数[8], 最大房间数[40]");
             minRooms = 8;
             maxRooms = 40;
         }
@@ -75,7 +75,7 @@ public class Map10x10 {
 
     /*
      * ======================================================================
-     * 顶层：循环生成直至 B 修正成功
+     * 顶层: 循环生成直至 B 修正成功
      * ======================================================================
      */
     private void generateUntilValid() {
@@ -88,7 +88,7 @@ public class Map10x10 {
                 break; // 成功
 
             }
-            // 极端罕见：放宽限制
+            // 极端罕见: 放宽限制
             if (attempts > 80) {
                 for (Room[] row : grid) {
                     for (Room room : row) {
@@ -128,7 +128,7 @@ public class Map10x10 {
             }
         }
         if (!foundEnd) {
-            // 遍历rooms，随机选择一个作为终点
+            // 遍历rooms, 随机选择一个作为终点
             if (!rooms.isEmpty()) {
                 while (true) {
                     int[] b = rooms.get(rnd.nextInt(rooms.size()));
@@ -174,7 +174,7 @@ public class Map10x10 {
 
         while (!active.isEmpty() && rooms.size() < target) {
 
-            // 选活跃单元（DFS 或随机）
+            // 选活跃单元( DFS 或随机 )
             int idx = (rnd.nextDouble() < LAST_PROB) ? active.size() - 1
                     : rnd.nextInt(active.size());
             int[] cur = active.get(idx);
@@ -290,12 +290,12 @@ public class Map10x10 {
                 return true;
             }
         }
-        // 未找到合规 B：重生成
+        // 未找到合规 B: 重生成
         return false;
     }
 
     /**
-     * 尝试将 (x,y) 设为 B；若连接 ≥2，则尝试在邻墙开新格当 B。
+     * 尝试将 (x,y) 设为 B；若连接 ≥2, 则尝试在邻墙开新格当 B。
      *
      * @return 成功放置 B = true
      */
@@ -336,7 +336,7 @@ public class Map10x10 {
 
     /*
      * ======================================================================
-     * 约束：2×3 / 3×2 实心矩形禁止
+     * 约束: 2×3 / 3×2 实心矩形禁止
      * ======================================================================
      */
     private boolean formsProhibitedRect(int x, int y) {
@@ -479,7 +479,7 @@ public class Map10x10 {
     /**
      * 玩家移动
      *
-     * @param wasd 移动方向，w:上 | a:左 | s:下 | d:右
+     * @param wasd 移动方向, w:上 | a:左 | s:下 | d:右
      */
     public void playerMove(String wasd) {
         if (wasd == null || wasd.length() == 0) {
@@ -505,7 +505,7 @@ public class Map10x10 {
                 SimpleLogger.log.info("玩家尝试向右移动");
             }
             default -> {
-                SimpleLogger.log.info("输入方向无效，请输入w/a/s/d");
+                SimpleLogger.log.info("输入方向无效, 请输入w/a/s/d");
                 return;
             }
         }
@@ -531,13 +531,13 @@ public class Map10x10 {
                         grid[p.x][p.y].setPlayer(true);
                         grid[ny][nx].setPlayer(false);
                         checkAroundPlayer();
-                        SimpleLogger.log.info("玩家战败，回到原来房间");
+                        SimpleLogger.log.info("玩家战败, 回到原来房间");
                     }
 
                 } else {
                     grid[p.x][p.y].setPlayer(true);
                     grid[ny][nx].setPlayer(false);
-                    SimpleLogger.log.info("玩家无法移动，回到原来房间");
+                    SimpleLogger.log.info("玩家无法移动, 回到原来房间");
                 }
             } else {
                 checkAroundPlayer();
@@ -550,7 +550,7 @@ public class Map10x10 {
     }
 
     /**
-     * 当玩家进入房间时，在房间内生成一定数量的敌人 详细的敌人类型由RoomEventCheck()处理
+     * 当玩家进入房间时, 在房间内生成一定数量的敌人 详细的敌人类型由RoomEventCheck()处理
      *
      * @param room 玩家所在房间
      */
@@ -566,7 +566,7 @@ public class Map10x10 {
      * ======================================================================
      */
     /**
-     * 打印迷宫（四周包一圈不可打通的边界墙）。
+     * 打印迷宫( 四周包一圈不可打通的边界墙 )。
      *
      * @return 带边界的迷宫字符串
      */
@@ -578,7 +578,7 @@ public class Map10x10 {
         // 顶部边界
         sb.append("▨".repeat(SIZE + 2)).append("\n");
 
-        // 中间行：左右各加一面墙
+        // 中间行: 左右各加一面墙
         for (Room[] row : grid) {
             sb.append("▨"); // 左边界
             for (Room room : row) {
@@ -594,7 +594,7 @@ public class Map10x10 {
     }
 
     /**
-     * 高级字符画渲染：每个房间 3 × 3，外围仍用 #### 包围。
+     * 高级字符画渲染: 每个房间 3 × 3, 外围仍用 #### 包围。
      */
     public String renderFancy() {
         final StringBuilder sb = new StringBuilder();
@@ -606,7 +606,7 @@ public class Map10x10 {
         /* 2 每行房间 → 3 行字符 */
         for (int y = 0; y < SIZE; y++) {
 
-            // ── 顶边：⌜──⌝
+            // ── 顶边: ⌜──⌝
             sb.append('#'); // 左边界
             for (int x = 0; x < SIZE; x++) {
                 Room r = grid[y][x];
@@ -618,7 +618,7 @@ public class Map10x10 {
             }
             sb.append('#').append('\n');
 
-            // ── 内容：│ A│
+            // ── 内容: │ A│
             sb.append('#');
             for (int x = 0; x < SIZE; x++) {
                 Room r = grid[y][x];
@@ -639,7 +639,7 @@ public class Map10x10 {
             }
             sb.append('#').append('\n');
 
-            // ── 底边：⌞──⌟
+            // ── 底边: ⌞──⌟
             sb.append('#');
             for (int x = 0; x < SIZE; x++) {
                 Room r = grid[y][x];

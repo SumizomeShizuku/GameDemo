@@ -6,7 +6,7 @@ public class InputHelper {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    // 获取整数（自动处理换行）
+    // 获取整数( 自动处理换行 )
     public static int getInt(String prompt) {
         while (true) {
             try {
@@ -21,7 +21,7 @@ public class InputHelper {
         }
     }
 
-    // 获取字符串（整行）
+    // 获取字符串( 整行 )
     public static String getLine(String prompt) {
         System.out.print(prompt);
         return scanner.nextLine();
@@ -32,7 +32,7 @@ public class InputHelper {
         return getLine(prompt).toLowerCase();
     }
 
-    // 获取布尔值（yes/no）
+    // 获取布尔值( yes/no )
     public static boolean getYesNo(String prompt) {
         while (true) {
             String input = getLine(prompt + " (yes/no): ").toLowerCase();
@@ -56,7 +56,7 @@ public class InputHelper {
                     return c;
                 }
             }
-            System.out.println("请输入以下字符之一：" + allowedChars);
+            System.out.println("请输入以下字符之一: " + allowedChars);
         }
     }
 }
