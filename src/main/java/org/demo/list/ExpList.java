@@ -149,4 +149,20 @@ public enum ExpList {
         }
         return LEVEL_1; // 默认最低等级
     }
+
+    /**
+     * 根据等级获取对应的必要经验值。
+     *
+     * @param level 现在等级
+     * @return 对应的最少经验值
+     */
+    public static ExpList getExpByLevel(int level) {
+        for (int i = values().length - 1; i >= 0; i--) {
+            ExpList lv = values()[i];
+            if (level >= lv.level) {
+                return lv;
+            }
+        }
+        return LEVEL_1; // 默认最低等级
+    }
 }

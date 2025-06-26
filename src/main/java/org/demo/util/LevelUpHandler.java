@@ -11,23 +11,51 @@ public class LevelUpHandler {
      * 在经验更新之后调用, 自动处理升级与属性成长
      */
     public static void handleExpGain(PlayerModelDto player, int gainedExp) {
-        if (!(player.getExp() >= ExpList.LEVEL_100.getMinExp())) {
+        // 当玩家等级小于100
+        if (player.getExp() < ExpList.LEVEL_100.getMinExp()) {
+            // 获取升级前等级
             int oldLevel = ExpList.getLevelByExp(player.getExp()).getLevel();
-            if (player.getExp() + gainedExp >= ExpList.LEVEL_100.getMinExp()) {
-                player.setExp(ExpList.LEVEL_100.getMinExp());
-            } else {
-                player.setExp(player.getExp() + gainedExp);
-            }
-            int newLevel = ExpList.getLevelByExp(player.getExp()).getLevel();
-            int levelGained = newLevel - oldLevel;
-            if (levelGained > 0) {
-                player.setLevel(newLevel);
-                SimpleLogger.log.info(player.getFirstName() + " 升级了! 当前等级: " + newLevel);
-                applyGrowth(player, levelGained);
-                SimpleLogger.log.info(player.toString());
-            }
-        }
 
+            //  当玩家获得经验时
+            if (gainedExp >= 0) {
+                // 若当前经验值 + 获取经验值 >= 升级至100级所需经验值
+                if (player.getExp() + gainedExp >= ExpList.LEVEL_100.getMinExp()) {
+                    // 玩家经验值固定为100级时最低经验值 (不可再获取经验值)
+                    player.setExp(ExpList.LEVEL_100.getMinExp());
+                } else {
+                    // 等级未满100，正常获取经验值
+                    player.setExp(player.getExp() + gainedExp);
+                }
+
+                // 计算并取得获取经验后等级
+                int newLevel = ExpList.getLevelByExp(player.getExp()).getLevel();
+                // 计算过经验获取前后等级差
+                int levelGained = newLevel - oldLevel;
+                // 若升级
+                if (levelGained > 0) {
+                    // 玩家设置新等级
+                    player.setLevel(newLevel);
+                    SimpleLogger.log.info(player.getFirstName() + " 升级了! 当前等级: " + newLevel);
+                    // 自动加点
+                    applyGrowth(player, levelGained);
+                    // 升级时自动打印玩家完整属性
+                    SimpleLogger.log.info(player.toString());
+                }
+
+                // 当玩家失去经验时
+            } else {
+                // 获取当前等级必要经验
+                int minExp = ExpList.getExpByLevel(player.getLevel()).getMinExp();
+                int nowExp = player.getExp() + gainedExp;
+                if (nowExp > minExp) {
+                    player.setExp(nowExp);
+                } else {
+                    player.setExp(minExp);
+                }
+                SimpleLogger.log.info("玩家失去了经验....");
+            }
+
+        }
     }
 
     /**

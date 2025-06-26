@@ -1,13 +1,15 @@
 package org.demo.system;
 
+import java.awt.Point;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
+
+import org.demo.factory.Player;
+import org.demo.util.SimpleLogger;
 
 /**
  * MazeGrowingTree10x10 - 最终版
@@ -33,6 +35,10 @@ import java.util.Random;
  */
 public class Map10x10 {
 
+    /* ───────────── 外部传参区 ───────────── */
+    private final Player player;
+    private final RoomEventCheck eventCheck;
+
     /* ───────────── 参数调节区 ───────────── */
     private static final int SIZE = 10; // 固定 10×10
     private static final int DENSITY_LIMIT = 5; // 3×3 内 >5 拒绝
@@ -48,12 +54,22 @@ public class Map10x10 {
     private final int minRooms, maxRooms; // 用于多次重生
 
     /* ───────────── 构造 ───────────── */
-    public Map10x10(int minRooms, int maxRooms) {
-        if (minRooms < 2 || maxRooms > SIZE * SIZE || minRooms > maxRooms) {
-            throw new IllegalArgumentException("房间数范围非法:" + minRooms + "~" + maxRooms);
+    public Map10x10(int minRooms, int maxRooms, Player player) {
+        this.player = player;
+        this.eventCheck = new RoomEventCheck(this);
+
+        if (minRooms < 2 || maxRooms > SIZE * SIZE) {
+            System.out.println("房间下限与上限超过范围，已设置为默认值: 最小房间数[8], 最大房间数[40]");
+            minRooms = 8;
+            maxRooms = 40;
         }
-        this.minRooms = minRooms;
-        this.maxRooms = maxRooms;
+        if (minRooms > maxRooms) {
+            this.minRooms = maxRooms;
+            this.maxRooms = minRooms;
+        } else {
+            this.minRooms = minRooms;
+            this.maxRooms = maxRooms;
+        }
         generateUntilValid(); // 反复生成直至满足 B 规则
     }
 
@@ -72,9 +88,56 @@ public class Map10x10 {
                 break; // 成功
 
             }
-            if (attempts > 50) // 极端罕见：放宽限制
-            {
-                throw new IllegalStateException("无法在合理次数内生成满足条件的迷宫");
+            // 极端罕见：放宽限制
+            if (attempts > 80) {
+                for (Room[] row : grid) {
+                    for (Room room : row) {
+                        room.setStart(false);
+                    }
+                }
+
+                if (rooms.size() < 2) {
+                    continue;
+                }
+
+                // 2. 随机打乱房间列表
+                Collections.shuffle(rooms, rnd);
+
+                // 3. 取前两个不同的房间坐标
+                int[] a = rooms.get(0);
+                int[] b = rooms.get(1);
+
+                // 4. 设定为起点终点
+                grid[a[1]][a[0]].setStart(true); // 注意[y][x]顺序
+                grid[b[1]][b[0]].setEnd(true);
+
+                break;
+            }
+        }
+        // --- 追加判断 ---
+        boolean foundEnd = false;
+        for (Room[] row : grid) {
+            for (Room room : row) {
+                if (room.isEnd()) {
+                    foundEnd = true;
+                    break;
+                }
+            }
+            if (foundEnd) {
+                break;
+            }
+        }
+        if (!foundEnd) {
+            // 遍历rooms，随机选择一个作为终点
+            if (!rooms.isEmpty()) {
+                while (true) {
+                    int[] b = rooms.get(rnd.nextInt(rooms.size()));
+                    if (!grid[b[1]][b[0]].isStart()) {
+                        grid[b[1]][b[0]].setEnd(true);
+                        break;
+                    }
+                }
+
             }
         }
     }
@@ -87,7 +150,7 @@ public class Map10x10 {
             for (int x = 0; x < SIZE; x++) {
                 Room cell = grid[y][x];
                 if (cell == null) { // 还没实例化？
-                    cell = new Room(x, y); // 立刻 new 出来
+                    cell = new Room(y, x); // 立刻 new 出来
                     grid[y][x] = cell;
                 }
                 cell.reset(); // 然后重置字段
@@ -341,26 +404,160 @@ public class Map10x10 {
         return c;
     }
 
+    /**
+     * 取得整个地图
+     *
+     * @return
+     */
     public Room[][] getGrid() {
         return grid;
     }
 
-    public Map<Integer, Integer> whereIam() {
-        Map<Integer, Integer> map = new HashMap<>();
+    /**
+     * 查找玩家所在房间 Room的hasPlayer为true时
+     *
+     * @return 房间坐标
+     */
+    public Point whereIam() {
         for (Room[] row : grid) {
             for (Room room : row) {
                 if (room.isHere()) {
-                    map = room.whereIam();
-                    return map;
+                    return room.whereIam();
                 }
             }
         }
-        return map;
+        return null;
     }
 
-    public Room whichRoom(int x, int y) {
-        Room room = grid[x][y];
+    /**
+     * 打开全图视野
+     */
+    public void visibleAllRoom() {
+        for (Room[] row : grid) {
+            for (Room room : row) {
+                if (!room.isVisible()) {
+                    room.setVisible(true);
+                }
+            }
+        }
+        SimpleLogger.log.info("你能看到全世界!");
+    }
+
+    /**
+     * 查看特定房间信息
+     *
+     * @param y
+     * @param x
+     * @return
+     */
+    public Room whichRoom(int y, int x) {
+        Room room = grid[y][x];
         return room;
+    }
+
+    /**
+     * 获取玩家周围4格视野
+     */
+    public void checkAroundPlayer() {
+        Point p = whereIam(); // 获取玩家位置
+        if (p == null) {
+            SimpleLogger.log.info("找不到玩家");
+            return;
+        }
+        for (int[] d : DIRS) {
+            int ny = p.x + d[0];
+            int nx = p.y + d[1];
+            if (inside(ny, nx)) { // 推荐用你已有的inside方法！
+                Room neighbor = grid[ny][nx]; // 注意[y][x]
+                if (!neighbor.isVisible()) {
+                    neighbor.setVisible(true);
+                }
+            }
+        }
+    }
+
+    /**
+     * 玩家移动
+     *
+     * @param wasd 移动方向，w:上 | a:左 | s:下 | d:右
+     */
+    public void playerMove(String wasd) {
+        if (wasd == null || wasd.length() == 0) {
+            return;
+        }
+        char dir = Character.toLowerCase(wasd.charAt(0));
+        int[] offset;
+        switch (dir) {
+            case 'w' -> {
+                offset = new int[]{-1, 0};
+                SimpleLogger.log.info("玩家尝试向上移动");
+            }
+            case 'a' -> {
+                offset = new int[]{0, -1};
+                SimpleLogger.log.info("玩家尝试向左移动");
+            }
+            case 's' -> {
+                offset = new int[]{1, 0};
+                SimpleLogger.log.info("玩家尝试向下移动");
+            }
+            case 'd' -> {
+                offset = new int[]{0, 1};
+                SimpleLogger.log.info("玩家尝试向右移动");
+            }
+            default -> {
+                SimpleLogger.log.info("输入方向无效，请输入w/a/s/d");
+                return;
+            }
+        }
+        Point p = whereIam();
+        if (p == null) {
+            return;
+        }
+        int ny = p.x + offset[0];
+        int nx = p.y + offset[1];
+
+        boolean battleFlg;
+
+        if (inside(ny, nx) && grid[ny][nx].isRoom()) {
+            grid[p.x][p.y].setPlayer(false);
+            grid[ny][nx].setPlayer(true);
+
+            if (!grid[ny][nx].isClear()) {
+                roomEnemysSet(grid[ny][nx]);
+
+                if (player.isAlive()) {
+                    battleFlg = eventCheck.checkBattle(player);
+                    if (!battleFlg) {
+                        grid[p.x][p.y].setPlayer(true);
+                        grid[ny][nx].setPlayer(false);
+                        checkAroundPlayer();
+                        SimpleLogger.log.info("玩家战败，回到原来房间");
+                    }
+
+                } else {
+                    grid[p.x][p.y].setPlayer(true);
+                    grid[ny][nx].setPlayer(false);
+                    SimpleLogger.log.info("玩家无法移动，回到原来房间");
+                }
+            } else {
+                checkAroundPlayer();
+                SimpleLogger.log.info("安全的房间");
+            }
+
+        } else {
+            SimpleLogger.log.info("无法移动");
+        }
+    }
+
+    /**
+     * 当玩家进入房间时，在房间内生成一定数量的敌人 详细的敌人类型由RoomEventCheck()处理
+     *
+     * @param room 玩家所在房间
+     */
+    public void roomEnemysSet(Room room) {
+        int count = new Random().nextInt(4) + 1; // 1~4
+        room.setEnemyCount(count); // 假设你的Room类有这个方法
+        SimpleLogger.log.info("房间内生成敌人数: " + count);
     }
 
     /*
@@ -375,6 +572,7 @@ public class Map10x10 {
      */
     @Override
     public String toString() {
+        checkAroundPlayer();
         StringBuilder sb = new StringBuilder();
 
         // 顶部边界

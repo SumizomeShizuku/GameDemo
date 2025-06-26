@@ -1,7 +1,6 @@
 package org.demo.system;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.awt.Point;
 
 /**
  * 房间（格子）数据类。
@@ -21,13 +20,15 @@ public class Room {
     private boolean start = false; // 是否起点 A
     private boolean end = false; // 是否终点 B
     private int enemyCount = 0; // 敌人数
-    private boolean player = false;
+    private boolean hasPlayer = false; // 是否存在玩家
+    private boolean isVisible = false;
+    private boolean isClear = false;
 
     /**
      * @param x 格子横坐标
      * @param y 格子纵坐标
      */
-    public Room(int x, int y) {
+    public Room(int y, int x) {
         this.x = x;
         this.y = y;
     }
@@ -55,7 +56,9 @@ public class Room {
     public void setStart(boolean start) {
         this.start = start;
         this.room = start;
-        this.player = start;
+        this.hasPlayer = start;
+        this.isVisible = start;
+        this.isClear = start;
     }
 
     public boolean isEnd() {
@@ -75,14 +78,42 @@ public class Room {
         this.enemyCount = enemyCount;
     }
 
-    public Map<Integer, Integer> whereIam() {
-        Map<Integer, Integer> a = new HashMap<>();
-        a.put(this.x, this.y);
-        return a;
+    public void setPlayer(boolean hasPlayer) {
+        this.hasPlayer = hasPlayer;
     }
 
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean isVisible) {
+        this.isVisible = isVisible;
+    }
+
+    public boolean isClear() {
+        return isClear;
+    }
+
+    public void setClear(boolean isClear) {
+        this.isClear = isClear;
+    }
+
+    /**
+     * 该房间位置
+     *
+     * @return 该房间位置
+     */
+    public Point whereIam() {
+        return new Point(this.y, this.x);
+    }
+
+    /**
+     * 判断玩家是否处于该房间
+     *
+     * @return 若玩家存在 true
+     */
     public boolean isHere() {
-        return player;
+        return hasPlayer;
     }
 
     /**
@@ -96,9 +127,12 @@ public class Room {
 
     public void reset() {
         this.room = false; // 不是可通行房间
-        this.start = false; // 不是 A
-        this.end = false; // 不是 B
+        this.start = false; // 不是起点
+        this.end = false; // 不是终点
         this.enemyCount = 0; // 敌人数清零
+        this.hasPlayer = false; // 重置玩家位置
+        this.isVisible = false;
+        this.isClear = false;
     }
 
     /**
@@ -106,26 +140,24 @@ public class Room {
      */
     @Override
     public String toString() {
-        if (player) {
-            return "◉";
-        }
-        if (!room) {
+        if (isVisible) {
+            if (hasPlayer) {
+                return "▣";
+            }
+            if (!room) {
+                return "▨";
+            }
+            if (start) {
+                return "◇";
+            }
+            if (end) {
+                return "◆";
+            }
+            return "▢";
+        } else {
             return "▨";
         }
-        if (start) {
-            return "◇";
-        }
-        if (end) {
-            return "◆";
-        }
-        return "▢";
+
     }
 
-    public boolean getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(boolean player) {
-        this.player = player;
-    }
 }

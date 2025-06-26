@@ -17,6 +17,8 @@ import org.demo.dto.ItemModelDto;
  * 每个物品类型包含一个模板 {@link ItemModelDto}, 用于描述物品的基本属性。
  */
 public enum ItemList {
+    KEY("钥匙", "钥匙", 15,
+            EnumSet.of(ItemType.CONSUMABLE)),
     ORC_AXE("兽人斧", "一把沉重的斧头", 200,
             EnumSet.of(ItemType.WEAPON, ItemType.AXE)),
     GOBLIN_SWORD("哥布林之剑", "一把锋利的剑", 100,

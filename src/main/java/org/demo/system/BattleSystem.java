@@ -22,14 +22,14 @@ public class BattleSystem {
      * @param player 玩家对象
      * @param enemy 敌人对象
      */
-    public static void startBattle(Player player, Enemy enemy) {
+    public static boolean startBattle(Player player, Enemy enemy) {
         // PlayerModelDto player = playerModel.getModel();
         int round = 1;
-
-        log("战斗开始！敌人是: " + enemy.getName());
+        boolean winFlg = true;
 
         // 主战斗循环
         while (player.isAlive() && enemy.isAlive()) {
+            log("战斗开始！敌人是: " + enemy.getName());
             log("==== 第 " + round + " 回合 ====");
             log("玩家血量: " + player.getCurrentHealthPoint() + " / " + player.getMaxHealthPoint());
             log("敌人血量: " + enemy.getCurrentHp() + " / " + enemy.getMaxHp());
@@ -40,6 +40,10 @@ public class BattleSystem {
             // 若玩家死亡 -玩家使用扣除生命值技能死亡的场合
             if (!player.isAlive()) {
                 log("你被击败了...");
+                player.getModel().setCurrentHealthPoint(player.getModel().getMaxHealthPoint());
+                player.getModel().setCurrentManaPoint(player.getModel().getMaxManaPoint());
+                winFlg = false;
+                player.gainExp(-50);
                 break;
             }
 
@@ -57,11 +61,16 @@ public class BattleSystem {
             // 若玩家死亡
             if (!player.isAlive()) {
                 log("你被击败了...");
+                player.getModel().setCurrentHealthPoint(player.getModel().getMaxHealthPoint());
+                player.getModel().setCurrentManaPoint(player.getModel().getMaxManaPoint());
+                winFlg = false;
+                player.gainExp(-50);
                 break;
             }
 
             round++;
         }
+        return winFlg;
     }
 
     /**
@@ -72,7 +81,7 @@ public class BattleSystem {
      */
     private static boolean handlePlayerTurn(Player player, Enemy enemy) {
         log("【玩家回合】");
-        SkillList skill = SkillList.Skill0004;
+        SkillList skill = SkillList.Skill0003;
         while (true) {
             // log("玩家第 " + i + " 次行动");
 

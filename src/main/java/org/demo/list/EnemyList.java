@@ -11,14 +11,14 @@ import org.demo.dto.EnemyModelDto;
  * 每个敌人类型包含一个模板 {@link EnemyModelDto}, 用于描述敌人的基本属性和掉落物品。
  */
 public enum EnemyList {
-    GOBLIN(new EnemyModelDto("GOBLIN", "哥布林", 15, 5, 2, 2,
+    GOBLIN(new EnemyModelDto("GOBLIN", "哥布林", 15, 2, 1, 0,
             10, Constants.DEFAULT_DROP_RATE,
             ItemList.dropMap(
                     ItemList.entry(ItemList.GOBLIN_SWORD, 0.5, 1, 1),
                     ItemList.entry(ItemList.SLIME_JUICE, 0.5, 1, 2),
                     ItemList.entry(ItemList.WOOD_RING, 0.5, 1, 1)),
             SkillList.skillMap(SkillList.Skill0001, SkillList.Skill0002))),
-    SLIME(new EnemyModelDto("SLIME", "史莱姆", 20, 3, 1, 1,
+    SLIME(new EnemyModelDto("SLIME", "史莱姆", 20, 1, 1, 2,
             500, Constants.DEFAULT_DROP_RATE,
             ItemList.dropMap(
                     ItemList.entry(ItemList.SLIME_JUICE, 1.0, 1, 3)),
