@@ -1,8 +1,8 @@
 package org.demo.calculator;
 
+import org.demo.dto.SkillModelDto;
 import org.demo.factory.Enemy;
 import org.demo.factory.Player;
-import org.demo.list.SkillList;
 import org.demo.list.SkillType;
 import org.demo.util.SimpleLogger;
 
@@ -16,7 +16,7 @@ public class PlayerAttackMain {
      * @param skill 玩家技能
      * @return 敌人状态
      */
-    public static Enemy skillAttack(Player player, Enemy enemy, SkillList skill) {
+    public static Enemy skillAttack(Player player, Enemy enemy, SkillModelDto skill) {
         if (skill == null || skill.hasType(SkillType.Error)) {
             SimpleLogger.log.error("技能列表为空或错误, 无法执行技能攻击。");
             return enemy;

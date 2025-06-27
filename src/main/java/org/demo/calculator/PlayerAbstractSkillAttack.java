@@ -1,10 +1,10 @@
 package org.demo.calculator;
 
 import org.demo.constants.Constants;
+import org.demo.dto.SkillModelDto;
 import org.demo.factory.Enemy;
 import org.demo.factory.Player;
 import org.demo.interfaces.PlayerSkillAttack;
-import org.demo.list.SkillList;
 import org.demo.list.SkillType;
 import org.demo.util.SimpleLogger;
 
@@ -44,7 +44,7 @@ public abstract class PlayerAbstractSkillAttack implements PlayerSkillAttack {
      * @return 玩家造成伤害
      */
     @Override
-    public int calculateSkill(Player player, Enemy enemy, SkillList skillList) {
+    public int calculateSkill(Player player, Enemy enemy, SkillModelDto skillList) {
         DamageResult result = calculateDamage(player, enemy, skillList.getBaseDamage());
 
         boolean isMagic = skillList.getTypes().contains(SkillType.Magic);

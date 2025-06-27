@@ -1,7 +1,11 @@
 package org.demo;
 
+import org.demo.dto.EnemyModelDto;
 import org.demo.factory.Player;
 import org.demo.factory.PlayerFactory;
+import org.demo.list.EnemyRepository;
+import org.demo.list.ItemRepository;
+import org.demo.list.SkillRepository;
 import org.demo.system.Map10x10;
 import org.demo.util.InputHelper;
 import org.demo.util.PrintMap;
@@ -9,7 +13,7 @@ import org.demo.util.SimpleLogger;
 
 public class Play {
 
-    public static void playerInit() {
+    public static void playerInit() throws Exception {
         // 模拟玩家输入的种族和职业
         // 1:空尾族, 2:人族 3:林语族, 4:亡影族
         int ethnicityNum = 3;
@@ -23,6 +27,13 @@ public class Play {
         SimpleLogger.log.info("选择的职业: " + player.getModel().getJob().getNameZh());
         SimpleLogger.log.info("选择的种族: " + player.getModel().getEthnicity().getEthnicityZh());
         player.gainExp(191);
+
+        // 掉落物初始化
+        ItemRepository.loadFromJson("item_list.json");
+        SkillRepository.loadFromJson("skills_list.json");
+        EnemyRepository.loadFromJson("enemy_list.json");
+        EnemyModelDto goblin = EnemyRepository.getEnemyById("GOBLIN");
+        System.out.println(goblin.toString());
 
         // 随机房间数量
         Map10x10 maze = new Map10x10(50, 60, player);

@@ -14,27 +14,30 @@ public class ItemModelDto {
     /**
      * 物品ID
      */
-    private final String id;
+    private String id;
 
     /**
      * 物品名称
      */
-    private final String name;
+    private String name;
 
     /**
      * 物品描述
      */
-    private final String description;
+    private String description;
 
     /**
      * 物品价格
      */
-    private final int price;
+    private int price;
 
     /**
      * 物品类型
      */
-    private final EnumSet<ItemType> type;
+    private EnumSet<ItemType> type;
+
+    public ItemModelDto() {
+    }
 
     /**
      * 构造一个新的物品DTO实例。
@@ -98,6 +101,26 @@ public class ItemModelDto {
         return price;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setType(EnumSet<ItemType> type) {
+        this.type = type;
+    }
+
     /**
      * 返回物品的字符串表示形式。
      *
@@ -105,10 +128,7 @@ public class ItemModelDto {
      */
     @Override
     public String toString() {
-        return "物品ID='" + id + '\''
-                + ", 物品名称='" + name + '\''
-                // + ", 物品类型='" + type + '\''
-                + ", 物品描述='" + description + '\''
-                + ", 物品价格=" + price;
+        return String.format("[%s] %s: %s 类型:%s, 价格:%d",
+                id, name, description, type, price);
     }
 }

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "KEY",
+    "name": "钥匙",
+    "description": "一把普通的钥匙",
+    "price": 15,
+    "type": ["CONSUMABLE"]
+  },
+  {
+    "id": "ORC_AXE",
+    "name": "兽人斧",
+    "description": "一把沉重的斧头",
+    "price": 200,
+    "type": ["WEAPON", "AXE"]
+  },
+  {
+    "id": "GOBLIN_SWORD",
+    "name": "哥布林之剑",
+    "description": "一把锋利的剑",
+    "price": 100,
+    "type": ["WEAPON", "SWORD"]
+  },
+  {
+    "id": "SLIME_JUICE",
+    "name": "史莱姆果汁",
+    "description": "恢复少量生命值",
+    "price": 50,
+    "type": ["CONSUMABLE"]
+  },
+  {
+    "id": "WOOD_RING",
+    "name": "橡木指环",
+    "description": "随处可见的木头打磨成的戒指",
+    "price": 100,
+    "type": ["ACCESSORY"]
+  }
+]

@@ -5,10 +5,11 @@ import java.util.Map;
 import org.demo.calculator.EnemyAttackMain;
 import org.demo.calculator.PlayerAttackMain;
 import org.demo.dto.ItemModelDto;
+import org.demo.dto.SkillModelDto;
 import org.demo.factory.Enemy;
 import org.demo.factory.Player;
 import org.demo.list.ActionType;
-import org.demo.list.SkillList;
+import org.demo.list.SkillRepository;
 import org.demo.util.SimpleLogger;
 
 /**
@@ -81,7 +82,7 @@ public class BattleSystem {
      */
     private static boolean handlePlayerTurn(Player player, Enemy enemy) {
         log("【玩家回合】");
-        SkillList skill = SkillList.Skill0003;
+        SkillModelDto skill = SkillRepository.getSkillById("Skill0003");
         while (true) {
             // log("玩家第 " + i + " 次行动");
 
@@ -96,7 +97,8 @@ public class BattleSystem {
                 switch (actionType) {
                     case NormalAttack -> {
                         SimpleLogger.log.info(player.getFirstName() + " 选择了普通攻击");
-                        enemy = PlayerAttackMain.skillAttack(player, enemy, SkillList.Skill0001);
+                        skill = SkillRepository.getSkillById("Skill0001");
+                        enemy = PlayerAttackMain.skillAttack(player, enemy, skill);
                     }
                     case Skill -> {
                         SimpleLogger.log.info(player.getFirstName() + " 选择了技能" + skill.getName()
@@ -130,7 +132,7 @@ public class BattleSystem {
                 }
             } else {
                 SimpleLogger.log.info("魔力值不足, 重新选择行动!");
-                skill = SkillList.Skill0001;
+                skill = SkillRepository.getSkillById("Skill0001");
             }
         }
     }
@@ -142,7 +144,7 @@ public class BattleSystem {
      * @param player 玩家对象
      */
     private static void handleEnemyTurn(Enemy enemy, Player player) {
-        SkillList skill = SkillList.Skill0003;
+        SkillModelDto skill = SkillRepository.getSkillById("Skill0003");
         // SkillList skill = Enemy.getEnemyRandomSkill(enemy.getEnemySkills());
         EnemyAttackMain.skillAttack(enemy, player, skill);
     }

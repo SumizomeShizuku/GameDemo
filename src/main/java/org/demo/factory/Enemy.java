@@ -10,8 +10,8 @@ import org.demo.backpack.DropInfo;
 import org.demo.backpack.GenerateDrops;
 import org.demo.dto.EnemyModelDto;
 import org.demo.dto.ItemModelDto;
+import org.demo.dto.SkillModelDto;
 import org.demo.list.ItemType;
-import org.demo.list.SkillList;
 
 /**
  * 敌人类, 表示游戏中的敌人。 包含敌人的属性和行为。
@@ -39,7 +39,7 @@ public class Enemy {
     // 可能掉落物品
     private final Map<ItemModelDto, DropInfo> dropItems;
     // 敌人技能
-    private final Map<String, SkillList> enemySkills;
+    private final Map<String, SkillModelDto> enemySkills;
 
     /**
      * 构造一个敌人对象。
@@ -155,7 +155,7 @@ public class Enemy {
      *
      * @return 敌人技能
      */
-    public Map<String, SkillList> getEnemySkills() {
+    public Map<String, SkillModelDto> getEnemySkills() {
         return enemySkills;
     }
 
@@ -233,11 +233,11 @@ public class Enemy {
      * @param skillMap 敌人技能Map
      * @return 随机技能( SkillList )
      */
-    public static SkillList getEnemyRandomSkill(Map<String, SkillList> skillMap) {
+    public static SkillModelDto getEnemyRandomSkill(Map<String, SkillModelDto> skillMap) {
         if (skillMap == null || skillMap.isEmpty()) {
             return null;
         }
-        List<SkillList> skillList = new ArrayList<>(skillMap.values());
+        List<SkillModelDto> skillList = new ArrayList<>(skillMap.values());
         Random random = new Random();
         int index = random.nextInt(skillList.size());
         return skillList.get(index);

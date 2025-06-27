@@ -1,8 +1,8 @@
 package org.demo.interfaces;
 
+import org.demo.dto.SkillModelDto;
 import org.demo.factory.Enemy;
 import org.demo.factory.Player;
-import org.demo.list.SkillList;
 
 public interface EnemySkillAttack {
 
@@ -14,5 +14,5 @@ public interface EnemySkillAttack {
      * @param skillList 玩家所选择技能
      * @return 玩家造成伤害
      */
-    int calculateSkill(Enemy enemy, Player player, SkillList skillList);
+    int calculateSkill(Enemy enemy, Player player, SkillModelDto skill);
 }

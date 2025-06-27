@@ -1,0 +1,65 @@
+[
+  {
+    "id": "GOBLIN",
+    "name": "哥布林",
+    "maxHp": 15,
+    "attack": 2,
+    "phyDefense": 1,
+    "magicDefense": 0,
+    "dropExp": 10,
+    "dropRate": 0.5,
+    "drops": [
+      { "itemId": "GOBLIN_SWORD", "weight": 0.05, "minQty": 1, "maxQty": 1 },
+      { "itemId": "SLIME_JUICE", "weight": 0.8, "minQty": 1, "maxQty": 2 },
+      { "itemId": "WOOD_RING", "weight": 0.075, "minQty": 1, "maxQty": 1 }
+    ],
+    "areas": ["forest", "cave"],
+    "skills": ["Skill0001", "Skill0002"]
+  },
+  {
+    "id": "SLIME",
+    "name": "史莱姆",
+    "maxHp": 20,
+    "attack": 1,
+    "phyDefense": 1,
+    "magicDefense": 2,
+    "dropExp": 500,
+    "dropRate": 0.5,
+    "drops": [
+      { "itemId": "GOBLIN_SWORD", "weight": 0.5, "minQty": 1, "maxQty": 1 },
+      { "itemId": "SLIME_JUICE", "weight": 0.5, "minQty": 1, "maxQty": 2 },
+      { "itemId": "WOOD_RING", "weight": 0.5, "minQty": 1, "maxQty": 1 }
+    ],
+    "skills": ["Skill0001"]
+  },
+  {
+    "id": "ORC",
+    "name": "兽人",
+    "maxHp": 500,
+    "attack": 10,
+    "phyDefense": 5,
+    "magicDefense": 5,
+    "dropExp": 50,
+    "dropRate": 0.5,
+    "drops": [
+      { "itemId": "GOBLIN_SWORD", "weight": 0.5, "minQty": 1, "maxQty": 1 },
+      { "itemId": "SLIME_JUICE", "weight": 0.5, "minQty": 1, "maxQty": 2 },
+      { "itemId": "WOOD_RING", "weight": 0.5, "minQty": 1, "maxQty": 1 }
+    ],
+    "areas": ["forest", "cave"],
+    "skills": ["Skill0001"]
+  },
+  {
+    "id": "0001",
+    "name": "毛绒兔",
+    "maxHp": 5,
+    "attack": 1,
+    "phyDefense": 0,
+    "magicDefense": 0,
+    "dropExp": 5,
+    "dropRate": 0.5,
+    "drops": [],
+    "areas": ["forest", "cave"],
+    "skills": ["Skill0001"]
+  }
+]

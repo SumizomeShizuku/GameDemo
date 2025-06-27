@@ -2,10 +2,11 @@ package org.demo.system;
 
 import java.awt.Point;
 
+import org.demo.dto.EnemyModelDto;
 import org.demo.factory.Enemy;
-import org.demo.factory.EnemyFactory;
 import org.demo.factory.Player;
-import org.demo.list.EnemyList;
+// import org.demo.list.EnemyList;
+import org.demo.list.EnemyRepository;
 
 public class RoomEventCheck {
 
@@ -33,13 +34,19 @@ public class RoomEventCheck {
         // 2. 检查是否有敌人
         if (room.getEnemyCount() > 0) {
             // 这里可以进一步获得敌人类型或直接生成敌人
-            Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
-            System.out.println("遇到敌人, 进入战斗！");
-            battleFlg = BattleSystem.startBattle(player, enemy);
-            // 3. 战斗后, 敌人数量-1, 或你有更详细的处理方式
-            if (battleFlg) {
-                room.setEnemyCount(0);
-                room.setClear(battleFlg);
+            // String enemyId = room.getEnemyId(); // 推荐让Room对象支持getEnemyId()
+            EnemyModelDto enemyDto = EnemyRepository.getEnemyById("0001");
+
+            // Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
+            if (enemyDto != null) {
+                Enemy enemy = new Enemy(enemyDto);
+                System.out.println("遇到敌人, 进入战斗！");
+                battleFlg = BattleSystem.startBattle(player, enemy);
+                // 3. 战斗后, 敌人数量-1, 或你有更详细的处理方式
+                if (battleFlg) {
+                    room.setEnemyCount(0);
+                    room.setClear(battleFlg);
+                }
             }
         }
         return battleFlg;

@@ -51,9 +51,4 @@ public class Constants {
      * 未知类型伤害
      */
     public static final String UNDEFINED_DAMAGE = "未知类型伤害";
-    /**
-     * 默认物品掉落率
-     */
-    public static final double DEFAULT_DROP_RATE = 0.8;
-
 }

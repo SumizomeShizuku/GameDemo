@@ -2,10 +2,10 @@ package org.demo.calculator;
 
 import java.util.EnumSet;
 
+import org.demo.dto.SkillModelDto;
 import org.demo.factory.Enemy;
 import org.demo.factory.Player;
 import org.demo.interfaces.PlayerSkillAttack;
-import org.demo.list.SkillList;
 import org.demo.list.SkillType;
 
 /**
@@ -44,9 +44,9 @@ public class PlayerSkillAttackFactory {
      * @param skillList 玩家所选择技能
      * @return 玩家造成伤害
      */
-    public static int calculate(Player player, Enemy enemy, SkillList skillList) {
-        EnumSet<SkillType> types = skillList.getTypes();
+    public static int calculate(Player player, Enemy enemy, SkillModelDto skill) {
+        EnumSet<SkillType> types = skill.getTypes();
         PlayerSkillAttack attack = getAttack(types);
-        return attack.calculateSkill(player, enemy, skillList);
+        return attack.calculateSkill(player, enemy, skill);
     }
 }
