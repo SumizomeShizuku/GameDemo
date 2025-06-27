@@ -10,12 +10,12 @@ public class InputHelper {
     public static int getInt(String prompt) {
         while (true) {
             try {
-                System.out.print(prompt);
+                ActionPrint.printAction(prompt);
                 int value = scanner.nextInt();
                 scanner.nextLine(); // 吸收换行符
                 return value;
             } catch (Exception e) {
-                System.out.println("请输入有效的整数！");
+                ActionPrint.printAction("请输入有效的整数！");
                 scanner.nextLine(); // 清空错误输入
             }
         }
@@ -23,7 +23,7 @@ public class InputHelper {
 
     // 获取字符串( 整行 )
     public static String getLine(String prompt) {
-        System.out.print(prompt);
+        ActionPrint.printAction(prompt);
         return scanner.nextLine();
     }
 
@@ -42,7 +42,7 @@ public class InputHelper {
             if (input.equals("no")) {
                 return false;
             }
-            System.out.println("请输入 yes 或 no。");
+            ActionPrint.printAction("请输入 yes 或 no。");
         }
     }
 
@@ -56,7 +56,7 @@ public class InputHelper {
                     return c;
                 }
             }
-            System.out.println("请输入以下字符之一: " + allowedChars);
+            ActionPrint.printAction("请输入以下字符之一: " + allowedChars);
         }
     }
 }

@@ -1,6 +1,5 @@
 package org.demo;
 
-import org.demo.dto.EnemyModelDto;
 import org.demo.factory.Player;
 import org.demo.factory.PlayerFactory;
 import org.demo.list.EnemyRepository;
@@ -10,6 +9,7 @@ import org.demo.system.Map10x10;
 import org.demo.util.InputHelper;
 import org.demo.util.PrintMap;
 import org.demo.util.SimpleLogger;
+import org.demo.util.StatusPrint;
 
 public class Play {
 
@@ -32,14 +32,21 @@ public class Play {
         ItemRepository.loadFromJson("item_list.json");
         SkillRepository.loadFromJson("skills_list.json");
         EnemyRepository.loadFromJson("enemy_list.json");
-        EnemyModelDto goblin = EnemyRepository.getEnemyById("GOBLIN");
-        System.out.println(goblin.toString());
+        // EnemyModelDto goblin = EnemyRepository.getEnemyById("EN0001");
+        // System.out.println(goblin.toString());
 
         // 随机房间数量
         Map10x10 maze = new Map10x10(50, 60, player);
         PrintMap.printMap(System.lineSeparator() + maze.toString());
 
         while (true) {
+            // 打印玩家状态
+            StatusPrint statusPrint = new StatusPrint();
+            statusPrint.printStatus(player.getModel().toString());
+            // 打印地图
+            PrintMap.printMap(maze.toString());
+            player.showInventory();
+
             String input = InputHelper.getLowerCaseLine(
                     "选择前进方向 (w/a/s/d) " + System.lineSeparator()
                     + "若想退出游戏, 请输入exit: " + System.lineSeparator());
@@ -57,12 +64,10 @@ public class Play {
                     return;
                 }
                 default -> {
-                    continue;
                 }
 
             }
-            PrintMap.printMap(System.lineSeparator() + maze.toString());
-            player.showInventory();
+
         }
 
         // SimpleLogger.log.info(player.getModel().toString());

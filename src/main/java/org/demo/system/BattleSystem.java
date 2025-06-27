@@ -27,13 +27,14 @@ public class BattleSystem {
         // PlayerModelDto player = playerModel.getModel();
         int round = 1;
         boolean winFlg = true;
+        log("战斗开始！敌人是: " + enemy.getName() + System.lineSeparator());
 
         // 主战斗循环
         while (player.isAlive() && enemy.isAlive()) {
-            log("战斗开始！敌人是: " + enemy.getName());
+
             log("==== 第 " + round + " 回合 ====");
             log("玩家血量: " + player.getCurrentHealthPoint() + " / " + player.getMaxHealthPoint());
-            log("敌人血量: " + enemy.getCurrentHp() + " / " + enemy.getMaxHp());
+            log("敌人血量: " + enemy.getCurrentHp() + " / " + enemy.getMaxHp() + System.lineSeparator());
 
             // 玩家回合, 检查敌人是否死亡
             boolean enemyDefeated = handlePlayerTurn(player, enemy);
@@ -120,7 +121,7 @@ public class BattleSystem {
                     }
 
                 }
-
+                log("敌人血量: " + enemy.getCurrentHp() + " / " + enemy.getMaxHp() + System.lineSeparator());
                 // PlayerAttackMain.skillAttack(player, enemy, skill);
                 if (!enemy.isAlive()) {
                     log(enemy.getName() + " 已被击败！");
@@ -144,9 +145,14 @@ public class BattleSystem {
      * @param player 玩家对象
      */
     private static void handleEnemyTurn(Enemy enemy, Player player) {
-        SkillModelDto skill = SkillRepository.getSkillById("Skill0003");
+        log("【敌人回合】");
+        SkillModelDto skill = enemy.getEnemyRandomSkill();
         // SkillList skill = Enemy.getEnemyRandomSkill(enemy.getEnemySkills());
+        SimpleLogger.log.info(enemy.getName() + " 选择了技能" + skill.getName()
+                + " [ " + skill.getTypes() + " ]");
         EnemyAttackMain.skillAttack(enemy, player, skill);
+
+        log("玩家血量: " + player.getCurrentHealthPoint() + " / " + player.getMaxHealthPoint() + System.lineSeparator());
     }
 
     /**

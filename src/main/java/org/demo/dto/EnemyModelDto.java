@@ -43,7 +43,7 @@ public class EnemyModelDto {
      * @param dropExp 掉落经验
      * @param dropExp 物品掉落率
      * @param dropItems 掉落物品表
-     * @param area 活动区域
+     * @param areas 活动区域
      * @param enemySkills 敌人技能
      */
     public EnemyModelDto(String id, String name, int maxHp, int attack, int phyDefense, int magicDefense, int dropExp,
@@ -58,8 +58,8 @@ public class EnemyModelDto {
         this.dropExp = dropExp;
         this.dropRate = dropRate;
         this.dropItems = dropItems;
-        this.enemySkills = enemySkills;
         this.areas = areas;
+        this.enemySkills = enemySkills;
     }
 
     /**
@@ -144,6 +144,15 @@ public class EnemyModelDto {
     }
 
     /**
+     * 取得敌人活动区域
+     *
+     * @return
+     */
+    public List<String> getAreas() {
+        return areas;
+    }
+
+    /**
      * 获取敌人技能
      *
      * @return 敌人技能
@@ -168,10 +177,6 @@ public class EnemyModelDto {
             list.add(skill.getName());
         }
         return list;
-    }
-
-    public List<String> getAreas() {
-        return areas;
     }
 
     @Override

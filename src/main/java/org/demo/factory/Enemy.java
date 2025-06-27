@@ -36,8 +36,10 @@ public class Enemy {
     private final int dropExp;
     // 物品掉落率
     private final double dropRate;
-    // 可能掉落物品
+    // 掉落物列表
     private final Map<ItemModelDto, DropInfo> dropItems;
+    // 敌人活动区域
+    private final List<String> areas;
     // 敌人技能
     private final Map<String, SkillModelDto> enemySkills;
 
@@ -57,6 +59,7 @@ public class Enemy {
         this.dropExp = attr.getDropExp();
         this.dropRate = attr.getDropRate();
         this.dropItems = attr.getDropItems();
+        this.areas = attr.getAreas();
         this.enemySkills = attr.getEnemySkills();
     }
 
@@ -139,6 +142,15 @@ public class Enemy {
      */
     public double getDropRate() {
         return dropRate;
+    }
+
+    /**
+     * 获取敌人活动区域
+     *
+     * @return 敌人活动区域
+     */
+    public List<String> getAreas() {
+        return areas;
     }
 
     /**
@@ -228,19 +240,18 @@ public class Enemy {
     }
 
     /**
-     * 从敌人的技能列表中随机获取一个技能
+     * 从敌人的技能池中随机获取一个技能
      *
      * @param skillMap 敌人技能Map
      * @return 随机技能( SkillList )
      */
-    public static SkillModelDto getEnemyRandomSkill(Map<String, SkillModelDto> skillMap) {
-        if (skillMap == null || skillMap.isEmpty()) {
+    public SkillModelDto getEnemyRandomSkill() {
+        if (enemySkills == null || enemySkills.isEmpty()) {
             return null;
         }
-        List<SkillModelDto> skillList = new ArrayList<>(skillMap.values());
+        List<SkillModelDto> skillList = new ArrayList<>(enemySkills.values());
         Random random = new Random();
-        int index = random.nextInt(skillList.size());
-        return skillList.get(index);
+        return skillList.get(random.nextInt(skillList.size()));
     }
 
     /**

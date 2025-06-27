@@ -3,6 +3,7 @@ package org.demo.dto;
 import org.demo.backpack.Backpack;
 import org.demo.backpack.Equipment;
 import org.demo.list.EthnicityList;
+import org.demo.list.ExpList;
 import org.demo.list.JobList;
 
 public class PlayerModelDto {
@@ -475,7 +476,7 @@ public class PlayerModelDto {
         sb.append(ln).append("  名: ").append(lastName);
         sb.append(ln).append("  种族: ").append(ethnicity.getEthnicityZh());
         sb.append(ln).append("  职业: ").append(job.getNameZh());
-        sb.append(ln).append("  持有经验: ").append(exp);
+        sb.append(ln).append("  持有经验: ").append(exp).append(" / ").append(ExpList.getExpByLevel(level + 1).getMinExp());
         sb.append(ln).append("  等级: ").append(level);
         sb.append(ln).append("  HP: ").append(currentHealthPoint).append(" / ").append(maxHealthPoint);
         sb.append(ln).append("  MP: ").append(currentManaPoint).append(" / ").append(maxManaPoint);

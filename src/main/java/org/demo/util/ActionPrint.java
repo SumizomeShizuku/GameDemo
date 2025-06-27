@@ -7,27 +7,27 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * 将地图打印至Map.log 每次打印覆盖旧纪录, 模拟真实的游戏地图
- */
-public class PrintMap {
+public class ActionPrint {
 
+    /**
+     * 将玩家操作打印至Action.log 每次打印覆盖旧纪录
+     */
     private static final String LOG_DIR_PATH = "Logs";
     private static final DateTimeFormatter LOG_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     // 日志名
-    private static final String MAPNAME = "Map.log";
+    private static final String MAPNAME = "Action.log";
 
     /**
-     * 将地图打印至文件
+     * 将角色属性打印至文件
      *
-     * @param map 地图
+     * @param action 属性
      */
-    public static void printMap(String map) {
+    public static void printAction(String action) {
         LocalDateTime now = LocalDateTime.now();
 
-        // 地图格式
+        // 属性格式
         String timestamp = now.format(LOG_TIME_FORMATTER);
-        String formatted = String.format("%s [%s]%n%s", timestamp, "MAP", map);
+        String formatted = String.format("%s [%s]%n%s", timestamp, "action", action);
 
         // 确保目录存在
         File logDir = new File(LOG_DIR_PATH);
@@ -40,7 +40,7 @@ public class PrintMap {
         try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, false))) {
             writer.print(formatted);
         } catch (IOException e) {
-            System.err.println("地图写入失败: " + e.getMessage());
+            System.err.println("属性写入失败: " + e.getMessage());
         }
     }
 

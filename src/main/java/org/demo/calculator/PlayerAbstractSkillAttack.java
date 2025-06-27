@@ -88,7 +88,7 @@ public abstract class PlayerAbstractSkillAttack implements PlayerSkillAttack {
             sb.append(" 魔法 )");
         }
 
-        SimpleLogger.log.info(sb.toString());
+        SimpleLogger.log.info(sb.toString() + System.lineSeparator());
 
         return result.getDamage();
     }

@@ -193,14 +193,6 @@ public class Player {
         return model.getCommonCoolDown();
     }
 
-    // /**
-    //  * 获取玩家的基础攻击力
-    //  *
-    //  * @return
-    //  */
-    // public double getBaseAttribute() {
-    //     return model.getBaseAttribute();
-    // }
     /**
      * 获取玩家的暴击率
      *

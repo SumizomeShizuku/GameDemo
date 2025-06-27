@@ -1,6 +1,6 @@
 [
   {
-    "id": "GOBLIN",
+    "id": "EN0001",
     "name": "哥布林",
     "maxHp": 15,
     "attack": 2,
@@ -17,7 +17,7 @@
     "skills": ["Skill0001", "Skill0002"]
   },
   {
-    "id": "SLIME",
+    "id": "EN0002",
     "name": "史莱姆",
     "maxHp": 20,
     "attack": 1,
@@ -33,7 +33,7 @@
     "skills": ["Skill0001"]
   },
   {
-    "id": "ORC",
+    "id": "EN0003",
     "name": "兽人",
     "maxHp": 500,
     "attack": 10,
@@ -50,16 +50,16 @@
     "skills": ["Skill0001"]
   },
   {
-    "id": "0001",
-    "name": "毛绒兔",
-    "maxHp": 5,
-    "attack": 1,
+    "id": "EN0004",
+    "name": "训练假人",
+    "maxHp": 100,
+    "attack": 0,
     "phyDefense": 0,
     "magicDefense": 0,
-    "dropExp": 5,
-    "dropRate": 0.5,
+    "dropExp": 0,
+    "dropRate": 0.0,
     "drops": [],
     "areas": ["forest", "cave"],
-    "skills": ["Skill0001"]
+    "skills": ["Skill0001", "Skill0002", "Skill0003", "Skill0004"]
   }
 ]

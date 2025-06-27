@@ -38,8 +38,6 @@ public class LevelUpHandler {
                     SimpleLogger.log.info(player.getFirstName() + " 升级了! 当前等级: " + newLevel);
                     // 自动加点
                     applyGrowth(player, levelGained);
-                    // 升级时自动打印玩家完整属性
-                    SimpleLogger.log.info(player.toString());
                 }
 
                 // 当玩家失去经验时
