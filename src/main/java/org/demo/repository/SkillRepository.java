@@ -1,8 +1,10 @@
-package org.demo.list;
+package org.demo.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.demo.dto.SkillModelDto;
+import org.demo.list.SkillType;
+
 import java.io.InputStream;
 import java.util.*;
 

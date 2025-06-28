@@ -1,4 +1,4 @@
-package org.demo.list;
+package org.demo.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

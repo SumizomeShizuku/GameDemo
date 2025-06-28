@@ -2,9 +2,9 @@ package org.demo;
 
 import org.demo.factory.Player;
 import org.demo.factory.PlayerFactory;
-import org.demo.list.EnemyRepository;
-import org.demo.list.ItemRepository;
-import org.demo.list.SkillRepository;
+import org.demo.repository.EnemyRepository;
+import org.demo.repository.ItemRepository;
+import org.demo.repository.SkillRepository;
 import org.demo.system.Map10x10;
 import org.demo.util.InputHelper;
 import org.demo.util.PrintMap;

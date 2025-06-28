@@ -5,7 +5,7 @@ import java.awt.Point;
 import org.demo.dto.EnemyModelDto;
 import org.demo.factory.Enemy;
 import org.demo.factory.Player;
-import org.demo.list.EnemyRepository;
+import org.demo.repository.EnemyRepository;
 import org.demo.util.SimpleLogger;
 
 public class RoomEventCheck {

@@ -9,7 +9,7 @@ import org.demo.dto.SkillModelDto;
 import org.demo.factory.Enemy;
 import org.demo.factory.Player;
 import org.demo.list.ActionType;
-import org.demo.list.SkillRepository;
+import org.demo.repository.SkillRepository;
 import org.demo.util.SimpleLogger;
 
 /**

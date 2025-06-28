@@ -1,7 +1,7 @@
 package org.demo.factory;
 
 import org.demo.dto.EnemyModelDto;
-import org.demo.list.EnemyRepository;
+import org.demo.repository.EnemyRepository;
 
 public class EnemyFactory {
 
