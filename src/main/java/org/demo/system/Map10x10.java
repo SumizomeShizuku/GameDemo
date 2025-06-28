@@ -471,6 +471,7 @@ public class Map10x10 {
                 Room neighbor = grid[ny][nx]; // 注意[y][x]
                 if (!neighbor.isVisible()) {
                     neighbor.setVisible(true);
+                    roomEnemysSet(neighbor);
                 }
             }
         }
@@ -523,7 +524,6 @@ public class Map10x10 {
             grid[ny][nx].setPlayer(true);
 
             if (!grid[ny][nx].isClear()) {
-                roomEnemysSet(grid[ny][nx]);
 
                 if (player.isAlive()) {
                     battleFlg = eventCheck.checkBattle(player);
@@ -555,9 +555,13 @@ public class Map10x10 {
      * @param room 玩家所在房间
      */
     public void roomEnemysSet(Room room) {
-        int count = new Random().nextInt(4) + 1; // 1~4
-        room.setEnemyCount(count); // 假设你的Room类有这个方法
-        SimpleLogger.log.info("房间内生成敌人数: " + count);
+        if (room.getEnemyCount() == 0) {
+            int count = new Random().nextInt(4) + 1; // 1~4
+            // 设置敌人数量
+            room.setEnemyCount(count);
+            SimpleLogger.log.debug("房间内生成敌人数: " + count);
+        }
+
     }
 
     /*

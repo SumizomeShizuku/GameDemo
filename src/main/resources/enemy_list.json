@@ -7,11 +7,11 @@
     "phyDefense": 1,
     "magicDefense": 0,
     "dropExp": 10,
-    "dropRate": 0.5,
+    "dropRate": 0.3,
     "drops": [
-      { "itemId": "GOBLIN_SWORD", "weight": 0.05, "minQty": 1, "maxQty": 1 },
+      { "itemId": "GOBLIN_SWORD", "weight": 0.005, "minQty": 1, "maxQty": 1 },
       { "itemId": "SLIME_JUICE", "weight": 0.8, "minQty": 1, "maxQty": 2 },
-      { "itemId": "WOOD_RING", "weight": 0.075, "minQty": 1, "maxQty": 1 }
+      { "itemId": "WOOD_RING", "weight": 0.0075, "minQty": 1, "maxQty": 1 }
     ],
     "areas": ["forest", "cave"],
     "skills": ["Skill0001", "Skill0002"]

@@ -76,33 +76,37 @@ public class SimpleLogger {
          * @param message 日志内容
          */
         private void logWithLevel(String level, String message) {
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime periodStart = getPeriodStart(now);
+            // 只输出Info等级以上信息
+            if (!level.equals("DEBUG")) {
 
-            // 检查是否进入新的15分钟区间, 切换文件名
-            synchronized (SimpleLogger.class) {
-                if (!periodStart.equals(currentLogPeriod)) {
-                    currentLogFileName = getLogFileNameByTime(now);
-                    currentLogPeriod = periodStart;
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime periodStart = getPeriodStart(now);
+
+                // 检查是否进入新的15分钟区间, 切换文件名
+                synchronized (SimpleLogger.class) {
+                    if (!periodStart.equals(currentLogPeriod)) {
+                        currentLogFileName = getLogFileNameByTime(now);
+                        currentLogPeriod = periodStart;
+                    }
                 }
-            }
 
-            // 日志格式
-            String timestamp = now.format(LOG_TIME_FORMATTER);
-            String formatted = String.format("%s [%s] %s", timestamp, level, message);
+                // 日志格式
+                String timestamp = now.format(LOG_TIME_FORMATTER);
+                String formatted = String.format("%s [%s] %s", timestamp, level, message);
 
-            // 确保目录存在
-            File logDir = new File(LOG_DIR_PATH);
-            if (!logDir.exists()) {
-                logDir.mkdirs();
-            }
+                // 确保目录存在
+                File logDir = new File(LOG_DIR_PATH);
+                if (!logDir.exists()) {
+                    logDir.mkdirs();
+                }
 
-            // 写入日志( 追加模式 )
-            File logFile = new File(logDir, currentLogFileName);
-            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
-                writer.println(formatted);
-            } catch (IOException e) {
-                System.err.println("日志写入失败: " + e.getMessage());
+                // 写入日志( 追加模式 )
+                File logFile = new File(logDir, currentLogFileName);
+                try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
+                    writer.println(formatted);
+                } catch (IOException e) {
+                    System.err.println("日志写入失败: " + e.getMessage());
+                }
             }
         }
 
