@@ -6,7 +6,9 @@ import org.demo.repository.EnemyRepository;
 public class EnemyFactory {
 
     /**
-     * 创建一个敌人实例。 暂时废弃
+     * 创建一个敌人实例。
+     * <p>
+     * 暂时废弃
      *
      * @param enemyId 敌人id
      *
@@ -22,8 +24,14 @@ public class EnemyFactory {
         EnemyModelDto variantDto = new EnemyModelDto(
                 dto.getId(),
                 dto.getName() + "·变种",
+                dto.getEthnicity(),
+                dto.getLevel(),
                 dto.getMaxHp() + (int) (Math.random() * 20 - 10),
                 dto.getAttack() + (int) (Math.random() * 5),
+                dto.getStrength(),
+                dto.getAgility(),
+                dto.getIntelligence(),
+                dto.getCriticalHitRate(),
                 dto.getPhyDefense(),
                 dto.getMagicDefense(),
                 dto.getDropExp(),

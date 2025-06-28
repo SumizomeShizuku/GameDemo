@@ -42,6 +42,8 @@ public class Enemy {
     private final List<String> areas;
     // 敌人技能
     private final Map<String, SkillModelDto> enemySkills;
+    // 敌人完整属性
+    private final EnemyModelDto enemyModelDto;
 
     /**
      * 构造一个敌人对象。
@@ -61,6 +63,7 @@ public class Enemy {
         this.dropItems = attr.getDropItems();
         this.areas = attr.getAreas();
         this.enemySkills = attr.getEnemySkills();
+        this.enemyModelDto = attr;
     }
 
     /**
@@ -169,6 +172,15 @@ public class Enemy {
      */
     public Map<String, SkillModelDto> getEnemySkills() {
         return enemySkills;
+    }
+
+    /**
+     * 获取敌人完整属性
+     *
+     * @return 敌人完整属性
+     */
+    public EnemyModelDto getModel() {
+        return enemyModelDto;
     }
 
     /**

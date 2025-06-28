@@ -3,8 +3,10 @@ package org.demo.dto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.demo.backpack.DropInfo;
+import org.demo.list.EthnicityList;
 
 public class EnemyModelDto {
 
@@ -12,10 +14,22 @@ public class EnemyModelDto {
     private final String id;
     // 敌人名称
     private final String name;
+    // 种族
+    private final EthnicityList ethnicity;
+    // 等级
+    private final int level;
     // 最大生命值
     private final int maxHp;
     // 攻击力
     private final int attack;
+    // 力量
+    private final int strength;
+    // 敏捷
+    private final int agility;
+    // 智力
+    private final int intelligence;
+    // 暴击率
+    private final double criticalHitRate;
     // 物理防御力
     private final int phyDefense;
     // 魔法防御力
@@ -46,13 +60,20 @@ public class EnemyModelDto {
      * @param areas 活动区域
      * @param enemySkills 敌人技能
      */
-    public EnemyModelDto(String id, String name, int maxHp, int attack, int phyDefense, int magicDefense, int dropExp,
-            double dropRate,
-            Map<ItemModelDto, DropInfo> dropItems, List<String> areas, Map<String, SkillModelDto> enemySkills) {
+    public EnemyModelDto(String id, String name, EthnicityList ethnicity, int level, int maxHp, int attack,
+            int strength, int agility, int intelligence, double criticalHitRate, int phyDefense, int magicDefense,
+            int dropExp, double dropRate, Map<ItemModelDto, DropInfo> dropItems,
+            List<String> areas, Map<String, SkillModelDto> enemySkills) {
         this.id = id;
         this.name = name;
+        this.ethnicity = ethnicity;
+        this.level = level;
         this.maxHp = maxHp;
         this.attack = attack;
+        this.strength = strength;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.criticalHitRate = criticalHitRate;
         this.phyDefense = phyDefense;
         this.magicDefense = magicDefense;
         this.dropExp = dropExp;
@@ -78,6 +99,60 @@ public class EnemyModelDto {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * 获取敌人种族
+     *
+     * @return 敌人种族
+     */
+    public EthnicityList getEthnicity() {
+        return ethnicity;
+    }
+
+    /**
+     * 获取敌人等级
+     *
+     * @return 敌人等级
+     */
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     * 获取敌人力量
+     *
+     * @return 敌人力量
+     */
+    public int getStrength() {
+        return strength;
+    }
+
+    /**
+     * 获取敌人敏捷
+     *
+     * @return 敌人敏捷
+     */
+    public int getAgility() {
+        return agility;
+    }
+
+    /**
+     * 获取敌人智力
+     *
+     * @return 敌人智力
+     */
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    /**
+     * 获取敌人暴击率
+     *
+     * @return 敌人暴击率
+     */
+    public double getCriticalHitRate() {
+        return criticalHitRate;
     }
 
     /**
@@ -144,6 +219,18 @@ public class EnemyModelDto {
     }
 
     /**
+     * 获取敌人掉落物品表物品名称
+     *
+     * @return 掉落物品表物品名称
+     */
+    public List<String> getDropItemsName() {
+        List<String> list = dropItems.keySet().stream()
+                .map(ItemModelDto::getName) // 假设getter为getName()
+                .collect(Collectors.toList());
+        return list;
+    }
+
+    /**
      * 取得敌人活动区域
      *
      * @return
@@ -181,14 +268,27 @@ public class EnemyModelDto {
 
     @Override
     public String toString() {
-        return "敌人id='" + id + '\''
-                + ", 敌人名称='" + name + '\''
-                + ", 最大生命值=" + maxHp
-                + ", 攻击力=" + attack
-                + ", 物理防御力=" + phyDefense
-                + ", 掉落经验=" + dropExp
-                + ", 掉落物品=" + dropItems.toString()
-                + ", 活动区域=" + areas
-                + ", 持有技能=" + getSkillNames();
+        StringBuilder sb = new StringBuilder();
+        String ln = System.lineSeparator();
+        sb.append(ln).append("敌人属性 [").append(ln);
+        sb.append("id: '").append(id).append('\'').append(ln)
+                .append("  名称: '").append(name).append('\'').append(ln)
+                .append("  种族: ").append(ethnicity != null ? ethnicity.getEthnicityZh() : "N/A").append(ln)
+                .append("  等级: ").append(level).append(ln)
+                .append("  最大生命值: ").append(maxHp).append(ln)
+                .append("  攻击力: ").append(attack).append(ln)
+                .append("  物理防御力: ").append(phyDefense).append(ln)
+                .append("  魔法防御力: ").append(magicDefense).append(ln)
+                .append("  力量: ").append(strength).append(ln)
+                .append("  敏捷: ").append(agility).append(ln)
+                .append("  智力: ").append(intelligence).append(ln)
+                .append("  暴击率: ").append(String.format("%.2f%%", criticalHitRate * 100)).append(ln)
+                .append("  掉落经验: ").append(dropExp).append(ln)
+                .append("  掉落物品: ").append(getDropItemsName()).append(ln)
+                .append("  活动区域: ").append(areas).append(ln)
+                .append("  持有技能: ").append(getSkillNames()).append(ln)
+                .append("]");
+
+        return sb.toString();
     }
 }

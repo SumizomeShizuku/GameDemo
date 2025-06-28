@@ -1,15 +1,20 @@
 package org.demo.repository;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.demo.backpack.DropInfo;
 import org.demo.dto.EnemyJsonDto;
 import org.demo.dto.EnemyModelDto;
 import org.demo.dto.ItemModelDto;
 import org.demo.dto.SkillModelDto;
-import org.demo.backpack.DropInfo;
 
-import java.io.InputStream;
-import java.util.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 敌人仓库（静态方法/属性版） 负责从 JSON 文件加载所有敌人，并提供全局查询接口。
@@ -52,8 +57,23 @@ public class EnemyRepository {
                 }
                 // 构造模板
                 EnemyModelDto dto = new EnemyModelDto(
-                        raw.id, raw.name, raw.maxHp, raw.attack, raw.phyDefense, raw.magicDefense,
-                        raw.dropExp, raw.dropRate, dropMap, raw.areas, skillMap);
+                        raw.id,
+                        raw.name,
+                        raw.ethnicity,
+                        raw.level,
+                        raw.maxHp,
+                        raw.attack,
+                        raw.strength,
+                        raw.agility,
+                        raw.intelligence,
+                        raw.criticalHitRate,
+                        raw.phyDefense,
+                        raw.magicDefense,
+                        raw.dropExp,
+                        raw.dropRate,
+                        dropMap,
+                        raw.areas,
+                        skillMap);
                 enemyMap.put(raw.id, dto);
             }
         } catch (Exception e) {

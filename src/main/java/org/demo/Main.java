@@ -21,9 +21,10 @@ public class Main {
             try {
                 Play.playerInit();
             } catch (Exception e) {
+                // e.printStackTrace();
                 SimpleLogger.log.info("---------------运行终了---------------" + System.lineSeparator());
                 System.exit(0);
-                // e.printStackTrace();
+
             }
         }
 
