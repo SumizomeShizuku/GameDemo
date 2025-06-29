@@ -25,7 +25,7 @@
   {
     "id": "EN0002",
     "name": "史莱姆",
-    "ethnicity": "GRAVENTH",
+    "ethnicity": "EE00002",
     "level": 5,
     "maxHp": 20,
     "attack": 1,
@@ -38,9 +38,9 @@
     "dropExp": 500,
     "dropRate": 0.5,
     "drops": [
-      { "itemId": "GOBLIN_SWORD", "weight": 0.5, "minQty": 1, "maxQty": 1 },
-      { "itemId": "SLIME_JUICE", "weight": 0.5, "minQty": 1, "maxQty": 2 },
-      { "itemId": "WOOD_RING", "weight": 0.5, "minQty": 1, "maxQty": 1 }
+      { "itemId": "GOBLIN_SWORD", "weight": 0.005, "minQty": 1, "maxQty": 1 },
+      { "itemId": "SLIME_JUICE", "weight": 0.8, "minQty": 1, "maxQty": 2 },
+      { "itemId": "WOOD_RING", "weight": 0.0075, "minQty": 1, "maxQty": 1 }
     ],
     "skills": ["Skill0001"]
   },

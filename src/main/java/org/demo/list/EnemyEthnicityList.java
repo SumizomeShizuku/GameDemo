@@ -17,7 +17,9 @@ public enum EnemyEthnicityList {
      * 亡影族
      */
     THARNYX("亡影族"),
-    EE00001("哥布林");
+    EE00001("哥布林"),
+    EE00002("史莱姆"),
+    EE00003("训练用假人");
 
     private final String ethnicityZh;
 

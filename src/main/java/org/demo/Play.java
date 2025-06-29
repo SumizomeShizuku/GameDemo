@@ -39,6 +39,7 @@ public class Play {
 
         // 随机房间数量
         Map10x10 maze = new Map10x10(50, 60, player);
+        // maze.visibleAllRoom();
         MapPrint.printMap(System.lineSeparator() + maze.toString());
 
         while (true) {

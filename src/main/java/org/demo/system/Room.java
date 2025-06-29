@@ -16,13 +16,14 @@ public class Room {
     private final int y;
 
     /* ── 状态标记 ── */
-    private boolean room = false; // 是否已雕刻为房间
-    private boolean start = false; // 是否起点 A
-    private boolean end = false; // 是否终点 B
+    private boolean isRoom = false; // 是否已雕刻为房间
+    private boolean isStart = false; // 是否起点 A
+    private boolean isEnd = false; // 是否终点 B
     private int enemyCount = 0; // 敌人数
     private boolean hasPlayer = false; // 是否存在玩家
-    private boolean isVisible = false;
-    private boolean isClear = false;
+    private boolean isVisible = false; // 是否可见
+    private boolean isClear = false; // 敌人是否被清理
+    private boolean isStar = false; // 是否为宝箱房（默认false）
 
     /**
      * @param x 格子横坐标
@@ -42,32 +43,38 @@ public class Room {
     }
 
     public boolean isRoom() {
-        return room;
+        return isRoom;
     }
 
     public void setRoom(boolean room) {
-        this.room = room;
+        this.isRoom = room;
     }
 
     public boolean isStart() {
-        return start;
+        return isStart;
     }
 
+    // 若房间为起点, 则
+    // 1.设置该格子被雕刻为房间
+    // 2.设置该房间为起点
+    // 3.设置玩家在此位置开始
+    // 4.设置该房间在地图中可视
+    // 5.设置该房间敌人被清空(后续不会刷新敌人)
     public void setStart(boolean start) {
-        this.start = start;
-        this.room = start;
+        this.isRoom = start;
+        this.isStart = start;
         this.hasPlayer = start;
         this.isVisible = start;
         this.isClear = start;
     }
 
     public boolean isEnd() {
-        return end;
+        return isEnd;
     }
 
     public void setEnd(boolean end) {
-        this.end = end;
-        this.room = end;
+        this.isEnd = end;
+        this.isRoom = end;
     }
 
     public int getEnemyCount() {
@@ -98,6 +105,14 @@ public class Room {
         this.isClear = isClear;
     }
 
+    public boolean isStar() {
+        return isStar;
+    }
+
+    public void setStar(boolean isStar) {
+        this.isStar = isStar;
+    }
+
     /**
      * 该房间位置
      *
@@ -122,17 +137,18 @@ public class Room {
      * @return {@code true} 表示墙体( 不可通行 )；{@code false} 表示已开凿房间
      */
     public boolean isWall() {
-        return !room;
+        return !isRoom;
     }
 
     public void reset() {
-        this.room = false; // 不是可通行房间
-        this.start = false; // 不是起点
-        this.end = false; // 不是终点
+        this.isRoom = false; // 不是可通行房间
+        this.isStart = false; // 不是起点
+        this.isEnd = false; // 不是终点
         this.enemyCount = 0; // 敌人数清零
         this.hasPlayer = false; // 重置玩家位置
-        this.isVisible = false;
-        this.isClear = false;
+        this.isVisible = false; // 重置房间可视性
+        this.isClear = false; // 重置房间敌人为未清理
+        this.isStar = false; // 重置房间为非宝箱房
     }
 
     /**
@@ -144,14 +160,17 @@ public class Room {
             if (hasPlayer) {
                 return "▣";
             }
-            if (!room) {
+            if (!isRoom) {
                 return "▨";
             }
-            if (start) {
+            if (isStart) {
                 return "◇";
             }
-            if (end) {
+            if (isEnd) {
                 return "◆";
+            }
+            if (isStar) {
+                return "★";
             }
             return "▢";
         } else {

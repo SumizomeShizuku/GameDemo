@@ -38,7 +38,7 @@ public class GenerateDrops {
         // int minTypes = 1; // 至少掉落1件
         // int maxTypes = 2; // 至多掉落2件
         int typeCount;
-        if (random.nextDouble() <= 0.8) {
+        if (random.nextDouble() <= 0.95) {
             typeCount = 1; // 80%掉落1种物品
         } else {
             typeCount = 2; // 20%掉落2种物品

@@ -140,6 +140,28 @@ public class Map10x10 {
 
             }
         }
+
+        // 在成功放置起点(A)和终点(B)之后，设置宝箱房间：
+        List<int[]> candidates = new ArrayList<>(rooms);
+        // 移除起点和终点房间坐标，仅保留可选为宝箱房的房间
+        candidates.removeIf(coord -> grid[coord[1]][coord[0]].isStart() || grid[coord[1]][coord[0]].isEnd());
+
+        // 设置宝箱房数量
+        int starCount = 4;
+        // 若数量大于0个
+        if (starCount > 0) {
+            // 如果空房间数 > 宝箱房数量
+            // 房间总数太少会导致无法生成宝箱房
+            if (candidates.size() >= starCount) {
+                // 将候选房间随机排序
+                Collections.shuffle(candidates, rnd);
+                // 循环, 直至宝箱房数量等于设定值
+                for (int i = 0; i < starCount; i++) {
+                    int[] starPos = candidates.get(i);
+                    grid[starPos[1]][starPos[0]].setStar(true);
+                }
+            }
+        }
     }
 
     /**
@@ -578,9 +600,10 @@ public class Map10x10 {
     public String toString() {
         checkAroundPlayer();
         StringBuilder sb = new StringBuilder();
+        String ln = System.lineSeparator();
 
         // 顶部边界
-        sb.append("▨".repeat(SIZE + 2)).append("\n");
+        sb.append("▨".repeat(SIZE + 2)).append(ln);
 
         // 中间行: 左右各加一面墙
         for (Room[] row : grid) {
@@ -589,11 +612,15 @@ public class Map10x10 {
                 sb.append(room.toString());
             }
 
-            sb.append("▨").append("\n"); // 右边界
+            sb.append("▨").append(ln); // 右边界
         }
 
         // 底部边界
-        sb.append("▨".repeat(SIZE + 2)).append("\n");
+        sb.append("▨".repeat(SIZE + 2)).append(ln);
+        sb.append(ln).append("▣ : 玩家当前位置").append(ln);
+        sb.append("◇ : 起点").append("  ").append("◆ : 终点");
+        sb.append("  ").append("★ : 宝箱房").append(ln);
+        sb.append("▢ : 空房间").append("  ").append("▨ : 墙壁").append(ln);
         return sb.toString();
     }
 

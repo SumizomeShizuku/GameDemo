@@ -150,8 +150,8 @@ public class BattleSystem {
         log("【敌人回合】");
         SkillModelDto skill = enemy.getEnemyRandomSkill();
         // SkillList skill = Enemy.getEnemyRandomSkill(enemy.getEnemySkills());
-        SimpleLogger.log.info(enemy.getName() + " 选择了技能" + skill.getName()
-                + " [ " + skill.getTypes() + " ]");
+        SimpleLogger.log.info(enemy.getName() + " 选择了技能 [ " + skill.getName()
+                + " - " + skill.getTypes() + " ]");
         EnemyAttackMain.skillAttack(enemy, player, skill);
 
         log("玩家血量: " + player.getCurrentHealthPoint() + " / " + player.getMaxHealthPoint() + System.lineSeparator());
