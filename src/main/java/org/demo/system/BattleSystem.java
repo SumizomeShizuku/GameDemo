@@ -9,7 +9,7 @@ import org.demo.dto.SkillModelDto;
 import org.demo.factory.Enemy;
 import org.demo.factory.Player;
 import org.demo.list.ActionType;
-import org.demo.repository.SkillRepository;
+import org.demo.repository.PlayerSkillRepository;
 import org.demo.util.SimpleLogger;
 
 /**
@@ -85,7 +85,7 @@ public class BattleSystem {
      */
     private static boolean handlePlayerTurn(Player player, Enemy enemy) {
         log("【玩家回合】");
-        SkillModelDto skill = SkillRepository.getSkillById("Skill0003");
+        SkillModelDto skill = PlayerSkillRepository.getSkillById("Skill0003");
         while (true) {
             // log("玩家第 " + i + " 次行动");
 
@@ -100,7 +100,7 @@ public class BattleSystem {
                 switch (actionType) {
                     case NormalAttack -> {
                         SimpleLogger.log.info(player.getFirstName() + " 选择了普通攻击");
-                        skill = SkillRepository.getSkillById("Skill0001");
+                        skill = PlayerSkillRepository.getSkillById("Skill0001");
                         enemy = PlayerAttackMain.skillAttack(player, enemy, skill);
                     }
                     case Skill -> {
@@ -135,7 +135,7 @@ public class BattleSystem {
                 }
             } else {
                 SimpleLogger.log.info("魔力值不足, 重新选择行动!");
-                skill = SkillRepository.getSkillById("Skill0001");
+                skill = PlayerSkillRepository.getSkillById("Skill0001");
             }
         }
     }

@@ -2,7 +2,7 @@ package org.demo.dto;
 
 import java.util.List;
 
-import org.demo.list.EthnicityList;
+import org.demo.list.EnemyEthnicityList;
 
 /**
  * 用于读取敌人JSON配置的数据结构
@@ -11,7 +11,7 @@ public class EnemyJsonDto {
 
     public String id;
     public String name;
-    public EthnicityList ethnicity;
+    public EnemyEthnicityList ethnicity;
     public int level;
     public int maxHp;
     public int attack;

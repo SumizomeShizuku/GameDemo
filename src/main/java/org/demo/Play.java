@@ -3,11 +3,12 @@ package org.demo;
 import org.demo.factory.Player;
 import org.demo.factory.PlayerFactory;
 import org.demo.repository.EnemyRepository;
+import org.demo.repository.EnemySkillRepository;
 import org.demo.repository.ItemRepository;
-import org.demo.repository.SkillRepository;
+import org.demo.repository.PlayerSkillRepository;
 import org.demo.system.Map10x10;
 import org.demo.util.InputHelper;
-import org.demo.util.PrintMap;
+import org.demo.util.MapPrint;
 import org.demo.util.SimpleLogger;
 import org.demo.util.StatusPrint;
 
@@ -30,21 +31,22 @@ public class Play {
 
         // 掉落物初始化
         ItemRepository.loadFromJson("item_list.json");
-        SkillRepository.loadFromJson("skills_list.json");
+        PlayerSkillRepository.loadFromJson("player_skills_list.json");
+        EnemySkillRepository.loadFromJson("enemy_skills_list.json");
         EnemyRepository.loadFromJson("enemy_list.json");
         // EnemyModelDto goblin = EnemyRepository.getEnemyById("EN0001");
         // System.out.println(goblin.toString());
 
         // 随机房间数量
         Map10x10 maze = new Map10x10(50, 60, player);
-        PrintMap.printMap(System.lineSeparator() + maze.toString());
+        MapPrint.printMap(System.lineSeparator() + maze.toString());
 
         while (true) {
             // 打印玩家状态
             StatusPrint statusPrint = new StatusPrint();
             statusPrint.printStatus(player.getModel().toString());
             // 打印地图
-            PrintMap.printMap(maze.toString());
+            MapPrint.printMap(maze.toString());
             player.showInventory();
 
             String input = InputHelper.getLowerCaseLine(

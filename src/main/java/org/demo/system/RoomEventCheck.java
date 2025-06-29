@@ -35,7 +35,7 @@ public class RoomEventCheck {
         if (room.getEnemyCount() > 0) {
             // 这里可以进一步获得敌人类型或直接生成敌人
             // String enemyId = room.getEnemyId(); // 推荐让Room对象支持getEnemyId()
-            EnemyModelDto enemyDto = EnemyRepository.getEnemyById("EN0001");
+            EnemyModelDto enemyDto = EnemyRepository.getEnemyById("EN0002");
 
             // Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
             if (enemyDto != null) {

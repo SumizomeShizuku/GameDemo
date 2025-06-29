@@ -1,6 +1,8 @@
 package org.demo;
 
+import org.demo.util.MapPrint;
 import org.demo.util.SimpleLogger;
+import org.demo.util.StatusPrint;
 
 public class Main {
 
@@ -28,6 +30,9 @@ public class Main {
             }
         }
 
+        StatusPrint statusPrint = new StatusPrint();
+        statusPrint.printStatus("尚未加载");
+        MapPrint.printMap("尚未加载");
         SimpleLogger.log.info("---------------运行终了---------------" + System.lineSeparator());
     }
 

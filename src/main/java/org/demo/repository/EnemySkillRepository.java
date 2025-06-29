@@ -8,7 +8,7 @@ import org.demo.list.SkillType;
 import java.io.InputStream;
 import java.util.*;
 
-public class SkillRepository {
+public class EnemySkillRepository {
 
     private static final Map<String, SkillModelDto> skillMap = new LinkedHashMap<>();
 
@@ -18,7 +18,7 @@ public class SkillRepository {
      * @param filePath 文件路径，如 "skills.json"
      */
     public static void loadFromJson(String filePath) {
-        try (InputStream is = SkillRepository.class.getClassLoader().getResourceAsStream(filePath)) {
+        try (InputStream is = PlayerSkillRepository.class.getClassLoader().getResourceAsStream(filePath)) {
             ObjectMapper mapper = new ObjectMapper();
             List<Map<String, Object>> rawList = mapper.readValue(is, new TypeReference<List<Map<String, Object>>>() {
             });

@@ -2,6 +2,7 @@ package org.demo.repository;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -49,11 +50,15 @@ public class EnemyRepository {
                 Map<String, SkillModelDto> skillMap = new LinkedHashMap<>();
                 if (raw.skills != null) {
                     for (String skillId : raw.skills) {
-                        SkillModelDto skill = SkillRepository.getSkillById(skillId);
+                        SkillModelDto skill = EnemySkillRepository.getSkillById(skillId);
                         if (skill != null) {
                             skillMap.put(skillId, skill);
                         }
                     }
+                }
+                if (raw.areas == null) {
+                    List<String> area = Arrays.asList("全地区");
+                    raw.areas = area;
                 }
                 // 构造模板
                 EnemyModelDto dto = new EnemyModelDto(

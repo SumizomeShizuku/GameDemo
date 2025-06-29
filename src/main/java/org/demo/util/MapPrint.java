@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * 将地图打印至Map.log 每次打印覆盖旧纪录, 模拟真实的游戏地图
  */
-public class PrintMap {
+public class MapPrint {
 
     private static final String LOG_DIR_PATH = "Logs";
     private static final DateTimeFormatter LOG_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

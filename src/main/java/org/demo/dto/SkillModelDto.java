@@ -6,7 +6,7 @@ import org.demo.list.SkillType;
 
 public class SkillModelDto {
 
-    private String id; // 技能编号(如"Skill0001")
+    private String id; // 技能编号
     private String name; // 技能名
     private EnumSet<SkillType> types; // 技能类型集合
     private String description; // 技能描述
@@ -75,31 +75,66 @@ public class SkillModelDto {
         this.cost = cost;
     }
 
-    // 下面这些方法全部照搬你枚举的实现：
+    /**
+     * 获取技能类型集合
+     *
+     * @param type 技能类型
+     * @return 如果技能类型集合中包含指定类型，则返回true，否则返回false
+     */
     public boolean hasType(SkillType type) {
         return types.contains(type);
     }
 
+    /**
+     * 判断是否为魔法技能
+     *
+     * @return 如果技能类型集合中包含魔法类型，则返回true，否则返回false
+     */
     public boolean isMagicSkill() {
         return types.contains(SkillType.Magic);
     }
 
+    /**
+     * 判断是否为物理技能
+     *
+     * @return 如果技能类型集合中包含物理类型，则返回true，否则返回false
+     */
     public boolean isPhysicsSkill() {
         return types.contains(SkillType.Physics);
     }
 
+    /**
+     * 判断是否为治疗技能
+     *
+     * @return 如果技能类型集合中包含治疗类型，则返回true，否则返回false
+     */
     public boolean isHealingSkill() {
         return types.contains(SkillType.Healing);
     }
 
+    /**
+     * 判断是否为辅助技能
+     *
+     * @return 如果技能类型集合中包含辅助类型，则返回true，否则返回false
+     */
     public boolean isSupportSkill() {
         return types.contains(SkillType.Support);
     }
 
+    /**
+     * 判断是否为混合技能 混合技能同时包含物理和魔法类型
+     *
+     * @return 如果技能类型集合中同时包含物理和魔法类型，则返回true，否则返回false
+     */
     public boolean isHybridSkill() {
         return types.contains(SkillType.Physics) && types.contains(SkillType.Magic);
     }
 
+    /**
+     * 判断是否为错误技能
+     *
+     * @return 如果技能类型集合中包含错误类型，则返回true，否则返回false
+     */
     public boolean isErrorSkill() {
         return types.contains(SkillType.Error);
     }

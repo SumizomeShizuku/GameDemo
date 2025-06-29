@@ -1,0 +1,42 @@
+[
+  {
+    "id": "Skill0001",
+    "name": "敌·普通攻击",
+    "types": ["Normal"],
+    "description": "使用手中的武器攻击, 根据武器属性造成伤害",
+    "baseDamage": 10,
+    "cost": 0
+  },
+  {
+    "id": "Skill0002",
+    "name": "敌·挥石魔法",
+    "types": ["Physics"],
+    "description": "使用石头进行攻击, 造成物理伤害。",
+    "baseDamage": 10,
+    "cost": 3
+  },
+  {
+    "id": "Skill0003",
+    "name": "敌·火球术",
+    "types": ["Magic"],
+    "description": "发射火球, 造成魔法伤害。",
+    "baseDamage": 30,
+    "cost": 5
+  },
+  {
+    "id": "Skill0004",
+    "name": "敌·冰锥术",
+    "types": ["Physics", "Magic"],
+    "description": "发射冰锥, 造成物理和魔法伤害。",
+    "baseDamage": 30,
+    "cost": 5
+  },
+  {
+    "id": "SkillERROR",
+    "name": "敌·你不应该看到这个技能",
+    "types": ["Error"],
+    "description": "你不应该看到这个描述",
+    "baseDamage": 9999,
+    "cost": 9999
+  }
+]

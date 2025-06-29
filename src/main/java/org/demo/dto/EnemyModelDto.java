@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.demo.backpack.DropInfo;
-import org.demo.list.EthnicityList;
+import org.demo.list.EnemyEthnicityList;
 
 public class EnemyModelDto {
 
@@ -15,7 +15,7 @@ public class EnemyModelDto {
     // 敌人名称
     private final String name;
     // 种族
-    private final EthnicityList ethnicity;
+    private final EnemyEthnicityList ethnicity;
     // 等级
     private final int level;
     // 最大生命值
@@ -60,7 +60,7 @@ public class EnemyModelDto {
      * @param areas 活动区域
      * @param enemySkills 敌人技能
      */
-    public EnemyModelDto(String id, String name, EthnicityList ethnicity, int level, int maxHp, int attack,
+    public EnemyModelDto(String id, String name, EnemyEthnicityList ethnicity, int level, int maxHp, int attack,
             int strength, int agility, int intelligence, double criticalHitRate, int phyDefense, int magicDefense,
             int dropExp, double dropRate, Map<ItemModelDto, DropInfo> dropItems,
             List<String> areas, Map<String, SkillModelDto> enemySkills) {
@@ -106,7 +106,7 @@ public class EnemyModelDto {
      *
      * @return 敌人种族
      */
-    public EthnicityList getEthnicity() {
+    public EnemyEthnicityList getEthnicity() {
         return ethnicity;
     }
 
