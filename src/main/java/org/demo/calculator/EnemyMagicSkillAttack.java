@@ -15,7 +15,7 @@ public class EnemyMagicSkillAttack extends EnemyAbstractSkillAttack {
      */
     @Override
     protected DamageResult calculateDamage(Enemy enemy, Player player, int damagePower) {
-        int damage = enemy.getAttack();
+        int intel = enemy.getIntelligence();
         double p;
         if (damagePower < 20) {
             p = 0.5 + (double) damagePower / 300.0;
@@ -28,12 +28,12 @@ public class EnemyMagicSkillAttack extends EnemyAbstractSkillAttack {
         }
         double rawDamage;
         if (damagePower == 1) {
-            rawDamage = damage * Math.pow(damage, 0.08) / 2;
+            rawDamage = intel * Math.pow(intel, 0.08) / 2;
         } else {
-            rawDamage = 0.6 * Math.pow(damage, 1.3) * p;
+            rawDamage = 0.6 * Math.pow(intel, 1.3) * p;
         }
 
-        int mRes = player.getMagicDefenes();
+        int mRes = player.getMagicDefense();
         double mResRatio = (double) mRes / (mRes + 100.0);
         double finalDamage = rawDamage * (1.0 - mResRatio);
 

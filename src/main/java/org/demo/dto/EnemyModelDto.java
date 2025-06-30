@@ -1,6 +1,7 @@
 package org.demo.dto;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,8 +21,6 @@ public class EnemyModelDto {
     private final int level;
     // 最大生命值
     private final int maxHp;
-    // 攻击力
-    private final int attack;
     // 力量
     private final int strength;
     // 敏捷
@@ -46,7 +45,9 @@ public class EnemyModelDto {
     // 敌人技能
     private Map<String, SkillModelDto> enemySkills;
     // 基础出现权重
-    private int baseWeight;
+    private int probability;
+    // 属性成长权重 力量·敏捷·智力
+    private double[] growthWeights;
 
     /**
      * 构造一个敌人模型数据传输对象。
@@ -61,17 +62,18 @@ public class EnemyModelDto {
      * @param dropItems 掉落物品表
      * @param areas 活动区域
      * @param enemySkills 敌人技能
+     * @param baseWeight 出现权重
+     * @param growthWeights
      */
-    public EnemyModelDto(String id, String name, EnemyEthnicityList ethnicity, int level, int maxHp, int attack,
+    public EnemyModelDto(String id, String name, EnemyEthnicityList ethnicity, int level, int maxHp,
             int strength, int agility, int intelligence, double criticalHitRate, int phyDefense, int magicDefense,
             int dropExp, double dropRate, Map<ItemModelDto, DropInfo> dropItems,
-            List<String> areas, Map<String, SkillModelDto> enemySkills, int baseWeight) {
+            List<String> areas, Map<String, SkillModelDto> enemySkills, int probability, double[] growthWeights) {
         this.id = id;
         this.name = name;
         this.ethnicity = ethnicity;
         this.level = level;
         this.maxHp = maxHp;
-        this.attack = attack;
         this.strength = strength;
         this.agility = agility;
         this.intelligence = intelligence;
@@ -84,7 +86,8 @@ public class EnemyModelDto {
         this.areas = areas;
         this.enemySkills = enemySkills;
         // 若未指定权重则默认1
-        this.baseWeight = (baseWeight > 0 ? baseWeight : 1);
+        this.probability = (probability > 0 ? probability : 1);
+        this.growthWeights = (growthWeights == null ? new double[]{0.5, 0.5, 0.5} : growthWeights);
     }
 
     /**
@@ -169,15 +172,6 @@ public class EnemyModelDto {
     }
 
     /**
-     * 获取敌人攻击力
-     *
-     * @return 攻击力
-     */
-    public int getAttack() {
-        return attack;
-    }
-
-    /**
      * 获取敌人物理防御力
      *
      * @return 物理防御力
@@ -252,16 +246,49 @@ public class EnemyModelDto {
         return enemySkills;
     }
 
+    /**
+     * 设置敌人技能
+     *
+     * @param enemySkills 敌人技能
+     */
     public void setSkills(Map<String, SkillModelDto> enemySkills) {
         this.enemySkills = enemySkills;
     }
 
-    public int getBaseWeight() {
-        return baseWeight;
+    /**
+     * 获取敌人基础出现权重
+     *
+     * @return 基础出现权重
+     */
+    public int getProbability() {
+        return probability;
     }
 
-    public void setBaseWeight(int baseWeight) {
-        this.baseWeight = baseWeight;
+    /**
+     * 设置敌人基础出现权重
+     *
+     * @param probability 基础出现权重
+     */
+    public void setProbability(int probability) {
+        this.probability = probability;
+    }
+
+    /**
+     * 获取敌人属性成长权重
+     *
+     * @return 属性成长权重数组，顺序为 [力量, 敏捷, 智力]
+     */
+    public double[] getGrowthWeights() {
+        return growthWeights;
+    }
+
+    /**
+     * 设置敌人属性成长权重
+     *
+     * @param growthWeights 属性成长权重数组，顺序为 [力量, 敏捷, 智力]
+     */
+    public void setGrowthWeights(double[] growthWeights) {
+        this.growthWeights = growthWeights;
     }
 
     /**
@@ -288,7 +315,6 @@ public class EnemyModelDto {
                 .append("  种族: ").append(ethnicity != null ? ethnicity.getEthnicityZh() : "N/A").append(ln)
                 .append("  等级: ").append(level).append(ln)
                 .append("  最大生命值: ").append(maxHp).append(ln)
-                .append("  攻击力: ").append(attack).append(ln)
                 .append("  物理防御力: ").append(phyDefense).append(ln)
                 .append("  魔法防御力: ").append(magicDefense).append(ln)
                 .append("  力量: ").append(strength).append(ln)
@@ -299,7 +325,8 @@ public class EnemyModelDto {
                 .append("  掉落物品: ").append(getDropItemsName()).append(ln)
                 .append("  活动区域: ").append(areas).append(ln)
                 .append("  持有技能: ").append(getSkillNames()).append(ln)
-                .append("  出现权重: ").append(getBaseWeight()).append(ln)
+                .append("  出现权重: ").append(getProbability()).append(ln)
+                .append("  成长权重: ").append(Arrays.toString(getGrowthWeights())).append(ln)
                 .append("]");
 
         return sb.toString();

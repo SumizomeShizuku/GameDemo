@@ -1,7 +1,7 @@
 package org.demo.factory;
 
 import org.demo.dto.EnemyModelDto;
-import org.demo.repository.EnemyRepository;
+import org.demo.util.LevelUpHandler;
 
 public class EnemyFactory {
 
@@ -14,32 +14,35 @@ public class EnemyFactory {
      *
      * @return 新创建的敌人实例
      */
-    public static Enemy createEnemy(String enemyId) {
-        EnemyModelDto dto = EnemyRepository.getEnemyById(enemyId);
+    public static Enemy enemyUpGrade(Enemy enemy) {
+        EnemyModelDto dto = enemy.getModel();
+        LevelUpHandler enemyUp = new LevelUpHandler();
+        enemyUp.enemyGrowth(enemy, 12);
         if (dto == null) {
             return null;
         }
 
-        // 可以复制属性后生成变种
-        EnemyModelDto variantDto = new EnemyModelDto(
-                dto.getId(),
-                dto.getName() + "·变种",
-                dto.getEthnicity(),
-                dto.getLevel(),
-                dto.getMaxHp() + (int) (Math.random() * 20 - 10),
-                dto.getAttack() + (int) (Math.random() * 5),
-                dto.getStrength(),
-                dto.getAgility(),
-                dto.getIntelligence(),
-                dto.getCriticalHitRate(),
-                dto.getPhyDefense(),
-                dto.getMagicDefense(),
-                dto.getDropExp(),
-                dto.getDropRate(),
-                dto.getDropItems(),
-                dto.getAreas(),
-                dto.getEnemySkills(),
-                dto.getBaseWeight());
-        return new Enemy(variantDto);
+        // // 可以复制属性后生成变种
+        // EnemyModelDto variantDto = new EnemyModelDto(
+        //         dto.getId(),
+        //         dto.getName() + "·变种",
+        //         dto.getEthnicity(),
+        //         dto.getLevel(),
+        //         dto.getMaxHp() + (int) (Math.random() * 20 - 10),
+        //         dto.getStrength(),
+        //         dto.getAgility(),
+        //         dto.getIntelligence(),
+        //         dto.getCriticalHitRate(),
+        //         dto.getPhyDefense(),
+        //         dto.getMagicDefense(),
+        //         dto.getDropExp(),
+        //         dto.getDropRate(),
+        //         dto.getDropItems(),
+        //         dto.getAreas(),
+        //         dto.getEnemySkills(),
+        //         dto.getProbability(),
+        //         dto.getGrowthWeights());
+        // return new Enemy(variantDto);
+        return enemy;
     }
 }

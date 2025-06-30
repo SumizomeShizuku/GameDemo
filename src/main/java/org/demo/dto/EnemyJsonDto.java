@@ -14,7 +14,6 @@ public class EnemyJsonDto {
     public EnemyEthnicityList ethnicity;
     public int level;
     public int maxHp;
-    public int attack;
     public int strength;
     public int agility;
     public int intelligence;
@@ -27,7 +26,8 @@ public class EnemyJsonDto {
     public List<String> areas;
     public List<String> skills;
     // 基础出现权重
-    public int baseWeight;
+    public int probability;
+    public double[] growthWeights;
 
     /**
      * 敌人掉落物配置，用于JSON映射

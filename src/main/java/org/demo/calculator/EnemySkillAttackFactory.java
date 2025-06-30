@@ -22,13 +22,13 @@ public class EnemySkillAttackFactory {
      */
     public static EnemySkillAttack getAttack(EnumSet<SkillType> types) {
         if (types.contains(SkillType.Magic) && types.contains(SkillType.Physics)) {
-            return new EnemyNormalSkillAttack();
+            return new EnemyMixSkillAttack();
         } else if (types.contains(SkillType.Mix)) {
-            return new EnemyNormalSkillAttack();
+            return new EnemyMixSkillAttack();
         } else if (types.contains(SkillType.Magic)) {
             return new EnemyMagicSkillAttack();
         } else if (types.contains(SkillType.Physics)) {
-            return new EnemyNormalSkillAttack();
+            return new EnemyPhysicsSkillAttack();
         } else if (types.contains(SkillType.Normal)) {
             return new EnemyNormalSkillAttack();
         } else {

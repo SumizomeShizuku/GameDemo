@@ -5,7 +5,6 @@
     "ethnicity": "EE00001",
     "level": 5,
     "maxHp": 15,
-    "attack": 2,
     "strength": 8,
     "agility": 3,
     "intelligence": 2,
@@ -20,7 +19,9 @@
       { "itemId": "WOOD_RING", "weight": 0.0075, "minQty": 1, "maxQty": 1 }
     ],
     "areas": ["森林", "洞穴"],
-    "skills": ["Skill0001", "Skill0002"]
+    "skills": ["Skill0001", "Skill0002"],
+    "probability": 50,
+    "growthWeights": [0.5, 0.5, 0.5]
   },
   {
     "id": "EN0002",
@@ -28,21 +29,22 @@
     "ethnicity": "EE00002",
     "level": 5,
     "maxHp": 20,
-    "attack": 1,
     "strength": 8,
     "agility": 3,
     "intelligence": 2,
     "criticalHitRate": 0.1,
     "phyDefense": 1,
     "magicDefense": 2,
-    "dropExp": 500,
+    "dropExp": 50,
     "dropRate": 0.5,
     "drops": [
       { "itemId": "GOBLIN_SWORD", "weight": 0.005, "minQty": 1, "maxQty": 1 },
       { "itemId": "SLIME_JUICE", "weight": 0.8, "minQty": 1, "maxQty": 2 },
       { "itemId": "WOOD_RING", "weight": 0.0075, "minQty": 1, "maxQty": 1 }
     ],
-    "skills": ["Skill0001"]
+    "skills": ["Skill0001"],
+    "probability": 45,
+    "growthWeights": [0.5, 0.5, 0.5]
   },
   {
     "id": "EN0003",
@@ -50,7 +52,6 @@
     "ethnicity": "GRAVENTH",
     "level": 5,
     "maxHp": 500,
-    "attack": 10,
     "strength": 8,
     "agility": 3,
     "intelligence": 2,
@@ -65,7 +66,9 @@
       { "itemId": "WOOD_RING", "weight": 0.5, "minQty": 1, "maxQty": 1 }
     ],
     "areas": ["森林", "洞穴"],
-    "skills": ["Skill0001"]
+    "skills": ["Skill0001"],
+    "probability": 1,
+    "growthWeights": [0.5, 0.5, 0.5]
   },
   {
     "id": "EN0004",
@@ -73,7 +76,6 @@
     "ethnicity": "GRAVENTH",
     "level": 5,
     "maxHp": 100,
-    "attack": 0,
     "strength": 8,
     "agility": 3,
     "intelligence": 2,
@@ -83,7 +85,9 @@
     "dropExp": 0,
     "dropRate": 0.0,
     "drops": [],
-    "areas": ["森林", "洞穴"],
-    "skills": ["Skill0001", "Skill0002", "Skill0003", "Skill0004"]
+    "areas": ["训练场"],
+    "skills": ["Skill0001", "Skill0002", "Skill0003", "Skill0004"],
+    "probability": 0,
+    "growthWeights": [0.5, 0.5, 0.5]
   }
 ]

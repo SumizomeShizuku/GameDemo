@@ -153,8 +153,8 @@ public class Player {
      *
      * @return
      */
-    public int getPhysicsDefenes() {
-        return model.getPhysicsDefenes();
+    public int getPhyDefense() {
+        return model.getPhyDefense();
     }
 
     /**
@@ -162,8 +162,8 @@ public class Player {
      *
      * @return
      */
-    public int getMagicDefenes() {
-        return model.getMagicDefenes();
+    public int getMagicDefense() {
+        return model.getMagicDefense();
     }
 
     /**

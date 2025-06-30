@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import org.demo.dto.EnemyModelDto;
 import org.demo.factory.Enemy;
+import org.demo.factory.EnemyFactory;
 import org.demo.factory.Player;
 import org.demo.repository.EnemyRepository;
 import org.demo.util.SimpleLogger;
@@ -42,17 +43,19 @@ public class RoomEventCheck {
             int distance = Map10x10.getDistance(startPos, playerPos);
 
             EnemyModelDto enemyDto = EnemyRepository.getRandomEnemy("森林", distance);
+            SimpleLogger.log.info(enemyDto.toString());
             // Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
-            if (enemyDto != null) {
-                Enemy enemy = new Enemy(enemyDto);
-                SimpleLogger.log.info(player.getFirstName() + " 遭遇了敌人 " + enemy.getName() + ", 进入战斗！");
-                battleFlg = BattleSystem.startBattle(player, enemy);
-                // 3. 战斗后, 敌人数量-1, 或你有更详细的处理方式
-                if (battleFlg) {
-                    room.setEnemyCount(0);
-                    room.setClear(battleFlg);
-                }
+
+            Enemy enemy = EnemyFactory.enemyUpGrade(new Enemy(enemyDto));
+            SimpleLogger.log.info(enemy.toString());
+            SimpleLogger.log.info(player.getFirstName() + " 遭遇了敌人 " + enemy.getName() + ", 进入战斗！");
+            battleFlg = BattleSystem.startBattle(player, enemy);
+            // 3. 战斗后, 敌人数量-1, 或你有更详细的处理方式
+            if (battleFlg) {
+                room.setEnemyCount(0);
+                room.setClear(battleFlg);
             }
+
         }
         //  else {
         //     battleFlg = true;

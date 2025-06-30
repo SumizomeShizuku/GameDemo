@@ -6,7 +6,7 @@ import org.demo.factory.Player;
 /**
  * 敌人的普通物理攻击
  */
-public class EnemyNormalSkillAttack extends EnemyAbstractSkillAttack {
+public class EnemyPhysicsSkillAttack extends EnemyAbstractSkillAttack {
 
     /**
      * 根据属性计算敌人技能造成伤害, 以及该伤害是否暴击
@@ -21,9 +21,6 @@ public class EnemyNormalSkillAttack extends EnemyAbstractSkillAttack {
 
         // 敌人攻击力, 根据力量变化
         int str = enemy.getStrength();
-        // 固定威力
-        // damagePower = 20;
-
         /* ==== 1. 伤害系数 p, 与现有 Normal 技能完全相同 ==== */
         double p;
         if (damagePower < 20) {

@@ -37,17 +37,15 @@ public class PlayerModelDto {
     // 智力
     private int intelligence;
     // 防御力
-    private int physicsDefenes;
+    private int physicsDefense;
     // 魔法防御力
-    private int magicDefenes;
+    private int magicDefense;
     // HP恢复速度
     private double recoverHP;
     // MP恢复速度
     private double recoverMP;
     // 基础冷却时间
     private double commonCoolDown;
-    // // 基础攻击力
-    // private double baseAttribute;
     // 暴击率
     private double criticalHitRate;
     // 玩家背包
@@ -314,17 +312,17 @@ public class PlayerModelDto {
      *
      * @return
      */
-    public int getPhysicsDefenes() {
-        return physicsDefenes;
+    public int getPhyDefense() {
+        return physicsDefense;
     }
 
     /**
      * 设置玩家的防御力
      *
-     * @param physicsDefenes 防御力
+     * @param physicsDefense 防御力
      */
-    public void setPhysicsDefenes(int physicsDefenes) {
-        this.physicsDefenes = physicsDefenes;
+    public void setPhyDefense(int physicsDefense) {
+        this.physicsDefense = physicsDefense;
     }
 
     /**
@@ -332,17 +330,17 @@ public class PlayerModelDto {
      *
      * @return
      */
-    public int getMagicDefenes() {
-        return magicDefenes;
+    public int getMagicDefense() {
+        return magicDefense;
     }
 
     /**
      * 设置玩家的魔法防御力
      *
-     * @param magicDefenes 魔法防御力
+     * @param magicDefense 魔法防御力
      */
-    public void setMagicDefenes(int magicDefenes) {
-        this.magicDefenes = magicDefenes;
+    public void setMagicDefense(int magicDefense) {
+        this.magicDefense = magicDefense;
     }
 
     /**

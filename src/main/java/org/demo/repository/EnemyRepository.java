@@ -68,7 +68,6 @@ public class EnemyRepository {
                         raw.ethnicity,
                         raw.level,
                         raw.maxHp,
-                        raw.attack,
                         raw.strength,
                         raw.agility,
                         raw.intelligence,
@@ -80,7 +79,8 @@ public class EnemyRepository {
                         dropMap,
                         raw.areas,
                         skillMap,
-                        raw.baseWeight);
+                        raw.probability,
+                        raw.growthWeights);
                 enemyMap.put(raw.id, dto);
             }
         } catch (Exception e) {
@@ -139,13 +139,13 @@ public class EnemyRepository {
 
         int totalWeight = 0;
         for (EnemyModelDto enemy : list) {
-            totalWeight += enemy.getBaseWeight() + distance;
+            totalWeight += enemy.getProbability() + distance;
         }
         int rand = random.nextInt(totalWeight);
         int cumulative = 0;
 
         for (EnemyModelDto enemy : list) {
-            cumulative += enemy.getBaseWeight() + distance;
+            cumulative += enemy.getProbability() + distance;
             if (rand < cumulative) {
                 result = enemy;
                 break;

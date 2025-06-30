@@ -16,7 +16,7 @@ public class PlayerNormalSkillAttack extends PlayerAbstractSkillAttack {
     @Override
     public DamageResult calculateDamage(Player player, Enemy enemy, int damagePower) {
         int str = player.getStrength();
-        damagePower = 20;
+        // damagePower = 20;
         double p;
         if (damagePower < 20) {
             p = 0.5 + (double) damagePower / 300.0;
