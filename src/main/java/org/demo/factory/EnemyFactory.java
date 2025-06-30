@@ -38,7 +38,8 @@ public class EnemyFactory {
                 dto.getDropRate(),
                 dto.getDropItems(),
                 dto.getAreas(),
-                dto.getEnemySkills());
+                dto.getEnemySkills(),
+                dto.getBaseWeight());
         return new Enemy(variantDto);
     }
 }

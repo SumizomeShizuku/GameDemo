@@ -45,6 +45,8 @@ public class EnemyModelDto {
     private final List<String> areas;
     // 敌人技能
     private Map<String, SkillModelDto> enemySkills;
+    // 基础出现权重
+    private int baseWeight;
 
     /**
      * 构造一个敌人模型数据传输对象。
@@ -63,7 +65,7 @@ public class EnemyModelDto {
     public EnemyModelDto(String id, String name, EnemyEthnicityList ethnicity, int level, int maxHp, int attack,
             int strength, int agility, int intelligence, double criticalHitRate, int phyDefense, int magicDefense,
             int dropExp, double dropRate, Map<ItemModelDto, DropInfo> dropItems,
-            List<String> areas, Map<String, SkillModelDto> enemySkills) {
+            List<String> areas, Map<String, SkillModelDto> enemySkills, int baseWeight) {
         this.id = id;
         this.name = name;
         this.ethnicity = ethnicity;
@@ -81,6 +83,8 @@ public class EnemyModelDto {
         this.dropItems = dropItems;
         this.areas = areas;
         this.enemySkills = enemySkills;
+        // 若未指定权重则默认1
+        this.baseWeight = (baseWeight > 0 ? baseWeight : 1);
     }
 
     /**
@@ -252,6 +256,14 @@ public class EnemyModelDto {
         this.enemySkills = enemySkills;
     }
 
+    public int getBaseWeight() {
+        return baseWeight;
+    }
+
+    public void setBaseWeight(int baseWeight) {
+        this.baseWeight = baseWeight;
+    }
+
     /**
      * 返回技能名字符串（逗号分隔），不包含技能ID
      *
@@ -287,6 +299,7 @@ public class EnemyModelDto {
                 .append("  掉落物品: ").append(getDropItemsName()).append(ln)
                 .append("  活动区域: ").append(areas).append(ln)
                 .append("  持有技能: ").append(getSkillNames()).append(ln)
+                .append("  出现权重: ").append(getBaseWeight()).append(ln)
                 .append("]");
 
         return sb.toString();

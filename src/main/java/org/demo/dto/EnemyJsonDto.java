@@ -26,6 +26,8 @@ public class EnemyJsonDto {
     public List<DropEntry> drops;
     public List<String> areas;
     public List<String> skills;
+    // 基础出现权重
+    public int baseWeight;
 
     /**
      * 敌人掉落物配置，用于JSON映射

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.demo.backpack.DropInfo;
 import org.demo.dto.EnemyJsonDto;
@@ -78,7 +79,8 @@ public class EnemyRepository {
                         raw.dropRate,
                         dropMap,
                         raw.areas,
-                        skillMap);
+                        skillMap,
+                        raw.baseWeight);
                 enemyMap.put(raw.id, dto);
             }
         } catch (Exception e) {
@@ -103,6 +105,12 @@ public class EnemyRepository {
         return enemyMap;
     }
 
+    /**
+     * 查找并返回指定地区内的所有敌人类型
+     *
+     * @param area 指定地区
+     * @return 敌人类型列表
+     */
     public static List<EnemyModelDto> getEnemiesByArea(String area) {
         List<EnemyModelDto> result = new ArrayList<>();
         for (EnemyModelDto e : enemyMap.values()) {
@@ -110,6 +118,65 @@ public class EnemyRepository {
             if (areas != null && areas.contains(area)) {
                 result.add(e);
             }
+        }
+        return result;
+    }
+
+    /**
+     * 从指定地区所有可能的敌人中随机抽取一种敌人
+     *
+     * @param list
+     * @return
+     */
+    public static EnemyModelDto getRandomEnemy(String area, int distance) {
+        List<EnemyModelDto> list = getEnemiesByArea(area);
+        list.addAll(getEnemiesByArea("全地区"));
+        EnemyModelDto result = null;
+        Random random = new Random();
+        if (list.isEmpty()) {
+            return null; // 或抛出异常，根据你的需求决定
+        }
+
+        int totalWeight = 0;
+        for (EnemyModelDto enemy : list) {
+            totalWeight += enemy.getBaseWeight() + distance;
+        }
+        int rand = random.nextInt(totalWeight);
+        int cumulative = 0;
+
+        for (EnemyModelDto enemy : list) {
+            cumulative += enemy.getBaseWeight() + distance;
+            if (rand < cumulative) {
+                result = enemy;
+                break;
+            }
+        }
+
+        // int index = random.nextInt(list.size()); // 生成0到list.size()-1的随机整数
+        // result = list.get(index);
+        return result;
+    }
+
+    /**
+     * 从指定地区所有可能的敌人中随机抽取N种敌人
+     *
+     * @param enemyList 敌人列表
+     * @param n 要选取的数量
+     * @return 随机N个敌人列表(可以重复)
+     */
+    public static List<EnemyModelDto> getRandomEnemiesWithRepeat(String area) {
+        List<EnemyModelDto> list = getEnemiesByArea(area);
+        list.addAll(getEnemiesByArea("全地区"));
+        List<EnemyModelDto> result = new ArrayList<>();
+        Random random = new Random();
+        // 随机掉落1到5个敌人
+        int enemyCount = random.nextInt(5 - 1 + 1) + 1;
+        if (list.isEmpty() || enemyCount <= 0) {
+            return result; // 返回空列表
+        }
+        for (int i = 0; i < enemyCount; i++) {
+            int index = random.nextInt(list.size());
+            result.add(list.get(index));
         }
         return result;
     }

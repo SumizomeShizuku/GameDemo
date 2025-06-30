@@ -75,6 +75,7 @@ public class Room {
     public void setEnd(boolean end) {
         this.isEnd = end;
         this.isRoom = end;
+        this.isClear = end;
     }
 
     public int getEnemyCount() {
@@ -111,6 +112,8 @@ public class Room {
 
     public void setStar(boolean isStar) {
         this.isStar = isStar;
+        this.isRoom = isStar;
+        this.isClear = isStar;
     }
 
     /**

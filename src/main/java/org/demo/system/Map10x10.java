@@ -20,7 +20,7 @@ import org.demo.util.SimpleLogger;
  * <li>Growing-Tree( DFS × Prim 混合 )——分支丰富</li>
  * <li>3 × 3 稠密度限制: 周围 8 格房间数 &gt; 5 拒绝连通</li>
  * <li>禁止出现 2 × 3 / 3 × 2 及更大<strong>实心矩形</strong></li>
- * <li>起点 <b>A</b> 随机, 终点 <b>B</b> = 与 A 曼哈顿距离最远的格子, 但再加: </li>
+ * <li>起点 <b>A</b> 随机, 终点 <b>B</b> = 与 A 曼哈顿距离最远的格子, 但再加:</li>
  * <li>
  * <b>B 的连通度修正</b><br>
  * 若候选 B 与其他房间连通度 ≥ 2, 则尝试在 B 附近“打掉一面墙”<br>
@@ -427,6 +427,13 @@ public class Map10x10 {
     }
 
     /**
+     * 计算两个点之间的曼哈顿距离
+     */
+    public static int getDistance(Point p1, Point p2) {
+        return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
+    }
+
+    /**
      * 取得整个地图
      *
      * @return
@@ -444,6 +451,22 @@ public class Map10x10 {
         for (Room[] row : grid) {
             for (Room room : row) {
                 if (room.isHere()) {
+                    return room.whereIam();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 查找地图中的起点房间
+     *
+     * @return 房间坐标
+     */
+    public Point getStartRoom() {
+        for (Room[] row : grid) {
+            for (Room room : row) {
+                if (room.isStart()) {
                     return room.whereIam();
                 }
             }
@@ -577,11 +600,13 @@ public class Map10x10 {
      * @param room 玩家所在房间
      */
     public void roomEnemysSet(Room room) {
-        if (room.getEnemyCount() == 0) {
-            int count = new Random().nextInt(4) + 1; // 1~4
-            // 设置敌人数量
-            room.setEnemyCount(count);
-            SimpleLogger.log.debug("房间内生成敌人数: " + count);
+        if (!room.isStar()) {
+            if (room.getEnemyCount() == 0) {
+                int count = new Random().nextInt(4) + 1; // 1~4
+                // 设置敌人数量
+                room.setEnemyCount(count);
+                SimpleLogger.log.debug("房间内生成敌人数: " + count);
+            }
         }
 
     }
