@@ -1,7 +1,6 @@
 package org.demo.factory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +12,7 @@ import org.demo.backpack.GenerateDrops;
 import org.demo.dto.EnemyModelDto;
 import org.demo.dto.ItemModelDto;
 import org.demo.dto.SkillModelDto;
+import org.demo.list.EnemyEthnicityList;
 import org.demo.list.EnemyRarity;
 import org.demo.list.ItemType;
 
@@ -25,6 +25,8 @@ public class Enemy {
     private final String id;
     // 敌人名称
     private final String name;
+    // 种族
+    private final EnemyEthnicityList ethnicity;
     // 稀有度
     private EnumSet<EnemyRarity> rarity;
     // 等级
@@ -68,6 +70,7 @@ public class Enemy {
     public Enemy(EnemyModelDto attr) {
         this.id = attr.getId();
         this.name = attr.getName();
+        this.ethnicity = attr.getEthnicity();
         this.level = attr.getLevel();
         this.maxHp = attr.getMaxHp();
         this.currentHp = maxHp;
@@ -104,18 +107,47 @@ public class Enemy {
         return name;
     }
 
+    /**
+     * 获取敌人种族
+     *
+     * @return 敌人种族
+     */
+    public EnemyEthnicityList getEthnicity() {
+        return ethnicity;
+    }
+
+    /**
+     * 获取敌人稀有度
+     *
+     * @return 敌人稀有度
+     */
     public EnumSet<EnemyRarity> getRarity() {
         return rarity;
     }
 
+    /**
+     * 设置敌人稀有度
+     *
+     * @param rarity 敌人稀有度
+     */
     public void setRarity(EnumSet<EnemyRarity> rarity) {
         this.rarity = rarity;
     }
 
+    /**
+     * 获取敌人等级
+     *
+     * @return 敌人等级
+     */
     public int getLevel() {
         return level;
     }
 
+    /**
+     * 设置敌人等级
+     *
+     * @param level 敌人等级
+     */
     public void setLevel(int level) {
         this.level = level;
     }
@@ -434,6 +466,7 @@ public class Enemy {
         sb.append(ln).append("敌人属性 [").append(ln)
                 .append("  id: '").append(id).append('\'').append(ln)
                 .append("  名称: '").append(name).append('\'').append(ln)
+                .append("  种族: ").append(ethnicity).append(ln)
                 .append("  等级: ").append(level).append(ln)
                 .append("  稀有度: ").append(rare).append(ln)
                 .append("  最大生命值: ").append(maxHp).append(ln)
@@ -444,9 +477,9 @@ public class Enemy {
                 .append("  智力: ").append(intelligence).append(ln)
                 .append("  暴击率: ").append(String.format("%.2f%%", criticalHitRate * 100)).append(ln)
                 .append("  掉落经验: ").append(dropExp).append(ln)
-                .append("  掉落概率: ").append(dropRate).append(ln)
+                // .append("  掉落概率: ").append(dropRate).append(ln)
                 .append("  活动区域: ").append(areas).append(ln)
-                .append("  成长权重: ").append(Arrays.toString(getGrowthWeights())).append(ln)
+                // .append("  成长权重: ").append(Arrays.toString(getGrowthWeights())).append(ln)
                 .append("]");
 
         return sb.toString();

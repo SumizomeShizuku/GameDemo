@@ -69,9 +69,9 @@ public class EnemyFactory {
         double levelExpBonus = 1.0;
 
         if (levelCheck > 0) {
-            levelExpBonus = 1 + 0.2 * levelCheck;
+            levelExpBonus = Math.pow(1.2, Math.abs(levelCheck));
         } else if (levelCheck < 0) {
-            levelExpBonus = 1 + 0.15 * levelCheck;
+            levelExpBonus = Math.pow(0.9, Math.abs(levelCheck));
         }
 
         boolean hasJouto = rarities.contains(EnemyRarity.JOUTO);

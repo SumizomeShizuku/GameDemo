@@ -541,7 +541,7 @@ public class Equipment {
     }
 
     /**
-     *
+     * 输出装备位置错误信息到日志。
      */
     private void positionError(String position, ItemInstance selectedequip) {
         StringBuilder sb = new StringBuilder();

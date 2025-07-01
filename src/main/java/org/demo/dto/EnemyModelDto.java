@@ -1,7 +1,6 @@
 package org.demo.dto;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -312,7 +311,7 @@ public class EnemyModelDto {
         sb.append(ln).append("敌人属性 [").append(ln)
                 .append("  id: '").append(id).append('\'').append(ln)
                 .append("  名称: '").append(name).append('\'').append(ln)
-                .append("  种族: ").append(ethnicity != null ? ethnicity.getEthnicityZh() : "N/A").append(ln)
+                .append("  种族: ").append(ethnicity).append(ln)
                 .append("  等级: ").append(level).append(ln)
                 .append("  最大生命值: ").append(maxHp).append(ln)
                 .append("  物理防御力: ").append(phyDefense).append(ln)
@@ -322,11 +321,11 @@ public class EnemyModelDto {
                 .append("  智力: ").append(intelligence).append(ln)
                 .append("  暴击率: ").append(String.format("%.2f%%", criticalHitRate * 100)).append(ln)
                 .append("  掉落经验: ").append(dropExp).append(ln)
-                .append("  掉落物品: ").append(getDropItemsName()).append(ln)
+                // .append("  掉落物品: ").append(getDropItemsName()).append(ln)
                 .append("  活动区域: ").append(areas).append(ln)
-                .append("  持有技能: ").append(getSkillNames()).append(ln)
-                .append("  出现权重: ").append(getProbability()).append(ln)
-                .append("  成长权重: ").append(Arrays.toString(getGrowthWeights())).append(ln)
+                // .append("  持有技能: ").append(getSkillNames()).append(ln)
+                // .append("  出现权重: ").append(getProbability()).append(ln)
+                // .append("  成长权重: ").append(Arrays.toString(getGrowthWeights())).append(ln)
                 .append("]");
 
         return sb.toString();
