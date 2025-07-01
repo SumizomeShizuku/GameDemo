@@ -309,8 +309,8 @@ public class EnemyModelDto {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String ln = System.lineSeparator();
-        sb.append(ln).append("敌人属性 [").append(ln);
-        sb.append("id: '").append(id).append('\'').append(ln)
+        sb.append(ln).append("敌人属性 [").append(ln)
+                .append("  id: '").append(id).append('\'').append(ln)
                 .append("  名称: '").append(name).append('\'').append(ln)
                 .append("  种族: ").append(ethnicity != null ? ethnicity.getEthnicityZh() : "N/A").append(ln)
                 .append("  等级: ").append(level).append(ln)

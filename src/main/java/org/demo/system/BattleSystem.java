@@ -29,8 +29,7 @@ public class BattleSystem {
         boolean winFlg = true;
         log("战斗开始！敌人是: " + enemy.getName() + System.lineSeparator());
 
-        log(enemy.getModel().toString());
-
+        // log(enemy.getModel().toString());
         // 主战斗循环
         while (player.isAlive() && enemy.isAlive()) {
 

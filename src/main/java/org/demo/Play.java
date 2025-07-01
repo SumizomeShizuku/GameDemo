@@ -27,7 +27,7 @@ public class Play {
         Player player = PlayerFactory.createPlayer(playerFirstName, playerLastName, ethnicityNum, jobNum);
         SimpleLogger.log.info("选择的职业: " + player.getModel().getJob().getNameZh());
         SimpleLogger.log.info("选择的种族: " + player.getModel().getEthnicity().getEthnicityZh());
-        player.gainExp(191);
+        player.gainExp(400);
 
         // 掉落物初始化
         ItemRepository.loadFromJson("item_list.json");

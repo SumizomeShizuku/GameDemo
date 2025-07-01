@@ -111,6 +111,11 @@ public class LevelUpHandler {
      * 应用属性成长逻辑
      */
     public void enemyGrowth(Enemy enemy, int levelGained) {
+        int newLevel = enemy.getLevel() + levelGained;
+        enemy.setLevel(newLevel);
+        if (levelGained < 0) {
+            levelGained = 0;
+        }
         Random random = new Random();
         double[] weights = enemy.getGrowthWeights();
         // int strength = enemy.getStrength();

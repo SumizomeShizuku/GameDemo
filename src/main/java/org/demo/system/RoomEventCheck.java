@@ -46,7 +46,7 @@ public class RoomEventCheck {
             SimpleLogger.log.info(enemyDto.toString());
             // Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
 
-            Enemy enemy = EnemyFactory.enemyUpGrade(new Enemy(enemyDto));
+            Enemy enemy = EnemyFactory.enemyFactory(enemyDto, player);
             SimpleLogger.log.info(enemy.toString());
             SimpleLogger.log.info(player.getFirstName() + " 遭遇了敌人 " + enemy.getName() + ", 进入战斗！");
             battleFlg = BattleSystem.startBattle(player, enemy);
