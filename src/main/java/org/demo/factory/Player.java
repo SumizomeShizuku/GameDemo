@@ -13,6 +13,7 @@ import org.demo.list.EquipmentAffix;
 import org.demo.list.EquipmentAffix.Attribute;
 import org.demo.list.EquipmentAffix.BonusType;
 import org.demo.list.EthnicityList;
+import org.demo.list.ExpList;
 import org.demo.list.JobList;
 import org.demo.util.LevelUpHandler;
 import org.demo.util.SimpleLogger;
@@ -22,10 +23,80 @@ import org.demo.util.SimpleLogger;
  */
 public class Player {
 
+    // 力量
+    private int strength;
+    // 敏捷
+    private int agility;
+    // 智力
+    private int intelligence;
+    // 最大生命
+    private int maxHealthPoint;
+    // 当前HP
+    private int currentHealthPoint;
+    // 最大魔法
+    private int maxManaPoint;
+    // 当前MP
+    private int currentManaPoint;
+    // 物理防御
+    private int phyDefense;
+    // 魔法防御
+    private int magicDefense;
+    // 生命恢复
+    private double recoverHP;
+    // 魔法恢复
+    private double recoverMP;
+    // 暴击率
+    private double criticalHitRate;
+    // 闪避
+    private double evasion;
+    // 命中
+    private double accuracy;
+    // 幸运
+    private int luck;
+    // 坚韧
+    private int fortitude;
+    // 出血几率
+    private double bleedChance;
+    // 中毒几率
+    private double poisonChance;
+    // 灼烧几率
+    private double burnChance;
+    // 冰冻几率
+    private double freezeChance;
+    // 灵力
+    private int spiritPower;
+    // 伤害减免
+    private double damageReduction;
+    // 治疗效果
+    private double healingEffectiveness;
+    // 金币获取
+    private double goldFind;
+
+    // 玩家背包
+    private Backpack backpack;
+    // 玩家装备
+    private Equipment equipment;
+
     private final PlayerModelDto model;
 
     public Player(PlayerModelDto model) {
         this.model = model;
+    }
+
+    public void syncBaseAttributesFromModel() {
+        this.strength = model.getStrength();
+        this.agility = model.getAgility();
+        this.intelligence = model.getIntelligence();
+        this.maxHealthPoint = model.getMaxHealthPoint();
+        this.currentHealthPoint = model.getCurrentHealthPoint();
+        this.maxManaPoint = model.getMaxManaPoint();
+        this.currentManaPoint = model.getCurrentManaPoint();
+        this.phyDefense = model.getPhyDefense();
+        this.magicDefense = model.getMagicDefense();
+        this.recoverHP = model.getRecoverHP();
+        this.recoverMP = model.getRecoverMP();
+        this.criticalHitRate = model.getCriticalHitRate();
+        refreshTotalAttributes();
     }
 
     /**
@@ -91,157 +162,212 @@ public class Player {
         return model.getLevel();
     }
 
-    /**
-     * 获取玩家的最大生命值
-     *
-     * @return
-     */
-    public int getMaxHealthPoint() {
-        return model.getMaxHealthPoint();
-    }
-
-    /**
-     * 获取玩家的当前生命值
-     *
-     * @return
-     */
-    public int getCurrentHealthPoint() {
-        return model.getCurrentHealthPoint();
-    }
-
-    /**
-     * 获取玩家的最大魔法值
-     *
-     * @return
-     */
-    public int getMaxManaPoint() {
-        return model.getMaxManaPoint();
-    }
-
-    /**
-     * 获取玩家的当前魔法值
-     *
-     * @param currentManaPoint 当前魔法值
-     */
-    public int getCurrentManaPoint() {
-        return model.getCurrentManaPoint();
-    }
-
-    /**
-     * 获取玩家的力量
-     *
-     * @return
-     */
     public int getStrength() {
-        return model.getStrength();
+        return strength;
     }
 
-    /**
-     * 获取玩家的敏捷
-     *
-     * @return
-     */
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
     public int getAgility() {
-        return model.getAgility();
+        return agility;
     }
 
-    /**
-     * 获取玩家的智力
-     *
-     * @return
-     */
+    public void setAgility(int agility) {
+        this.agility = agility;
+    }
+
     public int getIntelligence() {
-        return model.getIntelligence();
+        return intelligence;
     }
 
-    /**
-     * 获取玩家的防御力
-     *
-     * @return
-     */
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
+    }
+
+    public int getMaxHealthPoint() {
+        return maxHealthPoint;
+    }
+
+    public void setMaxHealthPoint(int maxHealthPoint) {
+        this.maxHealthPoint = maxHealthPoint;
+    }
+
+    public int getCurrentHealthPoint() {
+        return currentHealthPoint;
+    }
+
+    public void setCurrentHealthPoint(int currentHealthPoint) {
+        this.currentHealthPoint = currentHealthPoint;
+    }
+
+    public int getMaxManaPoint() {
+        return maxManaPoint;
+    }
+
+    public void setMaxManaPoint(int maxManaPoint) {
+        this.maxManaPoint = maxManaPoint;
+    }
+
+    public int getCurrentManaPoint() {
+        return currentManaPoint;
+    }
+
+    public void setCurrentManaPoint(int currentManaPoint) {
+        this.currentManaPoint = currentManaPoint;
+    }
+
     public int getPhyDefense() {
-        return model.getPhyDefense();
+        return phyDefense;
     }
 
-    /**
-     * 获取玩家的魔法防御力
-     *
-     * @return
-     */
+    public void setPhyDefense(int phyDefense) {
+        this.phyDefense = phyDefense;
+    }
+
     public int getMagicDefense() {
-        return model.getMagicDefense();
+        return magicDefense;
     }
 
-    /**
-     * 获取玩家的生命恢复
-     *
-     * @return
-     */
+    public void setMagicDefense(int magicDefense) {
+        this.magicDefense = magicDefense;
+    }
+
     public double getRecoverHP() {
-        return model.getRecoverHP();
+        return recoverHP;
     }
 
-    /**
-     * 获取玩家的魔法恢复
-     *
-     * @return
-     */
+    public void setRecoverHP(double recoverHP) {
+        this.recoverHP = recoverHP;
+    }
+
     public double getRecoverMP() {
-        return model.getRecoverMP();
+        return recoverMP;
     }
 
-    /**
-     * 获取玩家的基础冷却时间
-     *
-     * @return
-     */
-    public double getCommonCoolDown() {
-        return model.getCommonCoolDown();
+    public void setRecoverMP(double recoverMP) {
+        this.recoverMP = recoverMP;
     }
 
-    /**
-     * 获取玩家的暴击率
-     *
-     * @return
-     */
     public double getCriticalHitRate() {
-        return model.getCriticalHitRate();
+        return criticalHitRate;
     }
 
-    /**
-     * 获取玩家的移动速度
-     *
-     * @return
-     */
-    public double getMoveSpeed() {
-        return model.getMoveSpeed();
+    public void setCriticalHitRate(double criticalHitRate) {
+        this.criticalHitRate = criticalHitRate;
     }
 
-    /**
-     * 获取玩家背包
-     *
-     * @return
-     */
+    public double getEvasion() {
+        return evasion;
+    }
+
+    public void setEvasion(double evasion) {
+        this.evasion = evasion;
+    }
+
+    public double getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(double accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    public int getLuck() {
+        return luck;
+    }
+
+    public void setLuck(int luck) {
+        this.luck = luck;
+    }
+
+    public int getFortitude() {
+        return fortitude;
+    }
+
+    public void setFortitude(int fortitude) {
+        this.fortitude = fortitude;
+    }
+
+    public double getBleedChance() {
+        return bleedChance;
+    }
+
+    public void setBleedChance(double bleedChance) {
+        this.bleedChance = bleedChance;
+    }
+
+    public double getPoisonChance() {
+        return poisonChance;
+    }
+
+    public void setPoisonChance(double poisonChance) {
+        this.poisonChance = poisonChance;
+    }
+
+    public double getBurnChance() {
+        return burnChance;
+    }
+
+    public void setBurnChance(double burnChance) {
+        this.burnChance = burnChance;
+    }
+
+    public double getFreezeChance() {
+        return freezeChance;
+    }
+
+    public void setFreezeChance(double freezeChance) {
+        this.freezeChance = freezeChance;
+    }
+
+    public int getSpiritPower() {
+        return spiritPower;
+    }
+
+    public void setSpiritPower(int spiritPower) {
+        this.spiritPower = spiritPower;
+    }
+
+    public double getDamageReduction() {
+        return damageReduction;
+    }
+
+    public void setDamageReduction(double damageReduction) {
+        this.damageReduction = damageReduction;
+    }
+
+    public double getHealingEffectiveness() {
+        return healingEffectiveness;
+    }
+
+    public void setHealingEffectiveness(double healingEffectiveness) {
+        this.healingEffectiveness = healingEffectiveness;
+    }
+
+    public double getGoldFind() {
+        return goldFind;
+    }
+
+    public void setGoldFind(double goldFind) {
+        this.goldFind = goldFind;
+    }
+
     public Backpack getBackpack() {
-        return model.getBackpack();
+        return backpack;
     }
 
-    /**
-     * 获取玩家装备
-     *
-     * @return
-     */
+    public void setBackpack(Backpack backpack) {
+        this.backpack = backpack;
+    }
+
     public Equipment getEquipment() {
-        return model.getEquipment();
+        return equipment;
     }
 
-    /**
-     * 获取行动力
-     *
-     * @return
-     */
-    public int getActionsPerTurn() {
-        return model.getActionsPerTurn();
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
     }
 
     /**
@@ -250,7 +376,7 @@ public class Player {
      * @param exp
      */
     public void gainExp(int exp) {
-        LevelUpHandler.handleExpGain(model, exp);
+        LevelUpHandler.handleExpGain(this, exp);
     }
 
     /**
@@ -390,16 +516,16 @@ public class Player {
      */
     public Map<Attribute, Double> getSelfAttributes() {
         Map<Attribute, Double> attrs = new EnumMap<>(Attribute.class);
-        attrs.put(Attribute.STRENGTH, (double) getStrength());
-        attrs.put(Attribute.AGILITY, (double) getAgility());
-        attrs.put(Attribute.INTELLIGENCE, (double) getIntelligence());
-        attrs.put(Attribute.MAX_HEALTH_POINT, (double) getMaxHealthPoint());
-        attrs.put(Attribute.MAX_MANA_POINT, (double) getMaxManaPoint());
-        attrs.put(Attribute.PHY_DEFENSE, (double) getPhyDefense());
-        attrs.put(Attribute.MAGIC_DEFENSE, (double) getMagicDefense());
-        attrs.put(Attribute.RECOVER_HP, getRecoverHP());
-        attrs.put(Attribute.RECOVER_MP, getRecoverMP());
-        attrs.put(Attribute.CRITICAL_HIT_RATE, getCriticalHitRate());
+        attrs.put(Attribute.STRENGTH, (double) model.getStrength());
+        attrs.put(Attribute.AGILITY, (double) model.getAgility());
+        attrs.put(Attribute.INTELLIGENCE, (double) model.getIntelligence());
+        attrs.put(Attribute.MAX_HEALTH_POINT, (double) model.getMaxHealthPoint());
+        attrs.put(Attribute.MAX_MANA_POINT, (double) model.getMaxManaPoint());
+        attrs.put(Attribute.PHY_DEFENSE, (double) model.getPhyDefense());
+        attrs.put(Attribute.MAGIC_DEFENSE, (double) model.getMagicDefense());
+        attrs.put(Attribute.RECOVER_HP, model.getRecoverHP());
+        attrs.put(Attribute.RECOVER_MP, model.getRecoverMP());
+        attrs.put(Attribute.CRITICAL_HIT_RATE, model.getCriticalHitRate());
         attrs.put(Attribute.EVASION, 0.0); // 假设基础为0, 没有特殊字段
         attrs.put(Attribute.ACCURACY, 0.0); // 同上
         attrs.put(Attribute.LUCK, 0.0); // 如有getLuck()请用实际方法
@@ -463,38 +589,131 @@ public class Player {
     }
 
     public void refreshTotalAttributes() {
-        // 1. 获取角色自身基础属性
-        Map<Attribute, Double> self = getSelfAttributes();
+        // 1. 读取基础属性
+        Map<Attribute, Double> baseAttrs = getSelfAttributes();
 
-        // 2. 获取装备的加算与乘算属性
+        // 2. 获取装备的加算和乘算属性
         Map<Attribute, Double> equipAdd = getAllEquipmentAttributes(EquipmentAffix.BonusType.ADD);
         Map<Attribute, Double> equipMul = getAllEquipmentAttributes(EquipmentAffix.BonusType.MULTIPLY);
-        // equipMul 每个值都是“所有装备词条对应属性的 (1+m1)*(1+m2)*...*(1+mn)-1”结果
 
-        // 3. 合成最终属性
-        Map<Attribute, Double> total = new EnumMap<>(Attribute.class);
-        for (Attribute attr : EquipmentAffix.Attribute.values()) {
-            double base = self.getOrDefault(attr, 0.0);
-            double add = equipAdd.getOrDefault(attr, 0.0);
-            double mul = equipMul.getOrDefault(attr, 0.0); // 实际为所有百分比连乘后的总百分比
+        // 3. 合成并赋值到字段
+        this.strength = (int) ((baseAttrs.getOrDefault(Attribute.STRENGTH, 0.0)
+                + equipAdd.getOrDefault(Attribute.STRENGTH, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.STRENGTH, 0.0)));
 
-            // 合成公式：(base + add) * (1 + mul)
-            double result = (base + add) * (1.0 + mul);
+        this.agility = (int) ((baseAttrs.getOrDefault(Attribute.AGILITY, 0.0)
+                + equipAdd.getOrDefault(Attribute.AGILITY, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.AGILITY, 0.0)));
 
-            total.put(attr, result);
-        }
+        this.intelligence = (int) ((baseAttrs.getOrDefault(Attribute.INTELLIGENCE, 0.0)
+                + equipAdd.getOrDefault(Attribute.INTELLIGENCE, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.INTELLIGENCE, 0.0)));
 
-        // 4. 写入到PlayerModelDto
-        this.model.setStrength(total.getOrDefault(EquipmentAffix.Attribute.STRENGTH, (double) getStrength()).intValue());
-        this.model.setAgility(total.getOrDefault(EquipmentAffix.Attribute.AGILITY, (double) getAgility()).intValue());
-        this.model.setIntelligence(total.getOrDefault(EquipmentAffix.Attribute.INTELLIGENCE, (double) getIntelligence()).intValue());
-        this.model.setMaxHealthPoint(total.getOrDefault(EquipmentAffix.Attribute.MAX_HEALTH_POINT, (double) getMaxHealthPoint()).intValue());
-        this.model.setMaxManaPoint(total.getOrDefault(EquipmentAffix.Attribute.MAX_MANA_POINT, (double) getMaxManaPoint()).intValue());
-        this.model.setPhyDefense(total.getOrDefault(EquipmentAffix.Attribute.PHY_DEFENSE, (double) getPhyDefense()).intValue());
-        this.model.setMagicDefense(total.getOrDefault(EquipmentAffix.Attribute.MAGIC_DEFENSE, (double) getMagicDefense()).intValue());
-        this.model.setRecoverHP(total.getOrDefault(EquipmentAffix.Attribute.RECOVER_HP, getRecoverHP()).intValue());
-        this.model.setRecoverMP(total.getOrDefault(EquipmentAffix.Attribute.RECOVER_MP, getRecoverMP()).intValue());
-        this.model.setCriticalHitRate(total.getOrDefault(EquipmentAffix.Attribute.CRITICAL_HIT_RATE, getCriticalHitRate()));
-        // ... 其他属性同理，可按需追加
+        this.maxHealthPoint = (int) ((baseAttrs.getOrDefault(Attribute.MAX_HEALTH_POINT, 0.0)
+                + equipAdd.getOrDefault(Attribute.MAX_HEALTH_POINT, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.MAX_HEALTH_POINT, 0.0)));
+
+        this.maxManaPoint = (int) ((baseAttrs.getOrDefault(Attribute.MAX_MANA_POINT, 0.0)
+                + equipAdd.getOrDefault(Attribute.MAX_MANA_POINT, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.MAX_MANA_POINT, 0.0)));
+
+        this.phyDefense = (int) ((baseAttrs.getOrDefault(Attribute.PHY_DEFENSE, 0.0)
+                + equipAdd.getOrDefault(Attribute.PHY_DEFENSE, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.PHY_DEFENSE, 0.0)));
+
+        this.magicDefense = (int) ((baseAttrs.getOrDefault(Attribute.MAGIC_DEFENSE, 0.0)
+                + equipAdd.getOrDefault(Attribute.MAGIC_DEFENSE, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.MAGIC_DEFENSE, 0.0)));
+
+        this.recoverHP = (baseAttrs.getOrDefault(Attribute.RECOVER_HP, 0.0)
+                + equipAdd.getOrDefault(Attribute.RECOVER_HP, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.RECOVER_HP, 0.0));
+
+        this.recoverMP = (baseAttrs.getOrDefault(Attribute.RECOVER_MP, 0.0)
+                + equipAdd.getOrDefault(Attribute.RECOVER_MP, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.RECOVER_MP, 0.0));
+
+        this.criticalHitRate = (baseAttrs.getOrDefault(Attribute.CRITICAL_HIT_RATE, 0.0)
+                + equipAdd.getOrDefault(Attribute.CRITICAL_HIT_RATE, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.CRITICAL_HIT_RATE, 0.0));
+
+        this.evasion = (baseAttrs.getOrDefault(Attribute.EVASION, 0.0)
+                + equipAdd.getOrDefault(Attribute.EVASION, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.EVASION, 0.0));
+
+        this.accuracy = (baseAttrs.getOrDefault(Attribute.ACCURACY, 0.0)
+                + equipAdd.getOrDefault(Attribute.ACCURACY, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.ACCURACY, 0.0));
+
+        this.luck = (int) ((baseAttrs.getOrDefault(Attribute.LUCK, 0.0)
+                + equipAdd.getOrDefault(Attribute.LUCK, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.LUCK, 0.0)));
+
+        this.fortitude = (int) ((baseAttrs.getOrDefault(Attribute.FORTITUDE, 0.0)
+                + equipAdd.getOrDefault(Attribute.FORTITUDE, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.FORTITUDE, 0.0)));
+
+        this.bleedChance = (baseAttrs.getOrDefault(Attribute.BLEED_CHANCE, 0.0)
+                + equipAdd.getOrDefault(Attribute.BLEED_CHANCE, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.BLEED_CHANCE, 0.0));
+
+        this.poisonChance = (baseAttrs.getOrDefault(Attribute.POISON_CHANCE, 0.0)
+                + equipAdd.getOrDefault(Attribute.POISON_CHANCE, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.POISON_CHANCE, 0.0));
+
+        this.burnChance = (baseAttrs.getOrDefault(Attribute.BURN_CHANCE, 0.0)
+                + equipAdd.getOrDefault(Attribute.BURN_CHANCE, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.BURN_CHANCE, 0.0));
+
+        this.freezeChance = (baseAttrs.getOrDefault(Attribute.FREEZE_CHANCE, 0.0)
+                + equipAdd.getOrDefault(Attribute.FREEZE_CHANCE, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.FREEZE_CHANCE, 0.0));
+
+        this.spiritPower = (int) ((baseAttrs.getOrDefault(Attribute.SPIRIT_POWER, 0.0)
+                + equipAdd.getOrDefault(Attribute.SPIRIT_POWER, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.SPIRIT_POWER, 0.0)));
+
+        this.damageReduction = (baseAttrs.getOrDefault(Attribute.DAMAGE_REDUCTION, 0.0)
+                + equipAdd.getOrDefault(Attribute.DAMAGE_REDUCTION, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.DAMAGE_REDUCTION, 0.0));
+
+        this.healingEffectiveness = (baseAttrs.getOrDefault(Attribute.HEALING_EFFECTIVENESS, 0.0)
+                + equipAdd.getOrDefault(Attribute.HEALING_EFFECTIVENESS, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.HEALING_EFFECTIVENESS, 0.0));
+
+        this.goldFind = (baseAttrs.getOrDefault(Attribute.GOLD_FIND, 0.0)
+                + equipAdd.getOrDefault(Attribute.GOLD_FIND, 0.0))
+                * (1.0 + equipMul.getOrDefault(Attribute.GOLD_FIND, 0.0));
+    }
+
+    /**
+     * 获取玩家的属性字符串表示
+     *
+     * @return 属性字符串
+     */
+    @Override
+    public String toString() {
+        String ln = System.lineSeparator();
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("属性 [");
+        sb.append(ln).append("  姓: ").append(getFirstName());
+        sb.append(ln).append("  名: ").append(getLastName());
+        sb.append(ln).append("  种族: ").append(getEthnicity().getEthnicityZh());
+        sb.append(ln).append("  职业: ").append(getJob().getNameZh());
+        sb.append(ln).append("  持有经验: ").append(getExp()).append(" / ").append(ExpList.getExpByLevel(getLevel() + 1).getMinExp());
+        sb.append(ln).append("  等级: ").append(getLevel());
+        sb.append(ln).append("  HP: ").append(currentHealthPoint).append(" / ").append(maxHealthPoint);
+        sb.append(ln).append("  MP: ").append(currentManaPoint).append(" / ").append(maxManaPoint);
+        sb.append(ln).append("  力量: ").append(strength);
+        sb.append(ln).append("  敏捷: ").append(agility);
+        sb.append(ln).append("  智力: ").append(intelligence);
+        sb.append(ln).append("  物理防御力: ").append(phyDefense);
+        sb.append(ln).append("  魔法防御力: ").append(magicDefense);
+        sb.append(ln).append("  每轮恢复HP: ").append(recoverHP);
+        sb.append(ln).append("  每轮恢复MP: ").append(recoverMP);
+        sb.append(ln).append("  ").append(String.format("暴击率: %.2f%%", criticalHitRate * 100));
+        sb.append(ln).append("]");
+        return sb.toString();
     }
 }

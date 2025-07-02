@@ -28,6 +28,7 @@ public class Play {
         SimpleLogger.log.info("选择的职业: " + player.getModel().getJob().getNameZh());
         SimpleLogger.log.info("选择的种族: " + player.getModel().getEthnicity().getEthnicityZh());
         player.gainExp(400);
+        // player.syncBaseAttributesFromModel();
 
         // 掉落物初始化
         ItemRepository.loadFromJson("item_list.json");
@@ -45,7 +46,7 @@ public class Play {
         while (true) {
             // 打印玩家状态
             StatusPrint statusPrint = new StatusPrint();
-            statusPrint.printStatus(player.getModel().toString());
+            statusPrint.printStatus(player.toString());
             // 打印地图
             MapPrint.printMap(maze.toString());
             player.showInventory();
@@ -59,7 +60,7 @@ public class Play {
                     maze.playerMove("w");
                     player.showInventory();
                     // player.setEquip("mainHand", 1);
-                    player.setEquip("accessory", 1);
+                    player.setEquip("mainHand", 1);
 
                     player.showEquipment();
                 }
