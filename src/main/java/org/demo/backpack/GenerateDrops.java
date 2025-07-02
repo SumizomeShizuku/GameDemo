@@ -49,27 +49,27 @@ public class GenerateDrops {
         // 限制不超过可选项总数
         typeCount = Math.min(typeCount, dropItems.size());
 
-        // 外层循环：控制本次最多抽取 typeCount 种物品（每种只会被抽中一次）
+        // 外层循环：控制本次最多抽取 typeCount 种物品( 每种只会被抽中一次 )
         for (int i = 0; i < typeCount; i++) {
 
-            // 1. 计算还未被抽中的物品的总权重（每次循环都需要重新计算，因为已抽中的物品不再参与本轮抽取）
+            // 1. 计算还未被抽中的物品的总权重( 每次循环都需要重新计算, 因为已抽中的物品不再参与本轮抽取 )
             double totalWeight = dropItems.entrySet().stream()
                     .filter(e -> !selected.contains(e.getKey()))
                     .mapToDouble(e -> e.getValue().getWeight())
                     .sum();
 
-            // 2. 如果没有可抽取的物品（总权重<=0），提前终止抽取
+            // 2. 如果没有可抽取的物品( 总权重<=0 ), 提前终止抽取
             if (totalWeight <= 0) {
                 break;
             }
 
-            // 3. 生成一个 [0, totalWeight) 区间的随机数，用于加权随机抽选物品
+            // 3. 生成一个 [0, totalWeight) 区间的随机数, 用于加权随机抽选物品
             double roll = random.nextDouble() * totalWeight;
             double current = 0;
 
-            // 4. 遍历所有掉落物品，根据权重依次累加，找到“roll”落入的区间，抽中该物品
+            // 4. 遍历所有掉落物品, 根据权重依次累加, 找到“roll”落入的区间, 抽中该物品
             for (Map.Entry<ItemModelDto, DropInfo> entry : dropItems.entrySet()) {
-                // 跳过已被抽中的物品，确保不重复
+                // 跳过已被抽中的物品, 确保不重复
                 if (selected.contains(entry.getKey())) {
                     continue;
                 }
@@ -77,16 +77,16 @@ public class GenerateDrops {
                 // 累加当前物品的权重
                 current += entry.getValue().getWeight();
 
-                // 如果累加权重大于roll，说明roll落在当前物品的区间
+                // 如果累加权重大于roll, 说明roll落在当前物品的区间
                 if (roll < current) {
                     // 5. 抽中该物品
-                    // 标记该物品已被抽中，后续不再参与抽取
+                    // 标记该物品已被抽中, 后续不再参与抽取
                     selected.add(entry.getKey());
                     // 根据DropInfo随机决定掉落数量
                     int qty = entry.getValue().getRandomQuantity();
                     // 记录到最终掉落Map
                     drops.put(entry.getKey(), qty);
-                    // 本轮抽取结束，进入下一个i
+                    // 本轮抽取结束, 进入下一个i
                     break;
                 }
             }

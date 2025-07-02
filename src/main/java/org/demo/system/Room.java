@@ -23,7 +23,7 @@ public class Room {
     private boolean hasPlayer = false; // 是否存在玩家
     private boolean isVisible = false; // 是否可见
     private boolean isClear = false; // 敌人是否被清理
-    private boolean isStar = false; // 是否为宝箱房（默认false）
+    private boolean isStar = false; // 是否为宝箱房( 默认false )
 
     /**
      * @param x 格子横坐标

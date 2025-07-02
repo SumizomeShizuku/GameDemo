@@ -87,7 +87,7 @@ public class SimpleLogger {
                     logDir.mkdirs();
                 }
                 File logFile = new File(logDir, currentLogFileName);
-                // 如果文件存在且大小超过30MB，则切换到新文件
+                // 如果文件存在且大小超过30MB, 则切换到新文件
                 synchronized (SimpleLogger.class) {
                     if (logFile.exists() && logFile.length() > MAX_FILE_SIZE) {
                         logFileIndex++;

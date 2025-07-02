@@ -141,9 +141,9 @@ public class Map10x10 {
             }
         }
 
-        // 在成功放置起点(A)和终点(B)之后，设置宝箱房间：
+        // 在成功放置起点(A)和终点(B)之后, 设置宝箱房间：
         List<int[]> candidates = new ArrayList<>(rooms);
-        // 移除起点和终点房间坐标，仅保留可选为宝箱房的房间
+        // 移除起点和终点房间坐标, 仅保留可选为宝箱房的房间
         candidates.removeIf(coord -> grid[coord[1]][coord[0]].isStart() || grid[coord[1]][coord[0]].isEnd());
 
         // 设置宝箱房数量

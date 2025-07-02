@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * 敌人仓库（静态方法/属性版） 负责从 JSON 文件加载所有敌人，并提供全局查询接口。
+ * 敌人仓库( 静态方法/属性版 ) 负责从 JSON 文件加载所有敌人, 并提供全局查询接口。
  */
 public class EnemyRepository {
 
@@ -28,7 +28,7 @@ public class EnemyRepository {
     /**
      * 从JSON文件加载敌人列表。
      *
-     * @param filePath 文件路径（如 "enemy_list.json"）
+     * @param filePath 文件路径( 如 "enemy_list.json" )
      */
     public static void loadFromJson(String filePath) {
         try (InputStream is = EnemyRepository.class.getClassLoader().getResourceAsStream(filePath)) {
@@ -134,7 +134,7 @@ public class EnemyRepository {
         EnemyModelDto result = null;
         Random random = new Random();
         if (list.isEmpty()) {
-            return null; // 或抛出异常，根据你的需求决定
+            return null; // 或抛出异常, 根据你的需求决定
         }
 
         int totalWeight = 0;

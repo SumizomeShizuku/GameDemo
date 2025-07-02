@@ -30,7 +30,7 @@ public class EnemyJsonDto {
     public double[] growthWeights;
 
     /**
-     * 敌人掉落物配置，用于JSON映射
+     * 敌人掉落物配置, 用于JSON映射
      */
     public static class DropEntry {
 

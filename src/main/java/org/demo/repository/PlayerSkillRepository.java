@@ -15,7 +15,7 @@ public class PlayerSkillRepository {
     /**
      * 从 JSON 文件加载技能列表
      *
-     * @param filePath 文件路径，如 "skills.json"
+     * @param filePath 文件路径, 如 "skills.json"
      */
     public static void loadFromJson(String filePath) {
         try (InputStream is = PlayerSkillRepository.class.getClassLoader().getResourceAsStream(filePath)) {

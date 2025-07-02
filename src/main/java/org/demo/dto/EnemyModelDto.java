@@ -275,7 +275,7 @@ public class EnemyModelDto {
     /**
      * 获取敌人属性成长权重
      *
-     * @return 属性成长权重数组，顺序为 [力量, 敏捷, 智力]
+     * @return 属性成长权重数组, 顺序为 [力量, 敏捷, 智力]
      */
     public double[] getGrowthWeights() {
         return growthWeights;
@@ -284,17 +284,17 @@ public class EnemyModelDto {
     /**
      * 设置敌人属性成长权重
      *
-     * @param growthWeights 属性成长权重数组，顺序为 [力量, 敏捷, 智力]
+     * @param growthWeights 属性成长权重数组, 顺序为 [力量, 敏捷, 智力]
      */
     public void setGrowthWeights(double[] growthWeights) {
         this.growthWeights = growthWeights;
     }
 
     /**
-     * 返回技能名字符串（逗号分隔），不包含技能ID
+     * 返回技能名字符串( 逗号分隔 ), 不包含技能ID
      *
      * @param skillMap Map<String, SkillList>
-     * @return 技能名称字符串，如 "普通攻击, 挥石魔法, 火球术"
+     * @return 技能名称字符串, 如 "普通攻击, 挥石魔法, 火球术"
      */
     public List<String> getSkillNames() {
         List<String> list = new ArrayList<>();

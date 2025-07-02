@@ -233,11 +233,11 @@ public class Equipment {
     }
 
     /**
-     * 自动分配装备到对应槽位。
+     * 设置装备至指定槽位
      * <ul>
      * <li>武器装备到主手</li>
      * <li>防具装备到头部( 示例, 可拓展分部位 )</li>
-     * <li>饰品自动分配到第一个空槽</li>
+     * <li>饰品若不指定位置, 自动分配到第一个空槽</li>
      * <li>如有多类型, 则依次尝试</li>
      * </ul>
      *
@@ -548,5 +548,37 @@ public class Equipment {
         sb.append("这件装备不能装备在这个部位!").append(" [ 位置: ").append(position)
                 .append(", 装备: ").append(selectedequip.getName()).append(" ]");
         SimpleLogger.log.error(sb.toString());
+    }
+
+    // 获取所有已装备的装备( 返回ItemInstance列表, 顺序随意 )
+    public List<ItemInstance> getAllEquippedItems() {
+        List<ItemInstance> list = new ArrayList<>();
+        if (mainHand != null) {
+            list.add(mainHand);
+        }
+        if (offHand != null) {
+            list.add(offHand);
+        }
+        if (helmet != null) {
+            list.add(helmet);
+        }
+        if (armor != null) {
+            list.add(armor);
+        }
+        if (pants != null) {
+            list.add(pants);
+        }
+        if (shoes != null) {
+            list.add(shoes);
+        }
+        if (accessories != null) {
+            for (ItemInstance acc : accessories) {
+                if (acc != null) {
+                    list.add(acc);
+                }
+            }
+        }
+        // ... 其他装备栏
+        return list;
     }
 }

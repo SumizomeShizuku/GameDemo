@@ -11,14 +11,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 物品仓库类，负责从外部 JSON 加载所有物品并提供查询接口
+ * 物品仓库类, 负责从外部 JSON 加载所有物品并提供查询接口
  */
 public class ItemRepository {
 
     private static final Map<String, ItemModelDto> itemMap = new HashMap<>();
 
     /**
-     * 加载物品数据（建议在游戏启动时只加载一次）
+     * 加载物品数据( 建议在游戏启动时只加载一次 )
      *
      * @param resourcePath JSON 文件路径, 如 "item_list.json"
      * @throws IOException 读取或解析异常

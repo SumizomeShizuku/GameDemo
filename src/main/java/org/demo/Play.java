@@ -55,8 +55,14 @@ public class Play {
                     + "若想退出游戏, 请输入exit: " + System.lineSeparator());
 
             switch (input) {
-                case "w" ->
+                case "w" -> {
                     maze.playerMove("w");
+                    player.showInventory();
+                    // player.setEquip("mainHand", 1);
+                    player.setEquip("accessory", 1);
+
+                    player.showEquipment();
+                }
                 case "a" ->
                     maze.playerMove("a");
                 case "s" ->

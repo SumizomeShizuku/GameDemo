@@ -1,10 +1,15 @@
 package org.demo.backpack;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import org.demo.dto.ItemModelDto;
+import org.demo.list.EquipmentAffix;
+import org.demo.list.ItemRarity;
 
 /**
  * 玩家实际拥有的物品实例( 装备类 )。
@@ -24,10 +29,10 @@ public class ItemInstance {
      */
     private final ItemModelDto model;
 
-    /**
-     * 物品附加属性( 如词条、附魔等, 当前未实装 )。
-     */
-    private final Map<String, Object> attributes = new HashMap<>();
+    // 物品稀有度
+    private final ItemRarity rarity;
+    // 物品装备词条
+    private final List<EquipmentAffix> affixes;
 
     /**
      * 是否已装备。
@@ -42,6 +47,16 @@ public class ItemInstance {
     public ItemInstance(ItemModelDto model) {
         this.instanceId = UUID.randomUUID().toString();
         this.model = model;
+
+        // 1. 随机抽取稀有度
+        this.rarity = ItemRarity.randomRarity(new Random());
+        // 2. 根据稀有度随机抽取词条
+        int affixNum = getAffixCountByRarity(this.rarity);
+        List<EquipmentAffix> temp = new ArrayList<>();
+        for (int i = 0; i < affixNum; i++) {
+            temp.add(EquipmentAffix.random(new Random()));
+        }
+        this.affixes = Collections.unmodifiableList(temp);
     }
 
     /**
@@ -63,15 +78,6 @@ public class ItemInstance {
     }
 
     /**
-     * 获取物品的附加属性集合。
-     *
-     * @return 属性Map
-     */
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    /**
      * 判断该物品是否已装备。
      *
      * @return true 表示已装备, false 表示未装备
@@ -90,22 +96,57 @@ public class ItemInstance {
     }
 
     /**
-     * 添加或修改一个附加属性。
-     *
-     * @param key 属性名
-     * @param value 属性值
-     */
-    public void addAttribute(String key, Object value) {
-        attributes.put(key, value);
-    }
-
-    /**
      * 获取物品的名称( 来自物品模板 )。
      *
      * @return 物品名称
      */
     public String getName() {
         return model.getName();
+    }
+
+    private int getAffixCountByRarity(ItemRarity rarity) {
+        return switch (rarity) {
+            case UNCOMMON ->
+                1;
+            case RARE ->
+                2;
+            case EPIC ->
+                3;
+            case LEGENDARY ->
+                4;
+            case MYTHIC ->
+                5;
+            default ->
+                0;
+        };
+    }
+
+    public ItemRarity getRarity() {
+        return rarity;
+    }
+
+    public List<EquipmentAffix> getAffixes() {
+        return affixes;
+    }
+
+    /**
+     * 属性值格式化, 正数显示+号, %属性自动×100显示百分号
+     */
+    private String formatAffixAttribute(EquipmentAffix.Attribute attr, double val) {
+        String zh = attr.getDisplayNameZh();
+        String unit = attr.getUnit();
+        boolean isPercent = "%".equals(unit);
+
+        // 百分号属性自动乘100, 并保留1位小数
+        String valueStr;
+        if (isPercent) {
+            valueStr = String.format("%+.1f%%", val * 100);
+        } else if (val == (int) val) {
+            valueStr = String.format("%+d", (int) val);
+        } else {
+            valueStr = String.format("%+.2f", val);
+        }
+        return zh + valueStr;
     }
 
     /**
@@ -117,17 +158,28 @@ public class ItemInstance {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(model.getName());
-        if (isEquip) {
-            sb.append(" -已装备");
+        // if (isEquip)
+        //     sb.append(" -已装备");
+        sb.append(" [稀有度:").append(rarity.getDisplayNameZh());
+        if (!affixes.isEmpty()) {
+            sb.append(", 词条: ");
+            for (EquipmentAffix affix : affixes) {
+                sb.append(affix.getDisplayName()).append("( ");
+                boolean first = true;
+                for (Map.Entry<EquipmentAffix.Attribute, Double> entry : affix.getAttributeMap().entrySet()) {
+                    if (!first) {
+                        sb.append(", ");
+                    }
+                    EquipmentAffix.Attribute attr = entry.getKey();
+                    double val = entry.getValue();
+                    sb.append(formatAffixAttribute(attr, val));
+                    first = false;
+                }
+                sb.append(" ); ");
+            }
         }
-        if (attributes.isEmpty()) {
-            sb.append(" [ID:").append(model.getId()).append(", UUID:").append(instanceId)
-                    .append("]");
-        } else {
-            sb.append(" [ID:").append(model.getId()).append(", 属性:").append(attributes)
-                    .append(", UUID:").append(instanceId).append("]");
-        }
-
+        sb.append(", ID:").append(model.getId());
+        // sb.append(", UUID:").append(instanceId).append("]");
         return sb.toString();
     }
 }

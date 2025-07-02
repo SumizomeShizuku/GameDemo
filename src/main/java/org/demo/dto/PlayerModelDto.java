@@ -481,8 +481,10 @@ public class PlayerModelDto {
         sb.append(ln).append("  力量: ").append(strength);
         sb.append(ln).append("  敏捷: ").append(agility);
         sb.append(ln).append("  智力: ").append(intelligence);
-        sb.append(ln).append("  每秒恢复HP: ").append(recoverHP);
-        sb.append(ln).append("  每秒恢复MP: ").append(recoverMP);
+        sb.append(ln).append("  物理防御力: ").append(physicsDefense);
+        sb.append(ln).append("  魔法防御力: ").append(magicDefense);
+        sb.append(ln).append("  每轮恢复HP: ").append(recoverHP);
+        sb.append(ln).append("  每轮恢复MP: ").append(recoverMP);
         sb.append(ln).append("  基础冷却时间: ").append(commonCoolDown);
         sb.append(ln).append("  移速: ").append(moveSpeed);
         sb.append(ln).append("  ").append(String.format("暴击率: %.2f%%", criticalHitRate * 100));
