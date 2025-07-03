@@ -42,6 +42,7 @@
       { "itemId": "SLIME_JUICE", "weight": 0.8, "minQty": 1, "maxQty": 2 },
       { "itemId": "WOOD_RING", "weight": 0.0075, "minQty": 1, "maxQty": 1 }
     ],
+    "areas": ["全地区"],
     "skills": ["Skill0001"],
     "probability": 45,
     "growthWeights": [0.5, 0.5, 0.5]

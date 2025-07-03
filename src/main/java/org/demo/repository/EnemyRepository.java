@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.demo.backpack.DropInfo;
+import org.demo.constants.Constants;
 import org.demo.dto.EnemyJsonDto;
 import org.demo.dto.EnemyModelDto;
 import org.demo.dto.ItemModelDto;
@@ -130,7 +131,7 @@ public class EnemyRepository {
      */
     public static EnemyModelDto getRandomEnemy(String area, int distance) {
         List<EnemyModelDto> list = getEnemiesByArea(area);
-        list.addAll(getEnemiesByArea("全地区"));
+        list.addAll(getEnemiesByArea(Constants.ALL_AREA));
         EnemyModelDto result = null;
         Random random = new Random();
         if (list.isEmpty()) {

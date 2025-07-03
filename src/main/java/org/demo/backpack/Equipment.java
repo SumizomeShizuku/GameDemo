@@ -154,48 +154,6 @@ public class Equipment {
     }
 
     /**
-     * 判断饰品槽是否还有空位。
-     *
-     * @return 是否有空的饰品槽
-     */
-    public boolean hasEmptyAccessorySlot() {
-        for (ItemInstance a : accessories) {
-            if (a == null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 替换指定饰品槽的内容( 适用于玩家手动替换 )。
-     *
-     * @param slot 替换槽位下标( 0~3 )
-     * @param accessory 新的饰品实例
-     */
-    public void replaceAccessory(int slot, ItemInstance accessory) {
-        if (checkAccessorySlot(slot)) {
-            accessories[slot].isEquip(false);
-            accessories[slot] = accessory;
-            accessories[slot].isEquip(true);
-        }
-    }
-
-    /**
-     * 检查饰品槽下标是否合法。
-     *
-     * @param slot 槽位下标
-     * @return 合法返回true, 否则输出日志并返回false
-     */
-    private boolean checkAccessorySlot(int slot) {
-        if (slot < 0 || slot >= accessories.length) {
-            SimpleLogger.log.info("饰品槽栏位错误");
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * 获取所有已装备的饰品( 不含null槽位 )。
      *
      * @return 已装备饰品的列表
@@ -208,28 +166,6 @@ public class Equipment {
             }
         }
         return list;
-    }
-
-    /**
-     * 判断指定物品是否已装备于任意槽位。
-     *
-     * @param item 要检查的物品
-     * @return 是否已装备
-     */
-    public boolean contains(ItemInstance item) {
-        if (item == null) {
-            return false;
-        }
-        if (item.equals(mainHand) || item.equals(offHand) || item.equals(helmet)
-                || item.equals(armor) || item.equals(pants) || item.equals(shoes)) {
-            return true;
-        }
-        for (ItemInstance a : accessories) {
-            if (item.equals(a)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

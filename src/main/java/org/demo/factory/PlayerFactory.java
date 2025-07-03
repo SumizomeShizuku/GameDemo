@@ -18,8 +18,8 @@ public class PlayerFactory {
      */
     public static Player createPlayer(String firstName, String lastName, int ethnicityNum, int jobNum) {
 
-        PlayerModelDto player = new PlayerModelDto();
-        Player playerModel = new Player(player);
+        PlayerModelDto playerModelDto = new PlayerModelDto();
+        Player player = new Player(playerModelDto);
 
         EthnicityList ethnicity = Constants.DEFAULT_ETHNICITY;
         if (ethnicityNum > 0 && ethnicityNum <= Constants.TOTAL_ETHNICITY_NUM) {
@@ -30,70 +30,72 @@ public class PlayerFactory {
         if (jobNum > 0 && jobNum <= Constants.TOTAL_JOB_NUM) {
             job = JobList.getJob(jobNum);
         }
-        player.setFirstName(firstName);
-        player.setLastName(lastName);
-        player.setEthnicity(ethnicity);
-        player.setJob(job);
+        playerModelDto.setFirstName(firstName);
+        playerModelDto.setLastName(lastName);
+        playerModelDto.setEthnicity(ethnicity);
+        playerModelDto.setJob(job);
 
         // 设置基础经验和等级( 来自职业 )
-        player.setExp(job.getExp());
-        player.setLevel(job.getLevel());
+        playerModelDto.setExp(job.getExp());
+        playerModelDto.setLevel(job.getLevel());
 
         // HP / MP = 职业基础值 + 种族加成
-        player.setMaxHealthPoint(job.getHealthPoint() + ethnicity.getHealthPoint());
-        player.setMaxManaPoint(job.getManaPoint() + ethnicity.getManaPoint());
-        player.setMoveSpeed(job.getMoveSpeed());
+        playerModelDto.setMaxHealthPoint(job.getHealthPoint() + ethnicity.getHealthPoint());
+        playerModelDto.setMaxManaPoint(job.getManaPoint() + ethnicity.getManaPoint());
+        playerModelDto.setMoveSpeed(job.getMoveSpeed());
 
-        player.setStrength(ethnicity.getStrength());
-        player.setAgility(ethnicity.getAgility());
-        player.setIntelligence(ethnicity.getIntelligence());
+        playerModelDto.setStrength(ethnicity.getStrength());
+        playerModelDto.setAgility(ethnicity.getAgility());
+        playerModelDto.setIntelligence(ethnicity.getIntelligence());
 
         // 通用基础属性
         // playerModel.setMaxHealthPoint(player.getMaxHealthPoint());
         // playerModel.setMaxManaPoint(player.getMaxHealthPoint());
-        playerModel.setCurrentHealthPoint(player.getMaxHealthPoint());
-        playerModel.setCurrentManaPoint(player.getMaxManaPoint());
-        player.setRecoverHP(0);
-        player.setRecoverMP(0);
-        player.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
-        player.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
-        player.setActionsPerTurn(1);
-        playerModel.refreshTotalAttributes();
-        return playerModel;
+        // playerModelDto.setPhyDefense(ethnicityNum);
+        // playerModelDto.setMagicDefense(ethnicityNum);
+        player.setCurrentHealthPoint(playerModelDto.getMaxHealthPoint());
+        player.setCurrentManaPoint(playerModelDto.getMaxManaPoint());
+        playerModelDto.setRecoverHP(0);
+        playerModelDto.setRecoverMP(0);
+        playerModelDto.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
+        playerModelDto.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
+        playerModelDto.setActionsPerTurn(1);
+        player.refreshTotalAttributes();
+        return player;
     }
 
     public static Player createPlayerTemplate(String firstName, String lastName, EthnicityList ethnicity, JobList job) {
-        PlayerModelDto player = new PlayerModelDto();
-        Player playerModel = new Player(player);
+        PlayerModelDto playerModelDto = new PlayerModelDto();
+        Player player = new Player(playerModelDto);
 
-        player.setFirstName(firstName);
-        player.setLastName(lastName);
-        player.setEthnicity(ethnicity);
-        player.setJob(job);
+        playerModelDto.setFirstName(firstName);
+        playerModelDto.setLastName(lastName);
+        playerModelDto.setEthnicity(ethnicity);
+        playerModelDto.setJob(job);
 
         // 设置基础经验和等级( 来自职业 )
-        player.setExp(job.getExp());
-        player.setLevel(job.getLevel());
+        playerModelDto.setExp(job.getExp());
+        playerModelDto.setLevel(job.getLevel());
 
         // HP / MP = 职业基础值 + 种族加成
-        player.setMaxHealthPoint(job.getHealthPoint() + ethnicity.getHealthPoint());
-        player.setMaxManaPoint(job.getManaPoint() + ethnicity.getManaPoint());
-        player.setMoveSpeed(job.getMoveSpeed());
+        playerModelDto.setMaxHealthPoint(job.getHealthPoint() + ethnicity.getHealthPoint());
+        playerModelDto.setMaxManaPoint(job.getManaPoint() + ethnicity.getManaPoint());
+        playerModelDto.setMoveSpeed(job.getMoveSpeed());
 
-        player.setStrength(ethnicity.getStrength());
-        player.setAgility(ethnicity.getAgility());
-        player.setIntelligence(ethnicity.getIntelligence());
+        playerModelDto.setStrength(ethnicity.getStrength());
+        playerModelDto.setAgility(ethnicity.getAgility());
+        playerModelDto.setIntelligence(ethnicity.getIntelligence());
 
         // 通用基础属性
-        playerModel.setCurrentHealthPoint(player.getMaxHealthPoint());
-        playerModel.setCurrentManaPoint(player.getMaxManaPoint());
-        player.setRecoverHP(0);
-        player.setRecoverMP(0);
-        player.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
-        player.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
-        player.setActionsPerTurn(1);
-
-        return playerModel;
+        player.setCurrentHealthPoint(playerModelDto.getMaxHealthPoint());
+        player.setCurrentManaPoint(playerModelDto.getMaxManaPoint());
+        playerModelDto.setRecoverHP(0);
+        playerModelDto.setRecoverMP(0);
+        playerModelDto.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
+        playerModelDto.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
+        playerModelDto.setActionsPerTurn(1);
+        player.refreshTotalAttributes();
+        return player;
     }
 
     // 示例快捷方法

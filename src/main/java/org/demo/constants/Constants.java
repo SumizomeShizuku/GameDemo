@@ -51,4 +51,14 @@ public class Constants {
      * 未知类型伤害
      */
     public static final String UNDEFINED_DAMAGE = "未知类型伤害";
+
+    /**
+     * 森林
+     */
+    public static final String ALL_AREA = "全地区";
+
+    /**
+     * 森林
+     */
+    public static final String AREA1 = "森林";
 }

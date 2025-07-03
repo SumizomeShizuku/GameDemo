@@ -1,6 +1,7 @@
 package org.demo;
 
 import org.demo.backpack.BackpackSlot;
+import org.demo.constants.Constants;
 import org.demo.factory.Player;
 import org.demo.factory.PlayerFactory;
 import org.demo.repository.EnemyRepository;
@@ -40,7 +41,7 @@ public class Play {
         // System.out.println(goblin.toString());
 
         // 随机房间数量
-        Map10x10 maze = new Map10x10(15, 20, player);
+        Map10x10 maze = new Map10x10(15, 20, player, Constants.AREA1);
         // maze.visibleAllRoom();
         MapPrint.printMap(System.lineSeparator() + maze.toString());
 

@@ -22,7 +22,7 @@ public class RoomEventCheck {
      *
      * @param player 玩家对象
      */
-    public boolean checkBattle(Player player) {
+    public boolean checkBattle(Player player, String area) {
         // 1. 获取玩家当前位置
         Point pos = map.whereIam();
         if (pos == null) {
@@ -42,7 +42,7 @@ public class RoomEventCheck {
             Point playerPos = map.whereIam();
             int distance = Map10x10.getDistance(startPos, playerPos);
 
-            EnemyModelDto enemyDto = EnemyRepository.getRandomEnemy("森林", distance);
+            EnemyModelDto enemyDto = EnemyRepository.getRandomEnemy(area, distance);
             SimpleLogger.log.info(enemyDto.toString());
             // Enemy enemy = EnemyFactory.createEnemy(EnemyList.GOBLIN);
 

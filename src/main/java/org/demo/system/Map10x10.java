@@ -38,6 +38,7 @@ public class Map10x10 {
     /* ───────────── 外部传参区 ───────────── */
     private final Player player;
     private final RoomEventCheck eventCheck;
+    private final String area;
 
     /* ───────────── 参数调节区 ───────────── */
     private static final int SIZE = 10; // 固定 10×10
@@ -54,8 +55,9 @@ public class Map10x10 {
     private final int minRooms, maxRooms; // 用于多次重生
 
     /* ───────────── 构造 ───────────── */
-    public Map10x10(int minRooms, int maxRooms, Player player) {
+    public Map10x10(int minRooms, int maxRooms, Player player, String area) {
         this.player = player;
+        this.area = area;
         this.eventCheck = new RoomEventCheck(this);
 
         if (minRooms < 2 || maxRooms > SIZE * SIZE) {
@@ -571,7 +573,7 @@ public class Map10x10 {
             if (!grid[ny][nx].isClear()) {
 
                 if (player.isAlive()) {
-                    battleFlg = eventCheck.checkBattle(player);
+                    battleFlg = eventCheck.checkBattle(player, area);
                     if (!battleFlg) {
                         grid[p.x][p.y].setPlayer(true);
                         grid[ny][nx].setPlayer(false);
