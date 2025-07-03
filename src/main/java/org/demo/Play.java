@@ -1,5 +1,6 @@
 package org.demo;
 
+import org.demo.backpack.BackpackSlot;
 import org.demo.factory.Player;
 import org.demo.factory.PlayerFactory;
 import org.demo.repository.EnemyRepository;
@@ -39,7 +40,7 @@ public class Play {
         // System.out.println(goblin.toString());
 
         // 随机房间数量
-        Map10x10 maze = new Map10x10(50, 60, player);
+        Map10x10 maze = new Map10x10(15, 20, player);
         // maze.visibleAllRoom();
         MapPrint.printMap(System.lineSeparator() + maze.toString());
 
@@ -47,29 +48,31 @@ public class Play {
             // 打印玩家状态
             StatusPrint statusPrint = new StatusPrint();
             statusPrint.printStatus(player.toString());
+            SimpleLogger.log.info(player.getModel().toString());
             // 打印地图
             MapPrint.printMap(maze.toString());
             player.showInventory();
 
             String input = InputHelper.getLowerCaseLine(
                     "选择前进方向 (w/a/s/d) " + System.lineSeparator()
+                    + "若想使用道具, 请输入bag: " + System.lineSeparator()
                     + "若想退出游戏, 请输入exit: " + System.lineSeparator());
 
             switch (input) {
-                case "w" -> {
+                case "w" ->
                     maze.playerMove("w");
-                    player.showInventory();
-                    // player.setEquip("mainHand", 1);
-                    player.setEquip("mainHand", 1);
-
-                    player.showEquipment();
-                }
                 case "a" ->
                     maze.playerMove("a");
                 case "s" ->
                     maze.playerMove("s");
                 case "d" ->
                     maze.playerMove("d");
+                case "bag" -> {
+                    player.showEquipment();
+                    player.showInventory();
+                    checkBackpack(player);
+                }
+
                 case "exit" -> {
                     return;
                 }
@@ -118,5 +121,71 @@ public class Play {
         // player.showInventory();
         // player.showEquipment();
         // SimpleLogger.log.info(player.getModel().toString());
+    }
+
+    private static void checkBackpack(Player player) {
+        int id;
+        BackpackSlot bs;
+        while (true) {
+
+            id = InputHelper.getInt(
+                    "请选择背包中的物品编号: " + System.lineSeparator());
+            bs = player.getSlot(id);
+            if (bs == null) {
+                continue;
+            }
+            break;
+        }
+        if (bs.getInstance() != null) {
+            String input = InputHelper.getLowerCaseLine(
+                    "选择要装备的位置编号或是移除物品: " + System.lineSeparator()
+                    + "若想退出背包, 请输入back: " + System.lineSeparator()
+                    + "1.主手 2.副手 3.头部 4.上衣 5.裤子 6.鞋子 7.任意空首饰位" + System.lineSeparator()
+                    + "8.首饰槽1 9.首饰槽2 10.首饰槽3 11.首饰槽4 12.移除该物品" + System.lineSeparator());
+            switch (input) {
+                case "1" -> {
+                    player.setEquip("mainHand", id);
+                }
+                case "2" -> {
+                    player.setEquip("offHand", id);
+                }
+                case "3" -> {
+                    player.setEquip("helmet", id);
+                }
+                case "4" -> {
+                    player.setEquip("armor", id);
+                }
+                case "5" -> {
+                    player.setEquip("pants", id);
+                }
+                case "6" -> {
+                    player.setEquip("shoes", id);
+                }
+                case "7" -> {
+                    player.setEquip("accessory", id);
+                }
+                case "8" -> {
+                    player.setEquip("accessory1", id);
+                }
+                case "9" -> {
+                    player.setEquip("accessory2", id);
+                }
+                case "10" -> {
+                    player.setEquip("accessory3", id);
+                }
+                case "11" -> {
+                    player.setEquip("accessory4", id);
+                }
+                case "12" -> {
+                    player.removeItemBySlot(id, 1);
+                }
+                case "back" -> {
+
+                }
+                default -> {
+                }
+
+            }
+        }
     }
 }

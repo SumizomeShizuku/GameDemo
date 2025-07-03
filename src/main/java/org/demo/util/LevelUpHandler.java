@@ -41,6 +41,9 @@ public class LevelUpHandler {
                     SimpleLogger.log.info(player.getFirstName() + " 升级了! 当前等级: " + newLevel);
                     // 自动加点
                     applyGrowth(player, levelGained);
+                    realPlayer.syncBaseAttributesFromModel();
+                    realPlayer.setCurrentHealthPoint(player.getMaxHealthPoint());
+                    realPlayer.setCurrentManaPoint(player.getMaxManaPoint());
                 }
 
                 // 当玩家失去经验时
@@ -53,6 +56,7 @@ public class LevelUpHandler {
                 } else {
                     player.setExp(minExp);
                 }
+                realPlayer.syncBaseAttributesFromModel();
                 SimpleLogger.log.info("玩家失去了经验....");
             }
 
@@ -98,9 +102,6 @@ public class LevelUpHandler {
         int mpIncrease = (int) Math.round(5 * levelGained + 0.125 * player.getIntelligence() * levelGained);
         player.setMaxHealthPoint(player.getMaxHealthPoint() + hpIncrease);
         player.setMaxManaPoint(player.getMaxManaPoint() + mpIncrease);
-        // 可选: 升级时恢复生命和魔法到新上限
-        player.setCurrentHealthPoint(player.getMaxHealthPoint());
-        player.setCurrentManaPoint(player.getMaxManaPoint());
 
         StringBuilder sb = new StringBuilder();
         sb.append("升级属性分布: 力量: ").append(strengthLeveUp)

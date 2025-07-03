@@ -14,7 +14,9 @@
     "dropExp": 10,
     "dropRate": 0.3,
     "drops": [
-      { "itemId": "GOBLIN_SWORD", "weight": 0.005, "minQty": 1, "maxQty": 1 }
+      { "itemId": "GOBLIN_SWORD", "weight": 0.005, "minQty": 1, "maxQty": 1 },
+      { "itemId": "SLIME_JUICE", "weight": 0.8, "minQty": 1, "maxQty": 2 },
+      { "itemId": "WOOD_RING", "weight": 0.0075, "minQty": 1, "maxQty": 1 }
     ],
     "areas": ["森林", "洞穴"],
     "skills": ["Skill0001", "Skill0002"],
@@ -36,7 +38,9 @@
     "dropExp": 50,
     "dropRate": 0.5,
     "drops": [
-      { "itemId": "GOBLIN_SWORD", "weight": 0.005, "minQty": 1, "maxQty": 1 }
+      { "itemId": "GOBLIN_SWORD", "weight": 0.005, "minQty": 1, "maxQty": 1 },
+      { "itemId": "SLIME_JUICE", "weight": 0.8, "minQty": 1, "maxQty": 2 },
+      { "itemId": "WOOD_RING", "weight": 0.0075, "minQty": 1, "maxQty": 1 }
     ],
     "skills": ["Skill0001"],
     "probability": 45,
@@ -57,7 +61,9 @@
     "dropExp": 50,
     "dropRate": 0.5,
     "drops": [
-      { "itemId": "GOBLIN_SWORD", "weight": 0.5, "minQty": 1, "maxQty": 1 }
+      { "itemId": "GOBLIN_SWORD", "weight": 0.5, "minQty": 1, "maxQty": 1 },
+      { "itemId": "SLIME_JUICE", "weight": 0.5, "minQty": 1, "maxQty": 2 },
+      { "itemId": "WOOD_RING", "weight": 0.5, "minQty": 1, "maxQty": 1 }
     ],
     "areas": ["森林", "洞穴"],
     "skills": ["Skill0001"],

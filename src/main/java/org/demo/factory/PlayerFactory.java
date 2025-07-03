@@ -49,14 +49,16 @@ public class PlayerFactory {
         player.setIntelligence(ethnicity.getIntelligence());
 
         // 通用基础属性
-        player.setCurrentHealthPoint(player.getMaxHealthPoint());
-        player.setCurrentManaPoint(player.getMaxManaPoint());
+        // playerModel.setMaxHealthPoint(player.getMaxHealthPoint());
+        // playerModel.setMaxManaPoint(player.getMaxHealthPoint());
+        playerModel.setCurrentHealthPoint(player.getMaxHealthPoint());
+        playerModel.setCurrentManaPoint(player.getMaxManaPoint());
         player.setRecoverHP(0);
         player.setRecoverMP(0);
         player.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
         player.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
         player.setActionsPerTurn(1);
-
+        playerModel.refreshTotalAttributes();
         return playerModel;
     }
 
@@ -83,8 +85,8 @@ public class PlayerFactory {
         player.setIntelligence(ethnicity.getIntelligence());
 
         // 通用基础属性
-        player.setCurrentHealthPoint(player.getMaxHealthPoint());
-        player.setCurrentManaPoint(player.getMaxManaPoint());
+        playerModel.setCurrentHealthPoint(player.getMaxHealthPoint());
+        playerModel.setCurrentManaPoint(player.getMaxManaPoint());
         player.setRecoverHP(0);
         player.setRecoverMP(0);
         player.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);

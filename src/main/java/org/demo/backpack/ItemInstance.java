@@ -175,10 +175,10 @@ public class ItemInstance {
                     sb.append(formatAffixAttribute(attr, val));
                     first = false;
                 }
-                sb.append(" ); ");
+                sb.append(" ) ");
             }
         }
-        sb.append(", ID:").append(model.getId());
+        sb.append("] ID:").append(model.getId());
         // sb.append(", UUID:").append(instanceId).append("]");
         return sb.toString();
     }

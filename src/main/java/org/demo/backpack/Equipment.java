@@ -509,17 +509,17 @@ public class Equipment {
         String ln = System.lineSeparator();
 
         sb.append("【装备栏状态】\n");
-        sb.append("主手: ").append(mainHand != null ? mainHand.getName() + " [" + mainHand.getInstanceId() + "]" : "空")
+        sb.append("主手: ").append(mainHand != null ? mainHand.getName() + " [" + mainHand.toString() + "]" : "空")
                 .append("\n");
-        sb.append("副手: ").append(offHand != null ? offHand.getName() + " [" + offHand.getInstanceId() + "]" : "空")
+        sb.append("副手: ").append(offHand != null ? offHand.getName() + " [" + offHand.toString() + "]" : "空")
                 .append("\n");
-        sb.append("头部: ").append(helmet != null ? helmet.getName() + " [" + helmet.getInstanceId() + "]" : "空")
+        sb.append("头部: ").append(helmet != null ? helmet.getName() + " [" + helmet.toString() + "]" : "空")
                 .append("\n");
-        sb.append("上衣: ").append(armor != null ? armor.getName() + " [" + armor.getInstanceId() + "]" : "空")
+        sb.append("上衣: ").append(armor != null ? armor.getName() + " [" + armor.toString() + "]" : "空")
                 .append("\n");
-        sb.append("裤子: ").append(pants != null ? pants.getName() + " [" + pants.getInstanceId() + "]" : "空")
+        sb.append("裤子: ").append(pants != null ? pants.getName() + " [" + pants.toString() + "]" : "空")
                 .append("\n");
-        sb.append("鞋子: ").append(shoes != null ? shoes.getName() + " [" + shoes.getInstanceId() + "]" : "空")
+        sb.append("鞋子: ").append(shoes != null ? shoes.getName() + " [" + shoes.toString() + "]" : "空")
                 .append("\n");
         sb.append("饰品列表: ").append(ln);
         boolean hasAccessory = false;
@@ -530,7 +530,7 @@ public class Equipment {
                 }
                 sb.append("[").append(i + 1).append("] ")
                         .append(accessories[i].getName())
-                        .append(" [").append(accessories[i].getInstanceId()).append("]");
+                        .append(" [").append(accessories[i].toString()).append("]");
                 hasAccessory = true;
             }
         }

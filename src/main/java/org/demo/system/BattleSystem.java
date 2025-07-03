@@ -43,8 +43,8 @@ public class BattleSystem {
             // 若玩家死亡 -玩家使用扣除生命值技能死亡的场合
             if (!player.isAlive()) {
                 log("你被击败了...");
-                player.getModel().setCurrentHealthPoint(player.getModel().getMaxHealthPoint());
-                player.getModel().setCurrentManaPoint(player.getModel().getMaxManaPoint());
+                player.setCurrentHealthPoint(player.getMaxHealthPoint());
+                player.setCurrentManaPoint(player.getMaxManaPoint());
                 winFlg = false;
                 player.gainExp(-50);
                 break;
@@ -64,8 +64,8 @@ public class BattleSystem {
             // 若玩家死亡
             if (!player.isAlive()) {
                 log("你被击败了...");
-                player.getModel().setCurrentHealthPoint(player.getModel().getMaxHealthPoint());
-                player.getModel().setCurrentManaPoint(player.getModel().getMaxManaPoint());
+                player.setCurrentHealthPoint(player.getMaxHealthPoint());
+                player.setCurrentManaPoint(player.getMaxManaPoint());
                 winFlg = false;
                 player.gainExp(-50);
                 break;

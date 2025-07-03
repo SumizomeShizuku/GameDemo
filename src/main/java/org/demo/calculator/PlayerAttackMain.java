@@ -25,7 +25,7 @@ public class PlayerAttackMain {
         // 计算技能伤害
         int damage = PlayerSkillAttackFactory.calculate(player, enemy, skill);
         // 扣除玩家魔力
-        player.getModel().setCurrentManaPoint(player.getCurrentManaPoint() - skill.getCost());
+        player.setCurrentManaPoint(player.getCurrentManaPoint() - skill.getCost());
         // 对敌人造成伤害
         enemy.takeDamage(damage);
         return enemy;

@@ -88,9 +88,7 @@ public class Player {
         this.agility = model.getAgility();
         this.intelligence = model.getIntelligence();
         this.maxHealthPoint = model.getMaxHealthPoint();
-        this.currentHealthPoint = model.getCurrentHealthPoint();
         this.maxManaPoint = model.getMaxManaPoint();
-        this.currentManaPoint = model.getCurrentManaPoint();
         this.phyDefense = model.getPhyDefense();
         this.magicDefense = model.getMagicDefense();
         this.recoverHP = model.getRecoverHP();
@@ -166,32 +164,16 @@ public class Player {
         return strength;
     }
 
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
     public int getAgility() {
         return agility;
-    }
-
-    public void setAgility(int agility) {
-        this.agility = agility;
     }
 
     public int getIntelligence() {
         return intelligence;
     }
 
-    public void setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
-    }
-
     public int getMaxHealthPoint() {
         return maxHealthPoint;
-    }
-
-    public void setMaxHealthPoint(int maxHealthPoint) {
-        this.maxHealthPoint = maxHealthPoint;
     }
 
     public int getCurrentHealthPoint() {
@@ -199,6 +181,10 @@ public class Player {
     }
 
     public void setCurrentHealthPoint(int currentHealthPoint) {
+        if (currentHealthPoint > getMaxHealthPoint()) {
+            currentHealthPoint = getMaxHealthPoint();
+        }
+
         this.currentHealthPoint = currentHealthPoint;
     }
 
@@ -206,15 +192,14 @@ public class Player {
         return maxManaPoint;
     }
 
-    public void setMaxManaPoint(int maxManaPoint) {
-        this.maxManaPoint = maxManaPoint;
-    }
-
     public int getCurrentManaPoint() {
         return currentManaPoint;
     }
 
     public void setCurrentManaPoint(int currentManaPoint) {
+        if (currentManaPoint > getMaxManaPoint()) {
+            currentManaPoint = getMaxManaPoint();
+        }
         this.currentManaPoint = currentManaPoint;
     }
 
@@ -222,152 +207,76 @@ public class Player {
         return phyDefense;
     }
 
-    public void setPhyDefense(int phyDefense) {
-        this.phyDefense = phyDefense;
-    }
-
     public int getMagicDefense() {
         return magicDefense;
-    }
-
-    public void setMagicDefense(int magicDefense) {
-        this.magicDefense = magicDefense;
     }
 
     public double getRecoverHP() {
         return recoverHP;
     }
 
-    public void setRecoverHP(double recoverHP) {
-        this.recoverHP = recoverHP;
-    }
-
     public double getRecoverMP() {
         return recoverMP;
-    }
-
-    public void setRecoverMP(double recoverMP) {
-        this.recoverMP = recoverMP;
     }
 
     public double getCriticalHitRate() {
         return criticalHitRate;
     }
 
-    public void setCriticalHitRate(double criticalHitRate) {
-        this.criticalHitRate = criticalHitRate;
-    }
-
     public double getEvasion() {
         return evasion;
-    }
-
-    public void setEvasion(double evasion) {
-        this.evasion = evasion;
     }
 
     public double getAccuracy() {
         return accuracy;
     }
 
-    public void setAccuracy(double accuracy) {
-        this.accuracy = accuracy;
-    }
-
     public int getLuck() {
         return luck;
-    }
-
-    public void setLuck(int luck) {
-        this.luck = luck;
     }
 
     public int getFortitude() {
         return fortitude;
     }
 
-    public void setFortitude(int fortitude) {
-        this.fortitude = fortitude;
-    }
-
     public double getBleedChance() {
         return bleedChance;
-    }
-
-    public void setBleedChance(double bleedChance) {
-        this.bleedChance = bleedChance;
     }
 
     public double getPoisonChance() {
         return poisonChance;
     }
 
-    public void setPoisonChance(double poisonChance) {
-        this.poisonChance = poisonChance;
-    }
-
     public double getBurnChance() {
         return burnChance;
-    }
-
-    public void setBurnChance(double burnChance) {
-        this.burnChance = burnChance;
     }
 
     public double getFreezeChance() {
         return freezeChance;
     }
 
-    public void setFreezeChance(double freezeChance) {
-        this.freezeChance = freezeChance;
-    }
-
     public int getSpiritPower() {
         return spiritPower;
-    }
-
-    public void setSpiritPower(int spiritPower) {
-        this.spiritPower = spiritPower;
     }
 
     public double getDamageReduction() {
         return damageReduction;
     }
 
-    public void setDamageReduction(double damageReduction) {
-        this.damageReduction = damageReduction;
-    }
-
     public double getHealingEffectiveness() {
         return healingEffectiveness;
-    }
-
-    public void setHealingEffectiveness(double healingEffectiveness) {
-        this.healingEffectiveness = healingEffectiveness;
     }
 
     public double getGoldFind() {
         return goldFind;
     }
 
-    public void setGoldFind(double goldFind) {
-        this.goldFind = goldFind;
-    }
-
     public Backpack getBackpack() {
         return backpack;
     }
 
-    public void setBackpack(Backpack backpack) {
-        this.backpack = backpack;
-    }
-
     public Equipment getEquipment() {
         return equipment;
-    }
-
-    public void setEquipment(Equipment equipment) {
-        this.equipment = equipment;
     }
 
     /**
@@ -385,8 +294,8 @@ public class Player {
      * @param damage 伤害量
      */
     public void takeDamage(int damage) {
-        int hp = Math.max(0, model.getCurrentHealthPoint() - damage);
-        model.setCurrentHealthPoint(hp);
+        int hp = Math.max(0, getCurrentHealthPoint() - damage);
+        setCurrentHealthPoint(hp);
     }
 
     /**
@@ -395,7 +304,7 @@ public class Player {
      * @return true:存活, false:死亡
      */
     public boolean isAlive() {
-        return model.getCurrentHealthPoint() > 0;
+        return getCurrentHealthPoint() > 0;
     }
 
     /**
@@ -506,9 +415,23 @@ public class Player {
         ItemInstance item = model.getEquipment().putOffEquip(position);
         if (item != null) {
             addItem(item);
+            refreshTotalAttributes();
             return true;
         }
         return false;
+    }
+
+    /**
+     * 计算单个属性的最终值。
+     */
+    private double calcFinalAttribute(Map<Attribute, Double> baseAttrs,
+            Map<Attribute, Double> equipAdd,
+            Map<Attribute, Double> equipMul,
+            Attribute attr) {
+        double base = baseAttrs.getOrDefault(attr, 0.0);
+        double add = equipAdd.getOrDefault(attr, 0.0);
+        double mul = equipMul.getOrDefault(attr, 0.0);
+        return (base + add) * (1.0 + mul);
     }
 
     /**
@@ -582,6 +505,7 @@ public class Player {
             // 最终转成“总百分比”，即mul - 1
             for (Attribute attr : Attribute.values()) {
                 double mul = result.get(attr);
+                // (-1.0)是为了取出初始值设置为1的影响
                 result.put(attr, mul - 1.0);
             }
         }
@@ -597,93 +521,28 @@ public class Player {
         Map<Attribute, Double> equipMul = getAllEquipmentAttributes(EquipmentAffix.BonusType.MULTIPLY);
 
         // 3. 合成并赋值到字段
-        this.strength = (int) ((baseAttrs.getOrDefault(Attribute.STRENGTH, 0.0)
-                + equipAdd.getOrDefault(Attribute.STRENGTH, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.STRENGTH, 0.0)));
-
-        this.agility = (int) ((baseAttrs.getOrDefault(Attribute.AGILITY, 0.0)
-                + equipAdd.getOrDefault(Attribute.AGILITY, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.AGILITY, 0.0)));
-
-        this.intelligence = (int) ((baseAttrs.getOrDefault(Attribute.INTELLIGENCE, 0.0)
-                + equipAdd.getOrDefault(Attribute.INTELLIGENCE, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.INTELLIGENCE, 0.0)));
-
-        this.maxHealthPoint = (int) ((baseAttrs.getOrDefault(Attribute.MAX_HEALTH_POINT, 0.0)
-                + equipAdd.getOrDefault(Attribute.MAX_HEALTH_POINT, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.MAX_HEALTH_POINT, 0.0)));
-
-        this.maxManaPoint = (int) ((baseAttrs.getOrDefault(Attribute.MAX_MANA_POINT, 0.0)
-                + equipAdd.getOrDefault(Attribute.MAX_MANA_POINT, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.MAX_MANA_POINT, 0.0)));
-
-        this.phyDefense = (int) ((baseAttrs.getOrDefault(Attribute.PHY_DEFENSE, 0.0)
-                + equipAdd.getOrDefault(Attribute.PHY_DEFENSE, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.PHY_DEFENSE, 0.0)));
-
-        this.magicDefense = (int) ((baseAttrs.getOrDefault(Attribute.MAGIC_DEFENSE, 0.0)
-                + equipAdd.getOrDefault(Attribute.MAGIC_DEFENSE, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.MAGIC_DEFENSE, 0.0)));
-
-        this.recoverHP = (baseAttrs.getOrDefault(Attribute.RECOVER_HP, 0.0)
-                + equipAdd.getOrDefault(Attribute.RECOVER_HP, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.RECOVER_HP, 0.0));
-
-        this.recoverMP = (baseAttrs.getOrDefault(Attribute.RECOVER_MP, 0.0)
-                + equipAdd.getOrDefault(Attribute.RECOVER_MP, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.RECOVER_MP, 0.0));
-
-        this.criticalHitRate = (baseAttrs.getOrDefault(Attribute.CRITICAL_HIT_RATE, 0.0)
-                + equipAdd.getOrDefault(Attribute.CRITICAL_HIT_RATE, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.CRITICAL_HIT_RATE, 0.0));
-
-        this.evasion = (baseAttrs.getOrDefault(Attribute.EVASION, 0.0)
-                + equipAdd.getOrDefault(Attribute.EVASION, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.EVASION, 0.0));
-
-        this.accuracy = (baseAttrs.getOrDefault(Attribute.ACCURACY, 0.0)
-                + equipAdd.getOrDefault(Attribute.ACCURACY, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.ACCURACY, 0.0));
-
-        this.luck = (int) ((baseAttrs.getOrDefault(Attribute.LUCK, 0.0)
-                + equipAdd.getOrDefault(Attribute.LUCK, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.LUCK, 0.0)));
-
-        this.fortitude = (int) ((baseAttrs.getOrDefault(Attribute.FORTITUDE, 0.0)
-                + equipAdd.getOrDefault(Attribute.FORTITUDE, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.FORTITUDE, 0.0)));
-
-        this.bleedChance = (baseAttrs.getOrDefault(Attribute.BLEED_CHANCE, 0.0)
-                + equipAdd.getOrDefault(Attribute.BLEED_CHANCE, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.BLEED_CHANCE, 0.0));
-
-        this.poisonChance = (baseAttrs.getOrDefault(Attribute.POISON_CHANCE, 0.0)
-                + equipAdd.getOrDefault(Attribute.POISON_CHANCE, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.POISON_CHANCE, 0.0));
-
-        this.burnChance = (baseAttrs.getOrDefault(Attribute.BURN_CHANCE, 0.0)
-                + equipAdd.getOrDefault(Attribute.BURN_CHANCE, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.BURN_CHANCE, 0.0));
-
-        this.freezeChance = (baseAttrs.getOrDefault(Attribute.FREEZE_CHANCE, 0.0)
-                + equipAdd.getOrDefault(Attribute.FREEZE_CHANCE, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.FREEZE_CHANCE, 0.0));
-
-        this.spiritPower = (int) ((baseAttrs.getOrDefault(Attribute.SPIRIT_POWER, 0.0)
-                + equipAdd.getOrDefault(Attribute.SPIRIT_POWER, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.SPIRIT_POWER, 0.0)));
-
-        this.damageReduction = (baseAttrs.getOrDefault(Attribute.DAMAGE_REDUCTION, 0.0)
-                + equipAdd.getOrDefault(Attribute.DAMAGE_REDUCTION, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.DAMAGE_REDUCTION, 0.0));
-
-        this.healingEffectiveness = (baseAttrs.getOrDefault(Attribute.HEALING_EFFECTIVENESS, 0.0)
-                + equipAdd.getOrDefault(Attribute.HEALING_EFFECTIVENESS, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.HEALING_EFFECTIVENESS, 0.0));
-
-        this.goldFind = (baseAttrs.getOrDefault(Attribute.GOLD_FIND, 0.0)
-                + equipAdd.getOrDefault(Attribute.GOLD_FIND, 0.0))
-                * (1.0 + equipMul.getOrDefault(Attribute.GOLD_FIND, 0.0));
+        this.strength = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.STRENGTH);
+        this.agility = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.AGILITY);
+        this.intelligence = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.INTELLIGENCE);
+        this.maxHealthPoint = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.MAX_HEALTH_POINT);
+        this.maxManaPoint = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.MAX_MANA_POINT);
+        this.phyDefense = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.PHY_DEFENSE);
+        this.magicDefense = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.MAGIC_DEFENSE);
+        this.recoverHP = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.RECOVER_HP);
+        this.recoverMP = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.RECOVER_MP);
+        this.criticalHitRate = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.CRITICAL_HIT_RATE);
+        this.evasion = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.EVASION);
+        this.accuracy = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.ACCURACY);
+        this.luck = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.LUCK);
+        this.fortitude = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.FORTITUDE);
+        this.bleedChance = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.BLEED_CHANCE);
+        this.poisonChance = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.POISON_CHANCE);
+        this.burnChance = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.BURN_CHANCE);
+        this.freezeChance = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.FREEZE_CHANCE);
+        this.spiritPower = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.SPIRIT_POWER);
+        this.damageReduction = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.DAMAGE_REDUCTION);
+        this.healingEffectiveness = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.HEALING_EFFECTIVENESS);
+        this.goldFind = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.GOLD_FIND);
     }
 
     /**
