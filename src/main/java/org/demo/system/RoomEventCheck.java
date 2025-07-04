@@ -73,7 +73,7 @@ public class RoomEventCheck {
         // 之后该道具若为可堆叠物品，随机一个数量int
         List<ItemModelDto> items = ItemRepository.getEnemiesByArea("group1");
         Random random = new Random();
-        int ran = random.nextInt(items.size()) + 1;
+        int ran = random.nextInt(items.size());
         ItemModelDto item = items.get(ran);
         player.addItem(item, 1);
     }
