@@ -2,6 +2,7 @@ package org.demo.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.demo.dto.ItemModelDto;
 import org.demo.list.ItemType;
 
@@ -66,6 +67,23 @@ public class ItemRepository {
         return itemMap.values().stream()
                 .filter(item -> item.getType().contains(type))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 按道具池查询
+     *
+     * @param dropGroup 指定道具池
+     * @return 道具池列表
+     */
+    public static List<ItemModelDto> getEnemiesByArea(String dropGroup) {
+        List<ItemModelDto> result = new ArrayList<>();
+        for (ItemModelDto e : itemMap.values()) {
+            List<String> areas = e.getDropGroup();
+            if (areas != null && areas.contains(dropGroup)) {
+                result.add(e);
+            }
+        }
+        return result;
     }
 
     /**

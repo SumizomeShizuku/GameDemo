@@ -124,7 +124,7 @@ public enum EnemyRarity {
         result.add(selected); // 至少加入 1 个稀有度
 
         /* ---------- 2. 0.2 % 概率追加宝兆 ---------- */
-        if (random.nextDouble() < 0.002) { // 0.002 = 0.2%
+        if (random.nextDouble() < 0.9) { // 0.002 = 0.2%
             result.add(HOUCHOU);
         }
 

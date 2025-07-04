@@ -33,13 +33,14 @@ public class Backpack {
      * @param count 添加数量
      * @return 成功添加后所在格子的编号( 下标 ), 失败返回-1
      */
-    public int addItem(ItemModelDto item, int count) {
+    public int addItem(ItemModelDto item, int count, int luck) {
         if (isStackable(item)) {
             // 先查找可叠加的格子
             for (int i = 0; i < CAPACITY; i++) {
                 BackpackSlot slot = slots.get(i);
                 if (slot != null && slot.isStackable() && slot.getItem().equals(item)) {
                     slot.setCount(slot.getCount() + count);
+                    SimpleLogger.log.info("获得物品: " + item.getName());
                     return i;
                 }
             }
@@ -47,17 +48,20 @@ public class Backpack {
             for (int i = 0; i < CAPACITY; i++) {
                 if (slots.get(i) == null) {
                     slots.set(i, new BackpackSlot(item, count));
+                    SimpleLogger.log.info("获得物品: " + item.getName());
                     return i;
                 }
             }
         } else {
+            count = 1;
             // 非叠加物品, 每个占一格
             for (int i = 0; i < CAPACITY && count > 0; i++) {
                 if (slots.get(i) == null) {
-                    ItemInstance instance = new ItemInstance(item);
+                    ItemInstance instance = new ItemInstance(item, luck);
                     slots.set(i, new BackpackSlot(instance));
                     count--;
                     if (count == 0) {
+                        SimpleLogger.log.info("获得物品: " + instance.getName() + " [ " + instance.getRarity() + " ]");
                         return i;
                     }
                 }

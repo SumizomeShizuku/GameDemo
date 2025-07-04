@@ -314,7 +314,7 @@ public class Player {
      * @param count 数量
      */
     public void addItem(ItemModelDto item, int count) {
-        model.getBackpack().addItem(item, count);
+        model.getBackpack().addItem(item, count, getLuck());
     }
 
     /**

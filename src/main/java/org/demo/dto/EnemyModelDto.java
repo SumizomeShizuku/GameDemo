@@ -64,7 +64,7 @@ public class EnemyModelDto {
      * @param baseWeight 出现权重
      * @param growthWeights
      */
-    public EnemyModelDto(String id, String name, EnemyEthnicityList ethnicity, int level, int maxHp,
+    public EnemyModelDto(String id, String name, EnemyEthnicityList ethnicity, String rarity, int level, int maxHp,
             int strength, int agility, int intelligence, double criticalHitRate, int phyDefense, int magicDefense,
             int dropExp, double dropRate, Map<ItemModelDto, DropInfo> dropItems,
             List<String> areas, Map<String, SkillModelDto> enemySkills, int probability, double[] growthWeights) {

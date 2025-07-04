@@ -123,8 +123,9 @@ public class EnemyFactory {
         // // 可以复制属性后生成变种
         EnemyModelDto variantDto = new EnemyModelDto(
                 enemy.getModel().getId(),
-                rare + " " + enemy.getName(),
+                enemy.getName(),
                 enemy.getModel().getEthnicity(),
+                rare,
                 enemy.getLevel(),
                 (int) Math.ceil(enemy.getMaxHp() * hpBonus * tHpBonus),
                 (int) Math.ceil(enemy.getStrength() * powerBonus * tPowerBonus),

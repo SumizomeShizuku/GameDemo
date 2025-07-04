@@ -67,6 +67,7 @@ public class EnemyRepository {
                         raw.id,
                         raw.name,
                         raw.ethnicity,
+                        null,
                         raw.level,
                         raw.maxHp,
                         raw.strength,

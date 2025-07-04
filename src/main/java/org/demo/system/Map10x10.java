@@ -144,23 +144,72 @@ public class Map10x10 {
         }
 
         // 在成功放置起点(A)和终点(B)之后, 设置宝箱房间：
-        List<int[]> candidates = new ArrayList<>(rooms);
+        List<int[]> starCandidates = new ArrayList<>(rooms);
         // 移除起点和终点房间坐标, 仅保留可选为宝箱房的房间
-        candidates.removeIf(coord -> grid[coord[1]][coord[0]].isStart() || grid[coord[1]][coord[0]].isEnd());
+        starCandidates.removeIf(coord -> grid[coord[1]][coord[0]].isStart() || grid[coord[1]][coord[0]].isEnd());
 
         // 设置宝箱房数量
-        int starCount = 4;
+        int starCount = 2;
         // 若数量大于0个
         if (starCount > 0) {
             // 如果空房间数 > 宝箱房数量
             // 房间总数太少会导致无法生成宝箱房
-            if (candidates.size() >= starCount) {
+            if (starCandidates.size() >= starCount) {
                 // 将候选房间随机排序
-                Collections.shuffle(candidates, rnd);
+                Collections.shuffle(starCandidates, rnd);
                 // 循环, 直至宝箱房数量等于设定值
                 for (int i = 0; i < starCount; i++) {
-                    int[] starPos = candidates.get(i);
+                    int[] starPos = starCandidates.get(i);
                     grid[starPos[1]][starPos[0]].setStar(true);
+                }
+            }
+        }
+
+        // 在成功放置起点(A)、终点(B)和宝箱房之后, 设置商店：
+        List<int[]> shopCandidates = new ArrayList<>(rooms);
+        // 移除起点、终点和宝箱房坐标, 仅保留可选为商店的房间
+        shopCandidates.removeIf(coord -> grid[coord[1]][coord[0]].isStart()
+                || grid[coord[1]][coord[0]].isEnd()
+                || grid[coord[1]][coord[0]].isStar());
+
+        // 设置商店数量
+        int shopCount = 2;
+        // 若数量大于0个
+        if (shopCount > 0) {
+            // 如果空房间数 > 商店数量
+            // 房间总数太少会导致无法生成商店
+            if (shopCandidates.size() >= shopCount) {
+                // 将候选房间随机排序
+                Collections.shuffle(shopCandidates, rnd);
+                // 循环, 直至商店数量等于设定值
+                for (int i = 0; i < shopCount; i++) {
+                    int[] starPos = shopCandidates.get(i);
+                    grid[starPos[1]][starPos[0]].setShop(true);
+                }
+            }
+        }
+
+        // 在成功放置起点(A)、终点(B)、宝箱房和商店之后, 设置事件:
+        List<int[]> eventCandidates = new ArrayList<>(rooms);
+        // 移除起点、终点、宝箱房和商店坐标, 仅保留可选为事件的房间
+        eventCandidates.removeIf(coord -> grid[coord[1]][coord[0]].isStart()
+                || grid[coord[1]][coord[0]].isEnd()
+                || grid[coord[1]][coord[0]].isStar()
+                || grid[coord[1]][coord[0]].isShop());
+
+        // 设置事件数量
+        int eventCount = 4;
+        // 若数量大于0个
+        if (eventCount > 0) {
+            // 如果空房间数 > 事件数量
+            // 房间总数太少会导致无法生成事件
+            if (eventCandidates.size() >= eventCount) {
+                // 将候选房间随机排序
+                Collections.shuffle(eventCandidates, rnd);
+                // 循环, 直至事件数量等于设定值
+                for (int i = 0; i < eventCount; i++) {
+                    int[] starPos = eventCandidates.get(i);
+                    grid[starPos[1]][starPos[0]].setEvent(true);
                 }
             }
         }
@@ -588,7 +637,19 @@ public class Map10x10 {
                 }
             } else {
                 checkAroundPlayer();
-                SimpleLogger.log.info("安全的房间");
+                if (grid[ny][nx].isStar()) {
+                    SimpleLogger.log.info(player.getFirstName() + " 进入了宝箱房");
+
+                }
+
+                if (grid[ny][nx].isShop()) {
+                    SimpleLogger.log.info(player.getFirstName() + " 进入了商店");
+                }
+
+                if (grid[ny][nx].isEvent()) {
+                    SimpleLogger.log.info(player.getFirstName() + " 遭遇了事件");
+                    eventCheck.eventsCheck(player);
+                }
             }
 
         } else {
@@ -602,7 +663,7 @@ public class Map10x10 {
      * @param room 玩家所在房间
      */
     public void roomEnemysSet(Room room) {
-        if (!room.isStar()) {
+        if (!(room.isStar() || room.isShop() || room.isEvent())) {
             if (room.getEnemyCount() == 0) {
                 int count = new Random().nextInt(4) + 1; // 1~4
                 // 设置敌人数量

@@ -1,12 +1,16 @@
 package org.demo.system;
 
 import java.awt.Point;
+import java.util.List;
+import java.util.Random;
 
 import org.demo.dto.EnemyModelDto;
+import org.demo.dto.ItemModelDto;
 import org.demo.factory.Enemy;
 import org.demo.factory.EnemyFactory;
 import org.demo.factory.Player;
 import org.demo.repository.EnemyRepository;
+import org.demo.repository.ItemRepository;
 import org.demo.util.SimpleLogger;
 
 public class RoomEventCheck {
@@ -33,7 +37,7 @@ public class RoomEventCheck {
         boolean battleFlg = true;
 
         // 2. 检查是否有敌人
-        if (room.getEnemyCount() > 0) {
+        if (!room.isClear()) {
             // 这里可以进一步获得敌人类型或直接生成敌人
             // String enemyId = room.getEnemyId(); // 推荐让Room对象支持getEnemyId()
 
@@ -63,10 +67,14 @@ public class RoomEventCheck {
         return battleFlg;
     }
 
-    /**
-     * 计算两个点之间的曼哈顿距离
-     */
-    public static int getDistance(Point p1, Point p2) {
-        return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
+    public void eventsCheck(Player player) {
+        // 为物品json文件添加道具池字段
+        // 首先在items列表中添加特定道具池中所有物品
+        // 之后该道具若为可堆叠物品，随机一个数量int
+        List<ItemModelDto> items = ItemRepository.getEnemiesByArea("group1");
+        Random random = new Random();
+        int ran = random.nextInt(items.size()) + 1;
+        ItemModelDto item = items.get(ran);
+        player.addItem(item, 1);
     }
 }

@@ -1,6 +1,7 @@
 package org.demo.dto;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import org.demo.list.ItemType;
 
@@ -36,6 +37,11 @@ public class ItemModelDto {
      */
     private EnumSet<ItemType> type;
 
+    /**
+     * 物品所在道具池
+     */
+    private List<String> dropGroup;
+
     public ItemModelDto() {
     }
 
@@ -48,12 +54,14 @@ public class ItemModelDto {
      * @param description 物品描述
      * @param price 物品价格
      */
-    public ItemModelDto(String id, String name, String description, int price, EnumSet<ItemType> type) {
+    public ItemModelDto(String id, String name, String description, int price, EnumSet<ItemType> type,
+            List<String> dropGroup) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.type = type;
+        this.dropGroup = dropGroup;
     }
 
     /**
@@ -119,6 +127,14 @@ public class ItemModelDto {
 
     public void setType(EnumSet<ItemType> type) {
         this.type = type;
+    }
+
+    public List<String> getDropGroup() {
+        return dropGroup;
+    }
+
+    public void setDropGroup(List<String> dropGroup) {
+        this.dropGroup = dropGroup;
     }
 
     /**

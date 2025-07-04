@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import org.demo.dto.ItemModelDto;
+// import org.demo.factory.Player;
 import org.demo.list.EquipmentAffix;
 import org.demo.list.ItemRarity;
 
@@ -44,14 +45,15 @@ public class ItemInstance {
      *
      * @param model 物品模板对象
      */
-    public ItemInstance(ItemModelDto model) {
+    public ItemInstance(ItemModelDto model, int luck) {
         this.instanceId = UUID.randomUUID().toString();
         this.model = model;
 
         // 1. 随机抽取稀有度
-        this.rarity = ItemRarity.randomRarity(new Random());
+        this.rarity = ItemRarity.randomRarity(new Random(), luck);
         // 2. 根据稀有度随机抽取词条
-        int affixNum = getAffixCountByRarity(this.rarity);
+        // int affixNum = getAffixCountByRarity(this.rarity);
+        int affixNum = this.rarity.ordinal();
         List<EquipmentAffix> temp = new ArrayList<>();
         for (int i = 0; i < affixNum; i++) {
             temp.add(EquipmentAffix.random(new Random()));
@@ -104,23 +106,22 @@ public class ItemInstance {
         return model.getName();
     }
 
-    private int getAffixCountByRarity(ItemRarity rarity) {
-        return switch (rarity) {
-            case UNCOMMON ->
-                1;
-            case RARE ->
-                2;
-            case EPIC ->
-                3;
-            case LEGENDARY ->
-                4;
-            case MYTHIC ->
-                5;
-            default ->
-                0;
-        };
-    }
-
+    // private int getAffixCountByRarity(ItemRarity rarity) {
+    //     return switch (rarity) {
+    //         case UNCOMMON ->
+    //             1;
+    //         case RARE ->
+    //             2;
+    //         case EPIC ->
+    //             3;
+    //         case LEGENDARY ->
+    //             4;
+    //         case MYTHIC ->
+    //             5;
+    //         default ->
+    //             0;
+    //     };
+    // }
     public ItemRarity getRarity() {
         return rarity;
     }

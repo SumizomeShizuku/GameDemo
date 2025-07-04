@@ -4,34 +4,359 @@
     "name": "钥匙",
     "description": "一把普通的钥匙",
     "price": 15,
-    "type": ["CONSUMABLE"]
+    "type": ["CONSUMABLE"],
+    "dropGroup": ["group1"]
   },
   {
     "id": "ORC_AXE",
     "name": "兽人斧",
     "description": "一把沉重的斧头",
     "price": 200,
-    "type": ["WEAPON", "AXE"]
+    "type": ["WEAPON", "AXE"],
+    "dropGroup": ["group1"]
   },
   {
     "id": "GOBLIN_SWORD",
     "name": "哥布林之剑",
     "description": "一把锋利的剑",
     "price": 100,
-    "type": ["WEAPON", "SWORD"]
+    "type": ["WEAPON", "SWORD"],
+    "dropGroup": ["group1"]
   },
   {
     "id": "SLIME_JUICE",
     "name": "史莱姆果汁",
     "description": "恢复少量生命值",
     "price": 50,
-    "type": ["CONSUMABLE"]
+    "type": ["CONSUMABLE"],
+    "dropGroup": ["group1"]
   },
   {
     "id": "WOOD_RING",
     "name": "橡木指环",
     "description": "随处可见的木头打磨成的戒指",
     "price": 100,
-    "type": ["ACCESSORY"]
+    "type": ["ACCESSORY"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "HEALTH_POTION",
+    "name": "生命药水",
+    "description": "恢复一定量的生命值",
+    "price": 50,
+    "type": ["POTION"],
+    "dropGroup": ["group1"]
+  },
+  {
+    "id": "MANA_POTION",
+    "name": "魔法药水",
+    "description": "恢复一定量的法力值",
+    "price": 60,
+    "type": ["POTION"],
+    "dropGroup": ["group1"]
+  },
+  {
+    "id": "STRENGTH_ELIXIR",
+    "name": "力量药剂",
+    "description": "暂时提升力量属性",
+    "price": 120,
+    "type": ["POTION"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "DEFENSE_ELIXIR",
+    "name": "防御药剂",
+    "description": "暂时提升防御属性",
+    "price": 120,
+    "type": ["POTION"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "SPEED_POTION",
+    "name": "速度药水",
+    "description": "暂时提升移动速度",
+    "price": 100,
+    "type": ["POTION"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "IRON_SWORD",
+    "name": "铁剑",
+    "description": "普通的铁制长剑",
+    "price": 150,
+    "type": ["WEAPON", "SWORD"],
+    "dropGroup": ["group1"]
+  },
+  {
+    "id": "STEEL_SWORD",
+    "name": "钢剑",
+    "description": "坚固的钢制长剑",
+    "price": 300,
+    "type": ["WEAPON", "SWORD"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "SILVER_SWORD",
+    "name": "银剑",
+    "description": "散发微光的银制长剑",
+    "price": 500,
+    "type": ["WEAPON", "SWORD"],
+    "dropGroup": ["group3"]
+  },
+  {
+    "id": "WOODEN_SHIELD",
+    "name": "木盾",
+    "description": "简单的木制盾牌",
+    "price": 100,
+    "type": ["ARMOR", "ARMOR_SHIELD"],
+    "dropGroup": ["group1"]
+  },
+  {
+    "id": "IRON_SHIELD",
+    "name": "铁盾",
+    "description": "结实的铁制盾牌",
+    "price": 200,
+    "type": ["ARMOR", "ARMOR_SHIELD"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "STEEL_SHIELD",
+    "name": "钢盾",
+    "description": "高强度的钢制盾牌",
+    "price": 400,
+    "type": ["ARMOR", "ARMOR_SHIELD"],
+    "dropGroup": ["group3"]
+  },
+  {
+    "id": "LEATHER_ARMOR",
+    "name": "皮甲",
+    "description": "轻便的皮质护甲",
+    "price": 250,
+    "type": ["ARMOR", "ARMOR_CHEST"],
+    "dropGroup": ["group1"]
+  },
+  {
+    "id": "CHAINMAIL_ARMOR",
+    "name": "锁子甲",
+    "description": "铁环编织的护甲",
+    "price": 500,
+    "type": ["ARMOR", "ARMOR_CHEST"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "PLATE_ARMOR",
+    "name": "板甲",
+    "description": "沉重的钢板护甲",
+    "price": 1000,
+    "type": ["ARMOR", "ARMOR_CHEST"],
+    "dropGroup": ["group3"]
+  },
+  {
+    "id": "IRON_HELMET",
+    "name": "铁头盔",
+    "description": "简单的铁制头盔",
+    "price": 150,
+    "type": ["ARMOR", "ARMOR_HAT"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "STEEL_HELMET",
+    "name": "钢头盔",
+    "description": "坚固的钢制头盔",
+    "price": 300,
+    "type": ["ARMOR", "ARMOR_HAT"],
+    "dropGroup": ["group3"]
+  },
+  {
+    "id": "MAGIC_STAFF",
+    "name": "魔法法杖",
+    "description": "蕴含魔力的法杖",
+    "price": 800,
+    "type": ["WEAPON", "STAFF"],
+    "dropGroup": ["group4"]
+  },
+  {
+    "id": "FIRE_STAFF",
+    "name": "火焰法杖",
+    "description": "能释放火焰魔法的法杖",
+    "price": 1200,
+    "type": ["WEAPON", "STAFF"],
+    "dropGroup": ["group4"]
+  },
+  {
+    "id": "ICE_STAFF",
+    "name": "冰霜法杖",
+    "description": "能释放冰霜魔法的法杖",
+    "price": 1200,
+    "type": ["WEAPON", "STAFF"],
+    "dropGroup": ["group4"]
+  },
+  {
+    "id": "HUNTER_BOW",
+    "name": "猎人之弓",
+    "description": "精准的远程武器",
+    "price": 350,
+    "type": ["WEAPON", "BOW"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "ELVEN_BOW",
+    "name": "精灵之弓",
+    "description": "轻盈且威力强大的弓",
+    "price": 700,
+    "type": ["WEAPON", "BOW"],
+    "dropGroup": ["group3"]
+  },
+  {
+    "id": "CROSSBOW",
+    "name": "弩",
+    "description": "威力强大的远程武器",
+    "price": 600,
+    "type": ["WEAPON", "CROSSBOW"],
+    "dropGroup": ["group3"]
+  },
+  {
+    "id": "DAGGER",
+    "name": "匕首",
+    "description": "攻速快的短兵器",
+    "price": 80,
+    "type": ["WEAPON", "DAGGER"],
+    "dropGroup": ["group1"]
+  },
+  {
+    "id": "THROWING_KNIFE",
+    "name": "飞刀",
+    "description": "可投掷的短小武器",
+    "price": 50,
+    "type": ["WEAPON", "THROWN"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "GEMSTONE_RING",
+    "name": "宝石戒指",
+    "description": "镶嵌宝石的戒指",
+    "price": 1000,
+    "type": ["ACCESSORY", "RING"],
+    "dropGroup": ["group3"]
+  },
+  {
+    "id": "GOLDEN_RING",
+    "name": "黄金戒指",
+    "description": "价值不菲的黄金戒指",
+    "price": 1500,
+    "type": ["ACCESSORY", "RING"],
+    "dropGroup": ["group4"]
+  },
+  {
+    "id": "SILVER_NECKLACE",
+    "name": "银项链",
+    "description": "精美的银质项链",
+    "price": 800,
+    "type": ["ACCESSORY", "NECKLACE"],
+    "dropGroup": ["group3"]
+  },
+  {
+    "id": "AMULET_OF_POWER",
+    "name": "力量护身符",
+    "description": "提升持有者的力量",
+    "price": 2000,
+    "type": ["ACCESSORY", "AMULET"],
+    "dropGroup": ["group4"]
+  },
+  {
+    "id": "BREAD",
+    "name": "面包",
+    "description": "可以恢复少量生命",
+    "price": 10,
+    "type": ["CONSUMABLE", "MATERIAL"],
+    "dropGroup": ["group1"]
+  },
+  {
+    "id": "CHEESE",
+    "name": "奶酪",
+    "description": "可以恢复少量生命",
+    "price": 20,
+    "type": ["CONSUMABLE", "MATERIAL"],
+    "dropGroup": ["group1"]
+  },
+  {
+    "id": "MEAT_ON_BONE",
+    "name": "肉骨",
+    "description": "美味的烤肉",
+    "price": 50,
+    "type": ["CONSUMABLE", "MATERIAL"],
+    "dropGroup": ["group1"]
+  },
+  {
+    "id": "TORCH",
+    "name": "火把",
+    "description": "照亮黑暗的工具",
+    "price": 15,
+    "type": ["CONSUMABLE"],
+    "dropGroup": ["group1"]
+  },
+  {
+    "id": "LOCKPICK",
+    "name": "开锁工具",
+    "description": "用于打开简单锁具",
+    "price": 75,
+    "type": ["CONSUMABLE"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "WOLF_PELT",
+    "name": "狼皮",
+    "description": "野外获取的兽皮",
+    "price": 100,
+    "type": ["MATERIAL"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "DRAGON_SCALE",
+    "name": "龙鳞",
+    "description": "罕见的龙类材料",
+    "price": 5000,
+    "type": ["MATERIAL"],
+    "dropGroup": ["group5"]
+  },
+  {
+    "id": "HERB_HEAL",
+    "name": "治疗草药",
+    "description": "用于制作初级药剂",
+    "price": 30,
+    "type": ["MATERIAL"],
+    "dropGroup": ["group1"]
+  },
+  {
+    "id": "ANTIDOTE",
+    "name": "解毒剂",
+    "description": "移除中毒状态",
+    "price": 200,
+    "type": ["POTION"],
+    "dropGroup": ["group2"]
+  },
+  {
+    "id": "SCROLL_FIREBALL",
+    "name": "火球卷轴",
+    "description": "一次性使用，释放火球术",
+    "price": 1000,
+    "type": ["CONSUMABLE", "BOOK"],
+    "dropGroup": ["group3"]
+  },
+  {
+    "id": "SCROLL_TELEPORT",
+    "name": "传送卷轴",
+    "description": "一次性使用，传送至已知地点",
+    "price": 1500,
+    "type": ["CONSUMABLE", "BOOK"],
+    "dropGroup": ["group3"]
+  },
+  {
+    "id": "MAP_PIECE",
+    "name": "地图碎片",
+    "description": "可以拼凑获得完整地图",
+    "price": 200,
+    "type": ["QUEST_ITEM"],
+    "dropGroup": ["group9"]
   }
 ]

@@ -24,6 +24,8 @@ public class Room {
     private boolean isVisible = false; // 是否可见
     private boolean isClear = false; // 敌人是否被清理
     private boolean isStar = false; // 是否为宝箱房( 默认false )
+    private boolean isEvent = false; // 是否包含事件
+    private boolean isShop = false; // 是否为商店
 
     /**
      * @param x 格子横坐标
@@ -116,6 +118,26 @@ public class Room {
         this.isClear = isStar;
     }
 
+    public boolean isEvent() {
+        return isEvent;
+    }
+
+    public void setEvent(boolean isEvent) {
+        this.isEvent = isEvent;
+        this.isRoom = isEvent;
+        this.isClear = isEvent;
+    }
+
+    public boolean isShop() {
+        return isShop;
+    }
+
+    public void setShop(boolean isShop) {
+        this.isShop = isShop;
+        this.isRoom = isShop;
+        this.isClear = isShop;
+    }
+
     /**
      * 该房间位置
      *
@@ -152,6 +174,8 @@ public class Room {
         this.isVisible = false; // 重置房间可视性
         this.isClear = false; // 重置房间敌人为未清理
         this.isStar = false; // 重置房间为非宝箱房
+        this.isEvent = false; // 重置房间为非事件
+        this.isShop = false; // 重置房间为非商店
     }
 
     /**
@@ -175,6 +199,13 @@ public class Room {
             if (isStar) {
                 return "★";
             }
+            if (isShop) {
+                return "⨝";
+            }
+            if (isEvent) {
+                return "⁇⁈";
+            }
+
             return "▢";
         } else {
             return "▨";
