@@ -49,8 +49,8 @@ public class Player {
     private double criticalHitRate;
     // 闪避
     private double evasion;
-    // 命中
-    private double accuracy;
+    //增伤
+    private double incDamage;
     // 幸运
     private int luck;
     // 坚韧
@@ -227,8 +227,8 @@ public class Player {
         return evasion;
     }
 
-    public double getAccuracy() {
-        return accuracy;
+    public double getIncDamage() {
+        return incDamage;
     }
 
     public int getLuck() {
@@ -450,7 +450,7 @@ public class Player {
         attrs.put(Attribute.RECOVER_MP, model.getRecoverMP());
         attrs.put(Attribute.CRITICAL_HIT_RATE, model.getCriticalHitRate());
         attrs.put(Attribute.EVASION, 0.0); // 假设基础为0, 没有特殊字段
-        attrs.put(Attribute.ACCURACY, 0.0); // 同上
+        attrs.put(Attribute.INCDAMAGE, 0.0);
         attrs.put(Attribute.LUCK, 0.0); // 如有getLuck()请用实际方法
         attrs.put(Attribute.FORTITUDE, 0.0);
         attrs.put(Attribute.BLEED_CHANCE, 0.0);
@@ -532,7 +532,7 @@ public class Player {
         this.recoverMP = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.RECOVER_MP);
         this.criticalHitRate = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.CRITICAL_HIT_RATE);
         this.evasion = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.EVASION);
-        this.accuracy = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.ACCURACY);
+        this.incDamage = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.INCDAMAGE);
         this.luck = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.LUCK);
         this.fortitude = (int) calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.FORTITUDE);
         this.bleedChance = calcFinalAttribute(baseAttrs, equipAdd, equipMul, Attribute.BLEED_CHANCE);
@@ -556,23 +556,54 @@ public class Player {
         StringBuilder sb = new StringBuilder();
 
         sb.append("属性 [");
-        sb.append(ln).append("  姓: ").append(getFirstName());
-        sb.append(ln).append("  名: ").append(getLastName());
+        sb.append(ln).append("  姓名: ").append(getFirstName()).append(" ").append(getLastName());
         sb.append(ln).append("  种族: ").append(getEthnicity().getEthnicityZh());
         sb.append(ln).append("  职业: ").append(getJob().getNameZh());
         sb.append(ln).append("  持有经验: ").append(getExp()).append(" / ").append(ExpList.getExpByLevel(getLevel() + 1).getMinExp());
         sb.append(ln).append("  等级: ").append(getLevel());
+        sb.append(ln);
         sb.append(ln).append("  HP: ").append(currentHealthPoint).append(" / ").append(maxHealthPoint);
         sb.append(ln).append("  MP: ").append(currentManaPoint).append(" / ").append(maxManaPoint);
-        sb.append(ln).append("  力量: ").append(strength);
-        sb.append(ln).append("  敏捷: ").append(agility);
-        sb.append(ln).append("  智力: ").append(intelligence);
-        sb.append(ln).append("  物理防御力: ").append(phyDefense);
-        sb.append(ln).append("  魔法防御力: ").append(magicDefense);
-        sb.append(ln).append("  每轮恢复HP: ").append(recoverHP);
-        sb.append(ln).append("  每轮恢复MP: ").append(recoverMP);
-        sb.append(ln).append("  ").append(String.format("暴击率: %.2f%%", criticalHitRate * 100));
-        sb.append(ln).append("]");
+        sb.append(ln);
+        String[] leftLabels = {
+            "力量: " + strength,
+            "敏捷: " + agility,
+            "智力: " + intelligence,
+            "暴击: " + String.format("%.2f%%", criticalHitRate * 100),
+            "闪避: " + String.format("%.2f%%", evasion * 100),
+            "增伤: " + String.format("%.2f%%", incDamage * 100),
+            "幸运: " + luck,
+            "坚韧: " + fortitude,
+            "灵力: " + spiritPower,
+            "金增: " + String.format("%.2f%%", goldFind * 100)
+        };
+        String[] rightLabels = {
+            "物理防御力: " + phyDefense,
+            "魔法防御力: " + magicDefense,
+            "每轮恢复HP: " + recoverHP,
+            "每轮恢复MP: " + recoverMP,
+            "出血几率: " + String.format("%.2f%%", bleedChance * 100),
+            "中毒几率: " + String.format("%.2f%%", poisonChance * 100),
+            "灼烧几率: " + String.format("%.2f%%", burnChance * 100),
+            "冰冻几率: " + String.format("%.2f%%", freezeChance * 100),
+            "伤害减免: " + String.format("%.2f%%", damageReduction * 100),
+            "治疗效果: " + String.format("%.2f%%", healingEffectiveness * 100)
+        };
+
+// 设置列宽，根据你最大长度可调
+        int leftWidth = 14;
+        int rightWidth = 1;
+
+        for (int i = 0; i < leftLabels.length; i++) {
+            // %-12s: 左对齐并补足到12字符
+            // %-14s: 右边同理
+            sb.append("  ")
+                    .append(String.format("%-" + leftWidth + "s", leftLabels[i]))
+                    .append("  ")
+                    .append(String.format("%-" + rightWidth + "s", rightLabels[i]))
+                    .append(ln);
+        }
+        sb.append("]");
         return sb.toString();
     }
 }

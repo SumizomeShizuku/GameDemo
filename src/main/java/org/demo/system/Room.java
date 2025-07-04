@@ -203,7 +203,7 @@ public class Room {
                 return "⨝";
             }
             if (isEvent) {
-                return "⁇⁈";
+                return "∀";
             }
 
             return "▢";

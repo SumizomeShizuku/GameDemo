@@ -24,8 +24,6 @@ public class PlayerModelDto {
     private int maxHealthPoint;
     // 最大MP
     private int maxManaPoint;
-    // 移速
-    private double moveSpeed;
     // 力量
     private int strength;
     // 敏捷
@@ -40,8 +38,6 @@ public class PlayerModelDto {
     private double recoverHP;
     // MP恢复速度
     private double recoverMP;
-    // 基础冷却时间
-    private double commonCoolDown;
     // 暴击率
     private double criticalHitRate;
     // 玩家背包
@@ -196,24 +192,6 @@ public class PlayerModelDto {
     }
 
     /**
-     * 获取玩家的移动速度
-     *
-     * @return
-     */
-    public double getMoveSpeed() {
-        return moveSpeed;
-    }
-
-    /**
-     * 设置玩家的移动速度
-     *
-     * @param moveSpeed 移动速度
-     */
-    public void setMoveSpeed(double moveSpeed) {
-        this.moveSpeed = moveSpeed;
-    }
-
-    /**
      * 获取玩家的力量
      *
      * @return
@@ -340,32 +318,6 @@ public class PlayerModelDto {
     }
 
     /**
-     * 获取玩家的基础冷却时间
-     *
-     * @return
-     */
-    public double getCommonCoolDown() {
-        return commonCoolDown;
-    }
-
-    /**
-     * 设置玩家的基础冷却时间
-     *
-     * @param commonCoolDown 冷却时间( 单位: 秒 )
-     */
-    public void setCommonCoolDown(double commonCoolDown) {
-        this.commonCoolDown = commonCoolDown;
-    }
-
-    // /**
-    //  * 获取玩家的基础攻击力
-    //  *
-    //  * @return
-    //  */
-    // public double getBaseAttribute() {
-    //     return baseAttribute;
-    // }
-    /**
      * 获取玩家的暴击率
      *
      * @return
@@ -445,8 +397,6 @@ public class PlayerModelDto {
         sb.append(ln).append("  魔法防御力: ").append(magicDefense);
         sb.append(ln).append("  每轮恢复HP: ").append(recoverHP);
         sb.append(ln).append("  每轮恢复MP: ").append(recoverMP);
-        sb.append(ln).append("  基础冷却时间: ").append(commonCoolDown);
-        sb.append(ln).append("  移速: ").append(moveSpeed);
         sb.append(ln).append("  ").append(String.format("暴击率: %.2f%%", criticalHitRate * 100));
         sb.append(ln).append("]");
         return sb.toString();

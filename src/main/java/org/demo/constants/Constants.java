@@ -12,10 +12,6 @@ public class Constants {
      */
     public static final int DEFAULT_EXP = 0;
     /**
-     * 基础冷却 : 1
-     */
-    public static final double DEFAULT_COOL_DOWN = 1;
-    /**
      * 基础暴击 : 2.5%
      */
     public static final double DEFAULT_CRITICAL_HIT_RATE = 0.025;

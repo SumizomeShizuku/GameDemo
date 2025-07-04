@@ -24,6 +24,7 @@ public class Main {
                 Play.playerInit();
             } catch (Exception e) {
                 // e.printStackTrace();
+                SimpleLogger.log.info(e.toString());
                 SimpleLogger.log.info("---------------运行终了---------------" + System.lineSeparator());
                 System.exit(0);
 

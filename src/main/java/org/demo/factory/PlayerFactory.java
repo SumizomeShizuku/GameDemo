@@ -42,7 +42,6 @@ public class PlayerFactory {
         // HP / MP = 职业基础值 + 种族加成
         playerModelDto.setMaxHealthPoint(job.getHealthPoint() + ethnicity.getHealthPoint());
         playerModelDto.setMaxManaPoint(job.getManaPoint() + ethnicity.getManaPoint());
-        playerModelDto.setMoveSpeed(job.getMoveSpeed());
 
         playerModelDto.setStrength(ethnicity.getStrength());
         playerModelDto.setAgility(ethnicity.getAgility());
@@ -57,7 +56,6 @@ public class PlayerFactory {
         player.setCurrentManaPoint(playerModelDto.getMaxManaPoint());
         playerModelDto.setRecoverHP(0);
         playerModelDto.setRecoverMP(0);
-        playerModelDto.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
         playerModelDto.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
         playerModelDto.setActionsPerTurn(1);
         player.refreshTotalAttributes();
@@ -80,7 +78,6 @@ public class PlayerFactory {
         // HP / MP = 职业基础值 + 种族加成
         playerModelDto.setMaxHealthPoint(job.getHealthPoint() + ethnicity.getHealthPoint());
         playerModelDto.setMaxManaPoint(job.getManaPoint() + ethnicity.getManaPoint());
-        playerModelDto.setMoveSpeed(job.getMoveSpeed());
 
         playerModelDto.setStrength(ethnicity.getStrength());
         playerModelDto.setAgility(ethnicity.getAgility());
@@ -91,7 +88,6 @@ public class PlayerFactory {
         player.setCurrentManaPoint(playerModelDto.getMaxManaPoint());
         playerModelDto.setRecoverHP(0);
         playerModelDto.setRecoverMP(0);
-        playerModelDto.setCommonCoolDown(Constants.DEFAULT_COOL_DOWN);
         playerModelDto.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
         playerModelDto.setActionsPerTurn(1);
         player.refreshTotalAttributes();
