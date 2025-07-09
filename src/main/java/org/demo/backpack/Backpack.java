@@ -169,7 +169,7 @@ public class Backpack {
                 count++;
             } else if (slot.isStackable()) {
                 sb.append("格子[").append(i + 1).append("]: ");
-                sb.append(slot.getItem().getName()).append(" x").append(slot.getCount()).append(ln);
+                sb.append(slot.getItem().getName()).append(" x").append(slot.getCount()).append(" ").append(slot.getItem().getParameters()).append(ln);
             } else {
                 sb.append("格子[").append(i + 1).append("]: ");
                 sb.append(slot.getInstance().toString()).append(ln);

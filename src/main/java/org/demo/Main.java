@@ -1,5 +1,9 @@
 package org.demo;
 
+import org.demo.repository.EnemyRepository;
+import org.demo.repository.EnemySkillRepository;
+import org.demo.repository.ItemRepository;
+import org.demo.repository.PlayerSkillRepository;
 import org.demo.util.MapPrint;
 import org.demo.util.SimpleLogger;
 import org.demo.util.StatusPrint;
@@ -12,6 +16,12 @@ public class Main {
     public static void main(String[] args) {
         SimpleLogger.log.info("---------------运行开始---------------" + System.lineSeparator());
         SimpleLogger.log.info("当前版本: " + VERSION);
+
+        // 初始化
+        ItemRepository.loadFromJson("item_list.json");
+        PlayerSkillRepository.loadFromJson("player_skills_list.json");
+        EnemySkillRepository.loadFromJson("enemy_skills_list.json");
+        EnemyRepository.loadFromJson("enemy_list.json");
 
         // 查询全部
         // System.out.println("所有物品：");

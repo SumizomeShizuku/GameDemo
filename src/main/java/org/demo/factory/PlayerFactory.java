@@ -58,6 +58,7 @@ public class PlayerFactory {
         playerModelDto.setRecoverMP(0);
         playerModelDto.setCriticalHitRate(Constants.DEFAULT_CRITICAL_HIT_RATE);
         playerModelDto.setActionsPerTurn(1);
+        player.addSkill("Skill0002");
         player.refreshTotalAttributes();
         return player;
     }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import org.demo.dto.PlayerModelDto;
+import org.demo.factory.Player;
 import org.demo.list.ItemType;
 import org.demo.util.SimpleLogger;
 
@@ -179,7 +179,7 @@ public class Equipment {
      *
      * @param item 物品实例
      */
-    public boolean setEquip(PlayerModelDto model, String position, ItemInstance selectedequip) {
+    public boolean setEquip(Player player, String position, ItemInstance selectedequip) {
         boolean equipFlg = false;
         ItemInstance oldInstance;
         EnumSet<ItemType> types = selectedequip.getModel().getType();
@@ -189,7 +189,7 @@ public class Equipment {
                     if (mainHand != null) {
                         oldInstance = putOffEquip("mainHand");
                         setMainHand(selectedequip);
-                        model.getBackpack().addItem(oldInstance);
+                        player.getBackpack().addItem(oldInstance);
                         equipFlg = true;
                     } else {
                         setMainHand(selectedequip);
@@ -203,7 +203,7 @@ public class Equipment {
                 if (offHand != null) {
                     oldInstance = putOffEquip("offHand");
                     setOffHand(selectedequip);
-                    model.getBackpack().addItem(oldInstance);
+                    player.getBackpack().addItem(oldInstance);
                     equipFlg = true;
                 } else {
                     setOffHand(selectedequip);
@@ -214,7 +214,7 @@ public class Equipment {
                 if (helmet != null) {
                     oldInstance = putOffEquip("helmet");
                     setHelmet(selectedequip);
-                    model.getBackpack().addItem(oldInstance);
+                    player.getBackpack().addItem(oldInstance);
                     equipFlg = true;
                 } else {
                     setHelmet(selectedequip);
@@ -225,7 +225,7 @@ public class Equipment {
                 if (armor != null) {
                     oldInstance = putOffEquip("armor");
                     setArmor(selectedequip);
-                    model.getBackpack().addItem(oldInstance);
+                    player.getBackpack().addItem(oldInstance);
                     equipFlg = true;
                 } else {
                     setArmor(selectedequip);
@@ -236,7 +236,7 @@ public class Equipment {
                 if (pants != null) {
                     oldInstance = putOffEquip("pants");
                     setPants(selectedequip);
-                    model.getBackpack().addItem(oldInstance);
+                    player.getBackpack().addItem(oldInstance);
                     equipFlg = true;
                 } else {
                     setPants(selectedequip);
@@ -247,7 +247,7 @@ public class Equipment {
                 if (shoes != null) {
                     oldInstance = putOffEquip("shoes");
                     setShoes(selectedequip);
-                    model.getBackpack().addItem(oldInstance);
+                    player.getBackpack().addItem(oldInstance);
                     equipFlg = true;
                 } else {
                     setShoes(selectedequip);
@@ -268,7 +268,7 @@ public class Equipment {
                     if (accessories[0] != null) {
                         oldInstance = putOffEquip("accessory1");
                         accessories[0] = selectedequip;
-                        model.getBackpack().addItem(oldInstance);
+                        player.getBackpack().addItem(oldInstance);
                         equipFlg = true;
                     } else {
                         accessories[0] = selectedequip;
@@ -283,7 +283,7 @@ public class Equipment {
                     if (accessories[1] != null) {
                         oldInstance = putOffEquip("accessory2");
                         accessories[1] = selectedequip;
-                        model.getBackpack().addItem(oldInstance);
+                        player.getBackpack().addItem(oldInstance);
                         equipFlg = true;
                     } else {
                         accessories[1] = selectedequip;
@@ -298,7 +298,7 @@ public class Equipment {
                     if (accessories[2] != null) {
                         oldInstance = putOffEquip("accessory3");
                         accessories[2] = selectedequip;
-                        model.getBackpack().addItem(oldInstance);
+                        player.getBackpack().addItem(oldInstance);
                         equipFlg = true;
                     } else {
                         accessories[2] = selectedequip;
@@ -313,7 +313,7 @@ public class Equipment {
                     if (accessories[3] != null) {
                         oldInstance = putOffEquip("accessory4");
                         accessories[3] = selectedequip;
-                        model.getBackpack().addItem(oldInstance);
+                        player.getBackpack().addItem(oldInstance);
                         equipFlg = true;
                     } else {
                         accessories[3] = selectedequip;

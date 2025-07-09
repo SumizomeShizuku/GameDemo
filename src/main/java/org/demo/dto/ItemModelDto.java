@@ -1,9 +1,13 @@
 package org.demo.dto;
 
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.demo.list.ItemType;
+
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 /**
  * 该类用于表示游戏或应用中的物品信息, 包括ID、名称、类型、描述和价格等字段。
@@ -41,6 +45,9 @@ public class ItemModelDto {
      * 物品所在道具池
      */
     private List<String> dropGroup;
+
+    // 动态参数
+    private final Map<String, Object> parameters = new HashMap<>();
 
     public ItemModelDto() {
     }
@@ -137,6 +144,66 @@ public class ItemModelDto {
         this.dropGroup = dropGroup;
     }
 
+    // 新增：动态属性Map的getter
+    public Map<String, Object> getParameters() {
+        return parameters;
+    }
+
+    // 新增：@JsonAnySetter 让Jackson自动把未知字段放进parameters
+    @JsonAnySetter
+    public void addParameter(String key, Object value) {
+        this.parameters.put(key, value);
+    }
+
+    // 获取动态属性的便捷方法（带类型转换）
+    // HP恢复属性
+    public Integer getRestoreHp() {
+        Object v = parameters.get("restoreHp");
+        if (v instanceof Integer integer) {
+            return integer;
+        }
+        if (v instanceof Number number) {
+            return number.intValue();
+        }
+        if (v != null) {
+            return Integer.valueOf(v.toString());
+        }
+        return null;
+    }
+
+    // MP恢复属性
+    public Integer getRestoreMp() {
+        Object v = parameters.get("restoreMp");
+        if (v instanceof Integer integer) {
+            return integer;
+        }
+        if (v instanceof Number number) {
+            return number.intValue();
+        }
+        if (v != null) {
+            return Integer.valueOf(v.toString());
+        }
+        return null;
+    }
+
+    // 道具释放技能
+    public String getSkillId() {
+        Object v = parameters.get("skillId");
+        if (v != null) {
+            return v.toString();
+        }
+        return null;
+    }
+
+    // 玩家学习新技能
+    public String getLearnSkillId() {
+        Object v = parameters.get("learnSkill");
+        if (v != null) {
+            return v.toString();
+        }
+        return null;
+    }
+
     /**
      * 返回物品的字符串表示形式。
      *
@@ -144,7 +211,7 @@ public class ItemModelDto {
      */
     @Override
     public String toString() {
-        return String.format("[%s] %s: %s 类型:%s, 价格:%d",
-                id, name, description, type, price);
+        return String.format("[%s] %s: %s 类型:%s, 价格:%d, 参数:%s",
+                id, name, description, type, price, parameters);
     }
 }

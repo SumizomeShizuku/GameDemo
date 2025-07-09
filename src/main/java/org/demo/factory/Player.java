@@ -1,6 +1,9 @@
 package org.demo.factory;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 import org.demo.backpack.Backpack;
@@ -9,12 +12,14 @@ import org.demo.backpack.Equipment;
 import org.demo.backpack.ItemInstance;
 import org.demo.dto.ItemModelDto;
 import org.demo.dto.PlayerModelDto;
+import org.demo.dto.SkillModelDto;
 import org.demo.list.EquipmentAffix;
 import org.demo.list.EquipmentAffix.Attribute;
 import org.demo.list.EquipmentAffix.BonusType;
 import org.demo.list.EthnicityList;
 import org.demo.list.ExpList;
 import org.demo.list.JobList;
+import org.demo.repository.PlayerSkillRepository;
 import org.demo.util.LevelUpHandler;
 import org.demo.util.SimpleLogger;
 
@@ -49,7 +54,7 @@ public class Player {
     private double criticalHitRate;
     // 闪避
     private double evasion;
-    //增伤
+    // 增伤
     private double incDamage;
     // 幸运
     private int luck;
@@ -73,9 +78,11 @@ public class Player {
     private double goldFind;
 
     // 玩家背包
-    private Backpack backpack;
+    private final Backpack backpack = new Backpack();
     // 玩家装备
-    private Equipment equipment;
+    private final Equipment equipment = new Equipment();
+    // 技能列表
+    private final List<String> skills = new ArrayList<>();
 
     private final PlayerModelDto model;
 
@@ -299,6 +306,26 @@ public class Player {
     }
 
     /**
+     * 玩家恢复判定(血量)
+     *
+     * @param heal 恢复判定(血量) 量
+     */
+    public void restoreHp(int heal) {
+        int hp = Math.min(getCurrentHealthPoint() + heal, maxHealthPoint);
+        setCurrentHealthPoint(hp);
+    }
+
+    /**
+     * 玩家受伤判定(魔力)
+     *
+     * @param heal 恢复判定(血量) 量
+     */
+    public void restoreMp(int heal) {
+        int hp = Math.min(getCurrentManaPoint() + heal, maxManaPoint);
+        setCurrentHealthPoint(hp);
+    }
+
+    /**
      * 判断玩家是否存活
      *
      * @return true:存活, false:死亡
@@ -314,7 +341,7 @@ public class Player {
      * @param count 数量
      */
     public void addItem(ItemModelDto item, int count) {
-        model.getBackpack().addItem(item, count, getLuck());
+        backpack.addItem(item, count, getLuck());
     }
 
     /**
@@ -323,7 +350,7 @@ public class Player {
      * @param instance 非叠加物品实例
      */
     public void addItem(ItemInstance instance) {
-        model.getBackpack().addItem(instance);
+        backpack.addItem(instance);
     }
 
     /**
@@ -337,7 +364,7 @@ public class Player {
         // 实际数组以0开始, 但背包以1开始
         // 故实际传入方法参与计算的 slotId 需要 -1
         slotId = slotId - 1;
-        return model.getBackpack().removeItemBySlot(slotId, count);
+        return backpack.removeItemBySlot(slotId, count);
     }
 
     /**
@@ -346,7 +373,7 @@ public class Player {
      * @param itemConfig
      */
     public void showInventory() {
-        model.getBackpack().showInventory();
+        backpack.showInventory();
     }
 
     /**
@@ -355,7 +382,7 @@ public class Player {
      * @param itemConfig
      */
     public void showEquipment() {
-        model.getEquipment().showEquipment();
+        equipment.showEquipment();
     }
 
     /**
@@ -367,7 +394,7 @@ public class Player {
         // 实际数组以0开始, 但背包以1开始
         // 故实际传入方法参与计算的 slotId 需要 -1
         slotId = slotId - 1;
-        return model.getBackpack().getSlot(slotId);
+        return backpack.getSlot(slotId);
     }
 
     /**
@@ -383,7 +410,7 @@ public class Player {
         }
         if (bs.getInstance() != null) {
             ItemInstance item = bs.getInstance();
-            if (model.getEquipment().setEquip(model, position, item)) {
+            if (equipment.setEquip(this, position, item)) {
                 if (removeItemBySlot(slotId, 1)) {
                     isEquipable = true;
                 }
@@ -412,7 +439,7 @@ public class Player {
      * 玩家脱下装备
      */
     public boolean putOffEquip(String position) {
-        ItemInstance item = model.getEquipment().putOffEquip(position);
+        ItemInstance item = equipment.putOffEquip(position);
         if (item != null) {
             addItem(item);
             refreshTotalAttributes();
@@ -473,7 +500,7 @@ public class Player {
 
         if (type == BonusType.ADD) {
             // 加算型所有装备直接累加
-            for (ItemInstance equip : model.getEquipment().getAllEquippedItems()) {
+            for (ItemInstance equip : equipment.getAllEquippedItems()) {
                 if (equip == null) {
                     continue;
                 }
@@ -489,7 +516,7 @@ public class Player {
             for (Attribute attr : Attribute.values()) {
                 result.put(attr, 1.0); // 初始为1，之后连乘
             }
-            for (ItemInstance equip : model.getEquipment().getAllEquippedItems()) {
+            for (ItemInstance equip : equipment.getAllEquippedItems()) {
                 if (equip == null) {
                     continue;
                 }
@@ -546,6 +573,63 @@ public class Player {
     }
 
     /**
+     * 添加一个技能ID到玩家技能列表，已持有时不重复添加
+     *
+     * @param skillId 技能ID
+     * @return 是否添加成功
+     */
+    public boolean addSkill(String skillId) {
+        if (!skills.contains(skillId)) {
+            skills.add(skillId);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 删除玩家技能列表中的指定技能ID
+     *
+     * @param skillId 技能ID
+     * @return 是否删除成功
+     */
+    public boolean removeSkill(String skillId) {
+        return skills.remove(skillId);
+    }
+
+    /**
+     * 根据索引获取玩家所持有技能的SkillModelDto对象
+     *
+     * @param index 技能在技能列表中的索引
+     * @return 技能的SkillModelDto对象
+     * @throws IndexOutOfBoundsException 如果索引不合法
+     * @throws IllegalStateException 如果技能ID无效
+     */
+    public SkillModelDto getSkillModelDtoByIndex(int index) {
+        if (index < 0 || index >= skills.size()) {
+            return null;
+        }
+        String skillId = skills.get(index);
+        SkillModelDto skill = PlayerSkillRepository.getSkillById(skillId);
+        if (skill == null) {
+            return null;
+        }
+        return skill;
+    }
+
+    /**
+     * 获取玩家当前持有的所有技能ID
+     *
+     * @return 技能ID列表
+     */
+    public List<String> getSkills() {
+        List<String> skList = new ArrayList<>();
+        for (String skill : skills) {
+            skList.add(PlayerSkillRepository.getSkillById(skill).getName());
+        }
+        return Collections.unmodifiableList(skList);
+    }
+
+    /**
      * 获取玩家的属性字符串表示
      *
      * @return 属性字符串
@@ -559,7 +643,8 @@ public class Player {
         sb.append(ln).append("  姓名: ").append(getFirstName()).append(" ").append(getLastName());
         sb.append(ln).append("  种族: ").append(getEthnicity().getEthnicityZh());
         sb.append(ln).append("  职业: ").append(getJob().getNameZh());
-        sb.append(ln).append("  持有经验: ").append(getExp()).append(" / ").append(ExpList.getExpByLevel(getLevel() + 1).getMinExp());
+        sb.append(ln).append("  持有经验: ").append(getExp()).append(" / ")
+                .append(ExpList.getExpByLevel(getLevel() + 1).getMinExp());
         sb.append(ln).append("  等级: ").append(getLevel());
         sb.append(ln);
         sb.append(ln).append("  HP: ").append(currentHealthPoint).append(" / ").append(maxHealthPoint);
@@ -590,7 +675,7 @@ public class Player {
             "治疗效果: " + String.format("%.2f%%", healingEffectiveness * 100)
         };
 
-// 设置列宽，根据你最大长度可调
+        // 设置列宽，根据你最大长度可调
         int leftWidth = 14;
         int rightWidth = 1;
 

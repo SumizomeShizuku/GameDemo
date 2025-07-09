@@ -4,10 +4,6 @@ import org.demo.backpack.BackpackSlot;
 import org.demo.constants.Constants;
 import org.demo.factory.Player;
 import org.demo.factory.PlayerFactory;
-import org.demo.repository.EnemyRepository;
-import org.demo.repository.EnemySkillRepository;
-import org.demo.repository.ItemRepository;
-import org.demo.repository.PlayerSkillRepository;
 import org.demo.system.Map10x10;
 import org.demo.util.InputHelper;
 import org.demo.util.MapPrint;
@@ -17,6 +13,7 @@ import org.demo.util.StatusPrint;
 public class Play {
 
     public static void playerInit() throws Exception {
+
         // 模拟玩家输入的种族和职业
         // 1:空尾族, 2:人族 3:林语族, 4:亡影族
         int ethnicityNum = 3;
@@ -31,15 +28,10 @@ public class Play {
         SimpleLogger.log.info("选择的种族: " + player.getModel().getEthnicity().getEthnicityZh());
         player.gainExp(400);
         // player.syncBaseAttributesFromModel();
+        System.out.println(player.getSkills());
 
-        // 掉落物初始化
-        ItemRepository.loadFromJson("item_list.json");
-        PlayerSkillRepository.loadFromJson("player_skills_list.json");
-        EnemySkillRepository.loadFromJson("enemy_skills_list.json");
-        EnemyRepository.loadFromJson("enemy_list.json");
         // EnemyModelDto goblin = EnemyRepository.getEnemyById("EN0001");
         // System.out.println(goblin.toString());
-
         // 随机房间数量
         Map10x10 maze = new Map10x10(18, 25, player, Constants.AREA1);
         // maze.visibleAllRoom();
@@ -69,8 +61,8 @@ public class Play {
                 case "d" ->
                     maze.playerMove("d");
                 case "bag" -> {
-                    player.showEquipment();
-                    player.showInventory();
+                    // player.showEquipment();
+                    // player.showInventory();
                     checkBackpack(player);
                 }
 
@@ -128,14 +120,38 @@ public class Play {
         int id;
         BackpackSlot bs;
         while (true) {
+            StatusPrint statusPrint = new StatusPrint();
+            statusPrint.printStatus(player.toString());
+            player.showInventory();
 
             id = InputHelper.getInt(
                     "请选择背包中的物品编号: " + System.lineSeparator());
             bs = player.getSlot(id);
+
+            if (id == 999) {
+                return;
+            }
+
             if (bs == null) {
                 continue;
             }
-            break;
+            if (bs.isStackable()) {
+                if (bs.getItem().getRestoreHp() != null) {
+                    player.restoreHp(bs.getItem().getRestoreHp());
+                    player.removeItemBySlot(id, 1);
+                }
+                if (bs.getItem().getRestoreMp() != null) {
+                    player.restoreMp(bs.getItem().getRestoreMp());
+                }
+                if (bs.getItem().getSkillId() != null) {
+                    // 非战斗中不可使用伤害类技能
+                }
+                if (bs.getItem().getLearnSkillId() != null) {
+                    player.addSkill(bs.getItem().getLearnSkillId());
+                }
+            } else {
+                break;
+            }
         }
         if (bs.getInstance() != null) {
             String input = InputHelper.getLowerCaseLine(

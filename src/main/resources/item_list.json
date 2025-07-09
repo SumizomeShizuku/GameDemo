@@ -28,6 +28,7 @@
     "name": "史莱姆果汁",
     "description": "恢复少量生命值",
     "price": 50,
+    "restoreHp": 10,
     "type": ["CONSUMABLE"],
     "dropGroup": ["group1"]
   },
@@ -52,6 +53,7 @@
     "name": "魔法药水",
     "description": "恢复一定量的法力值",
     "price": 60,
+    "restoreMp": 10,
     "type": ["POTION"],
     "dropGroup": ["group1"]
   },
